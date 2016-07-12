@@ -6,7 +6,7 @@
     integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
     crossorigin="anonymous">
   </script>
-
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
@@ -21,7 +21,7 @@
   		</nav>
   	</header>
 
-    <div id="page-content">
+    <section id="page-content">
       Partial content goes here.
     </div>
   </div>
@@ -33,7 +33,7 @@
       // TODO: rack server should be updated to support better routing
       var url = $(this).attr('href').replace('#','pages/') + '.html';
       $('#page-content').load(url);
-    })
+    });
   </script>
 </body>
 </html>
