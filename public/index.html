@@ -13,7 +13,7 @@
   <div id="root-container">
   	<br>
   	<header>
-  		<h1><a href="/">SPACE BOUNCE</a></h1>
+  		<h1><a href="#game">SPACE BOUNCE</a></h1>
   		<nav>
         <ul>
           <li><a href="#about">About</a></li>
@@ -27,7 +27,9 @@
   </div>
 
   <script>
-    $('nav ul li a').click(function() {
+    $('#page-content').load('pages/game.html');
+
+    $('h1 a, nav ul li a').click(function() {
       // TODO: rack server should be updated to support better routing
       var url = $(this).attr('href').replace('#','pages/') + '.html';
       $('#page-content').load(url);
