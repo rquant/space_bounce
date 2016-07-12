@@ -1,0 +1,71 @@
+<h2>CreateJS is the Flash of HTML5</h2>
+<p>
+    createjs is a set of rich javascript libraries giving developers a robust
+    toolset to create rich interactive experiences akin to Adobe Flash. It
+    provides a great way to create complex vector grapics, tweening motions,
+    sound processing, and more. It integrates really well with the HTML5 canvas
+    to allow designing interactive content to be as smooth as possible. The
+    best part is it is well documented and completely free, making it a great
+    choice for my primary framework.
+    <br><br>
+    Let's take a look at at an example of how I used createjs in Space Bounce.
+    My player object is an astronaut inside a simple space capsule. The space
+    capsule is a spherical object with an orange window in the center. This ends
+    up simply being two circles layered on to one another. Provided the HTML5
+    canvas is already setup (plenty of tutorials for this on the web) this can
+    be accomplished in a few lines of code using createjs.
+</p>
+<pre>
+  var stage = new createjs.Stage("canvasId"); //set's up main stage in which everything will be added to
+  var player = new createjs.Container(); //the container object used to hold the two circles together
+  var capsule = new createjs.Shape();
+  capsule.graphics.beginFill("white").drawCircle(0, 0, 35).endFill(); //creates the player capsule with radius of 35
+  var port = new createjs.Shape(); //the window port
+  port.graphics.beginFill("orange").drawCircle(0, 0, 35/3).endFill(); //creates the port the third of the capsule radius
+  player.addChild(capsule, port); //first adds the capsule circle, then the port circle on top of it to create a unified object
+  stage.addChild(player); //add the player to the stage
+  stage.update(); //repaints the stage with its new state
+</pre>
+<canvas id="createjs_demo_c1" width="100" height="100"></canvas>
+<p>
+    As you can see it is quite simple to get going. Let's take a look at another
+    example. The tweening library can allow for simple animations. In the game
+    the energy orb bounces in to nothing when the player contacts and absorbs
+    it. This can be accomplished with one line of code. The energy orb shape is
+    created as a shape using the same steps as above.
+</p>
+<pre>
+  createjs.Tween.get(energyOrb, {loop: true}) //add the energy orb to the tween instance, set it to loop indefinitely
+     .to({scaleX: 0, scaleY: 0}, 1000, createjs.Ease.bounceIn) //change the scale to 0 over a period of 1 second. Use bounceIn effect
+        .to({scaleX: 1, scaleY: 1}); //return it back to original state
+</pre>
+<canvas id="createjs_demo_c2" width="100" height="100"></canvas>
+<p>
+  There is much more to these amazing libraries, but this gives an idea of how simple and powerful it really is. Flash developers may find
+  a transition into the world of HTML5 to be quite comfortable.
+</p>
+
+<script>
+  var c1 = new createjs.Stage("createjs_demo_c1");
+  var player = new createjs.Container();
+  var capsule = new createjs.Shape();
+  capsule.graphics.beginFill("white").drawCircle(0, 0, 35).endFill();
+  var port = new createjs.Shape(); //the window port
+  port.graphics.beginFill("orange").drawCircle(0, 0, 35/3).endFill();
+  player.addChild(capsule, port);
+  player.x = 50; player.y = 50;
+  c1.addChild(player);
+  c1.update();
+
+  var c2 = new createjs.Stage("createjs_demo_c2");
+  var energyOrb = new createjs.Shape();
+  energyOrb.graphics.beginFill("#66F0B9").drawCircle(0, 0, 8).endFill();
+  c2.addChild(energyOrb);
+  energyOrb.x = 50; energyOrb.y = 50;
+  c2.addChild(energyOrb);
+  c2.update();
+
+  createjs.Tween.get(energyOrb, {loop: true}).to({scaleX: 0, scaleY: 0}, 1000, createjs.Ease.bounceIn).to({scaleX: 1, scaleY: 1});
+  createjs.Ticker.setFPS(20);
+  createjs.Ticker.addEventListener("tick", c2);
+</script>
