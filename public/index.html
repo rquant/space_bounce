@@ -17,6 +17,7 @@
   		<nav>
         <ul>
           <li><a href="#about">About</a></li>
+          <li><a href="#references">References</a></li>
         </ul>
   		</nav>
   	</header>
@@ -25,15 +26,21 @@
       Partial content goes here.
     </div>
   </div>
-
-  <script>
-    $('#page-content').load('pages/game.html');
-
-    $('h1 a, nav ul li a').click(function() {
-      // TODO: rack server should be updated to support better routing
-      var url = $(this).attr('href').replace('#','pages/') + '.html';
-      $('#page-content').load(url);
-    });
-  </script>
+  <footer>
+      A fun demonstration of what HTML5 and Javascript allows in creating
+      an interactive experience.
+      <br>
+      Created By Ryan Quant
+  </footer>
 </body>
+
+<script>
+  $('#page-content').load('pages/game.html');
+
+  $('h1 a, nav ul li a').click(function() {
+    // TODO: rack server should be updated to support better routing
+    var url = $(this).attr('href').replace('#','pages/') + '.html';
+    $('#page-content').load(url);
+  });
+</script>
 </html>

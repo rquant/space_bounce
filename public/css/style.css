@@ -97,3 +97,10 @@ canvas {
     -moz-box-shadow: 0px 5px 45px #343434;
     -webkit-box-shadow: 0px 5px 45px #343434;
 }
+
+footer {
+    display: block;
+    font-family: Avenir;
+    font-size: 14px;
+    color: #FFFFFF;
+}
