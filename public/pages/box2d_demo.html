@@ -1,0 +1,102 @@
+<h2>Box2DWeb takes your content to a new dynamic level</h2>
+<p>
+    Box2D is a trusty 2D physics engine that has been used in blockbuster hits
+    such as Angry Birds. It was orignially developed
+    in C++ but it has been ported to many platforms including the Javascript
+    port, Box2DWeb. This means there is yet another awesome tool for developers
+    in the HTML5 universe. I used this engine to handle all the physical
+    interactions between objects in my game. All without much trouble. The nice
+    thing about Box2D is it can be nicely integrated with graphical objects, and
+    that includes the createjs library.
+    <br><br>
+    Using the same player object created with the createjs example, an example
+    will be shown how box2d can make it more interesting. The steps to setup the
+    box2d engine are not shown but are demonstrated in many tutorials online.
+    The following outlines the fundamental steps to bind box2d with your
+    animations.
+</p>
+<pre>
+
+    //pass the createjs display object (in this case the player) to a function that creates the physics body for the object
+    function createCircularPhysicsBody(object) {
+    var fixture = new b2FixtureDef; //defines physical properties such as density, restitution, and friction for the body
+    fixture.density = object.density;
+    fixture.restitution = object.restitution;
+    fixture.isSensor = object.isSensor;
+    fixture.shape = new b2CircleShape(object.radius / SCALE); //match the shape of the body with the shape of the object
+    var bodyDef = new b2BodyDef; //define the body for the object
+    bodyDef.type = object.bodyType;
+    bodyDef.position.x = object.x/SCALE;
+    bodyDef.position.y = object.y/SCALE;
+    bodyDef.allowSleep = object.allowSleep;
+    var body = world.CreateBody(bodyDef);
+    body.CreateFixture(fixture);
+    body.SetAngle(object.rotation * (Math.PI/180));
+    var actor = new actorObject(body, object); //the actor is the object that binds the display object with the physics body
+    body.SetUserData(actor);
+
+}
+
+//create an actor object that maps the physics body to the display object (display, position, rotation, ect.)
+function actorObject(body, object) {
+    this.body = body; //the actor contains a reference to the body
+    this.object = object; //the actor contains a reference to the display object
+
+    //the actor has an update method (driven by animation ticker) that sets the position and rotation
+    //of the box2D body to the display object
+    this.update = function() {
+        this.object.rotation = this.body.GetAngle() * (180/Math.PI);
+        this.object.x = this.body.GetWorldCenter().x * SCALE;
+        this.object.y = this.body.GetWorldCenter().y * SCALE;
+    }
+}
+
+createjs.Ticker.setFPS(30); //use createjs to setup the animation ticker at 30 frames per second
+createjs.Ticker.addEventListener("tick", function() { //this function will run every tick
+     world.Step(TIMESTEP, 12, 10); //apply the box2d forces as per TIMESTEP
+     world.ClearForces(); //clear the forces for the next step
+     actor.update(); //adjusts the actor so the object on screen mirrors the physics body (position, angle, etc.)
+});
+</pre>
+<p>
+   Here's the actor object we just created in action. All the physics are
+   completely handled by the Box2D engine and they just react to the physical
+   properties you set.
+</p>
+<canvas id="box2d_demo_c1" width="500" height="250">
+</canvas>
+<canvas id="debugCanvas" width="0" height="0" style="visibility: hidden;">
+</canvas>
+<p>
+  Box2d is primarily used for games, but this demonstration shows how versatile
+  the world of HTML5 is. There is a wealth of Javascript libraries avaliable
+  and it is amazing how easily some of them can be integrated together to make
+  really cool HTML5 content.
+</p>
+
+<script type="text/javascript" src="js/modules/box2d_module.js"></script>
+<script type="text/javascript" src="js/game_assets/EnergyOrb.js"></script>
+<script type="text/javascript" src="js/game_assets/AntimatterOrb.js"></script>
+<script type="text/javascript" src="js/game_assets/Player.js"></script>
+<script>
+  box2dModule.demoSetup();
+  var c1 = new createjs.Stage("box2d_demo_c1");
+
+  function timeout() {
+    box2dModule.clearBodies();
+    var player = new Player(c1);
+    player.x = 100;
+    player.restitution = 0.4;
+    //create the phsysics body for the player and map the display object to it
+    box2dModule.createCircularPhysicsBody(player);
+    timeoutId = setTimeout(timeout, 10000);
+  }
+
+ timeout();
+
+  createjs.Ticker.setFPS(FPS);
+  createjs.Ticker.addEventListener("tick", function(event) {
+    box2dModule.update();
+    c1.update(event);
+  });
+</script>
