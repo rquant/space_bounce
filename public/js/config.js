@@ -1,6 +1,6 @@
 // TODO: think about where this should go
 var spacebounce = spacebounce || {};
-spacebounce.main = spacebounce.main || {};
+spacebounce.mainGame = spacebounce.mainGame || {};
 
 var STAGE_WIDTH = 950;
 var STAGE_HEIGHT = 650;
