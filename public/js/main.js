@@ -5,13 +5,14 @@
 $(document).ready(function () {
 
     //setup the main canvas used for the game
-    canvas = $("#mainCanvas")[0];
+    spacebounce.main.canvas = $("#main-canvas")[0];
+    var canvas = spacebounce.main.canvas;
     canvas.width = STAGE_WIDTH;
     canvas.height = STAGE_HEIGHT;
     context = canvas.getContext("2d");
     context.fillStyle = BACKGROUND_COLOR;
     context.fillRect(0,0, canvas.width, canvas.height);
-    stage = new createjs.Stage("mainCanvas");
+    stage = new createjs.Stage("main-canvas");
 
     debugCanvas = $("#debugCanvas")[0]; //seperate convas for debugging box2d simulation
 

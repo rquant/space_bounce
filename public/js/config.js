@@ -1,3 +1,7 @@
+// TODO: think about where this should go
+var spacebounce = spacebounce || {};
+spacebounce.main = spacebounce.main || {};
+
 var STAGE_WIDTH = 950;
 var STAGE_HEIGHT = 650;
 

@@ -19,7 +19,7 @@ var playerContainer;// the layer containing the player
 
 //audio.init(); //setup audio
 
-//box2d.setup(); //setup up box2d world and its properties
+//box2dModule.setup(); //setup up box2d world and its properties
 setupBackgroundElements();
 setupInteractiveElements();
 
@@ -35,7 +35,7 @@ gameContainer.addChild(interactiveObjectsContainer, hudContainer);
 
 
 function setupBackgroundElements() {
-
+    var canvas = spacebounce.main.canvas;
    //create the bottom background layer
     backgroundContainer = new createjs.Container();
     var background = new createjs.Shape();
