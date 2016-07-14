@@ -21,19 +21,21 @@
   mainGame.gameContainer.addChild(mainGame.interactiveObjectsContainer, mainGame.hudContainer);
 
   // Setup background layer (non-interactive)
-  mainGame.planet = new Planet();
-  mainGame.starField = []; //array holding the star particles
   var canvas = mainGame.canvas
   var background = new createjs.Shape();
   background.graphics.beginFill(BACKGROUND_COLOR).drawRect(0, 0, mainGame.canvas.width, mainGame.canvas.height);
   background.x = 0;
   background.y = 0;
   mainGame.backgroundContainer.addChild(background);
+  mainGame.planet = new Planet();
   generateStarField();
+
 
   mainGame.stage.update();
 
   function generateStarField() {
+    mainGame.starField = []; //array holding the star particles
+    
     for(var i=0;i<STAR_COUNT;i++) {
       var star = new Star();
       mainGame.starField.push(star);  //add star object to array for reference
