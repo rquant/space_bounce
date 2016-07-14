@@ -1,7 +1,7 @@
 /*
  *The planet used for the background.
  */
-(function (window) {
+(function (spacebounce) {
 
     function Planet() {
         this.initialize();
@@ -49,6 +49,6 @@
         spacebounce.mainGame.backgroundContainer.addChild(this);
     }
 
-    window.Planet = Planet;
+    spacebounce.Planet = Planet;
 
-}(window));
+}(spacebounce));

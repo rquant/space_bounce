@@ -1,7 +1,7 @@
 /*
  *The star used in the background star field animation. Perceived distance is random.
  */
-(function (window) {
+(function (spacebounce) {
 
     function Star() {
         this.initialize();
@@ -52,6 +52,6 @@
         this.y += this.vY;
     }
 
-    window.Star = Star;
+    spacebounce.Star = Star;
 
-}(window));
+}(spacebounce));
