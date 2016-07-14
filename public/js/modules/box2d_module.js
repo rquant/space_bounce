@@ -28,7 +28,6 @@ $(document).ready(function() {
         var playerActor;
         var bodiesToRemove = [];
 
-
         //Sets up the box2d world
         function setup() {
             world = new b2World(new b2Vec2(GRAVITY_X, GRAVITY_Y), true);
@@ -193,11 +192,16 @@ $(document).ready(function() {
         var contactListener = new b2ContactListener;
 
         //triggered when collision begins
+        // TODO: Massive dependencies here. This might be a use case for pub/sub
+        // pattern. For example, the player would subsribe to service to determine
+        // if energy supply should be increased. EnergyOrb would publish this notice when contact
+        // event is fired.
         contactListener.BeginContact = function(contact) {
 
             var userDataA = contact.GetFixtureA().GetBody().GetUserData(); //the actor of body A
             var userDataB = contact.GetFixtureB().GetBody().GetUserData(); //the actor of body B
 
+            // TODO:
             //player contacts force field, remove the force field
             if (userDataA.getObject() instanceof ForceField) {
                 createjs.Sound.play("Bounce");
@@ -205,6 +209,8 @@ $(document).ready(function() {
             }
 
             //player contacts the energy orb, increase player's energy supply and remove the orb
+
+            // TODO: these two cases are the same for the object, but object could be assigned to either fixutre
             if (userDataA.getObject() instanceof EnergyOrb) {
                 player.increaseEnergySupply();
                 createjs.Sound.play("Absorb");
@@ -218,6 +224,7 @@ $(document).ready(function() {
             }
 
             //player contacts the antimatter orb, decrease player's energy supply and remove the orb
+            // TODO: same thing here...
             else if (userDataA.getObject() instanceof AntimatterOrb) {
                 player.decreaseEnergySupply();
                 createjs.Sound.play("Absorb");
