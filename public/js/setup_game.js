@@ -43,13 +43,14 @@
     background.x = 0;
     background.y = 0;
     var planet = new spacebounce.Planet();
-    mainGame.backgroundContainer.addChild(background, planet);
 
     // setup star field for animation
     for(var i=0;i<STAR_COUNT;i++) {
       var star = new spacebounce.Star();
       mainGame.starFieldContainer.addChild(star);
      }
-     mainGame.backgroundContainer.addChild(mainGame.starFieldContainer);
+     mainGame.backgroundContainer.addChild(
+       background, planet, mainGame.starFieldContainer
+     );
   }
 })(spacebounce.mainGame);
