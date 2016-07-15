@@ -10,7 +10,6 @@
     var p = Star.prototype = new createjs.Shape();
 
     //public properties
-    p.parentContainer;
     p.radius;
     p.vY; //Velocity Y
     p.color;
@@ -22,7 +21,6 @@
 
         //call super
         this.Shape_initialize();
-        this.parentContainer = spacebounce.mainGame.starFieldContainer;
 
         this.color = "white";
 
@@ -44,7 +42,6 @@
 
         //draw the star as a circle
         this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
-        this.parentContainer.addChild(this);
     }
 
 

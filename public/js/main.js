@@ -76,10 +76,26 @@
           mainGame.stage.removeChild(loadProgressContainer);
           mainGame.stage.addChild(mainGame.backgroundContainer);
 
+
+
           createjs.Ticker.setFPS(30);
           createjs.Ticker.setRAF = true;
           createjs.Ticker.addEventListener("tick", backgroundTick);
           createjs.Sound.play("soundtrack", {loop: -1});
+      }
+
+      //runs the background animation. updated on every frame
+      function backgroundTick() {
+          //run star field animation
+          for(var i=0;i< mainGame.starFieldContainer.children.length;i++) {
+              var s = mainGame.starFieldContainer.children[i];
+              if (s.y>=STAGE_HEIGHT) {
+                  s.x = Math.floor(Math.random()*STAGE_WIDTH);
+                  s.y = 0;
+              }
+              s.tick();
+          }
+          spacebounce.mainGame.stage.update();
       }
   })(spacebounce.mainGame || {});
 
@@ -127,18 +143,4 @@ function energyDepletionTick() {
         createjs.Ticker.removeEventListener("tick", energyDepletionTick);
     }
     player.energySupply--;
-}
-
-//runs the background animation. updated on every frame
-function backgroundTick() {
-    //run star field animation
-    for(var i=0;i<spacebounce.mainGame.starField.length;i++) {
-        var s = spacebounce.mainGame.starField[i];
-        if (s.y>=STAGE_HEIGHT) {
-            s.x = Math.floor(Math.random()*STAGE_WIDTH);
-            s.y = 0;
-        }
-        s.tick();
-    }
-    spacebounce.mainGame.stage.update();
 }

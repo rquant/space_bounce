@@ -9,7 +9,6 @@
 
     var p = Planet.prototype = new createjs.Shape();
 
-    p.parentContainer;
     p.radius;
     p.color;
 
@@ -19,7 +18,6 @@
 
         this.Shape_initialize();
 
-        this.parentContainer = spacebounce.mainGame.backgroundContainer;
         this.x = STAGE_WIDTH/2;
         this.y = (2.2)*STAGE_HEIGHT+50;
         //this.y = (3)*STAGE_HEIGHT;
@@ -45,8 +43,7 @@
         this.filters = [blurFilter, glowFilter];
         this.cache(-STAGE_WIDTH+bounds.x, -STAGE_WIDTH+bounds.y, (2*STAGE_WIDTH+STAGE_WIDTH)+bounds.width, 2*STAGE_WIDTH+bounds.height);
         var dataUrl = this.getCacheDataURL();
-        //
-        spacebounce.mainGame.backgroundContainer.addChild(this);
+
     }
 
     spacebounce.Planet = Planet;
