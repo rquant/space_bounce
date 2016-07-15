@@ -29,7 +29,7 @@
   function setupBackgroundLayers() {
     var background = new createjs.Shape();
     background.graphics.beginFill(BACKGROUND_COLOR).drawRect(
-      0, 0, mainGame.canvas.width, mainGame.canvas.height
+      0, 0, STAGE_WIDTH, STAGE_HEIGHT
     );
     background.x = 0;
     background.y = 0;

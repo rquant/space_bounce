@@ -5,13 +5,13 @@
     (function (mainGame) {
 
       //setup the main canvas used for the game
-      mainGame.canvas = $("#main-canvas")[0];
-      mainGame.canvas.width = STAGE_WIDTH;
-      mainGame.canvas.height = STAGE_HEIGHT;
+      var canvas = $("#main-canvas")[0];
+      canvas.width = STAGE_WIDTH;
+      canvas.height = STAGE_HEIGHT;
 
-      context = mainGame.canvas.getContext("2d");
+      var context = canvas.getContext("2d");
       context.fillStyle = BACKGROUND_COLOR;
-      context.fillRect(0,0, mainGame.canvas.width, mainGame.canvas.height);
+      context.fillRect(0,0, canvas.width, canvas.height);
       mainGame.stage = new createjs.Stage("main-canvas");
 
       debugCanvas = $("#debugCanvas")[0]; //seperate convas for debugging box2d simulation
