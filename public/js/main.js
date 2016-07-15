@@ -74,9 +74,7 @@
       function handleComplete() {
           mainGame.stage.enableMouseOver(2);
           mainGame.stage.removeChild(loadProgressContainer);
-          mainGame.stage.addChild(mainGame.backgroundContainer);
-
-
+          mainGame.stage.addChild(mainGame.containers.background);
 
           createjs.Ticker.setFPS(30);
           createjs.Ticker.setRAF = true;
@@ -87,8 +85,8 @@
       //runs the background animation. updated on every frame
       function backgroundTick() {
           //run star field animation
-          for(var i=0;i< mainGame.starFieldContainer.children.length;i++) {
-              var s = mainGame.starFieldContainer.children[i];
+          for(var i=0; i < STAR_COUNT; i++) {
+              var s = mainGame.containers.stars.children[i];
               if (s.y>=STAGE_HEIGHT) {
                   s.x = Math.floor(Math.random()*STAGE_WIDTH);
                   s.y = 0;

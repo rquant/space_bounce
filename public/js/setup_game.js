@@ -7,31 +7,22 @@
   // maybe this should be part of the state controller?
   mainGame.playerActive = false;
 
-  initializeContainers();
-  setupBackgroundLayers();
-
-
-  //the containers (layers) for the objects of the game
-  function initializeContainers() {
-    mainGame.backgroundContainer = new createjs.Container();
-    mainGame.starFieldContainer = new createjs.Container();
-    mainGame.gameContainer = new createjs.Container();
-    mainGame.hudContainer = new createjs.Container();
-    mainGame.interactiveObjectsContainer = new createjs.Container();
-    mainGame.orbFieldContainer = new createjs.Container();
-    mainGame.forceFieldContainer = new createjs.Container();
-    mainGame.playerContainer = new createjs.Container();
-
-    // the game container holds everything gameplay related
-    mainGame.gameContainer.addChild(
-      mainGame.interactiveObjectsContainer, mainGame.hudContainer
-    );
-
-    // hold any objects directly involved in gameplay
-    mainGame.interactiveObjectsContainer.addChild(
-      mainGame.orbFieldContainer, mainGame.forceFieldContainer, mainGame.playerContainer
-    );
+  // the containers define 2D layers of the game that can contain other objects
+  // within that layer
+  mainGame.containers = {
+    background: new createjs.Container(),
+    stars: new createjs.Container(),
+    interactive: new createjs.Container(),
+    hud: new createjs.Container(),
+    gameplay: new createjs.Container(),
+    orbs: new createjs.Container(),
+    forceFields: new createjs.Container(),
+    player: new createjs.Container()
   }
+
+  var containers = mainGame.containers;
+  setupBackgroundLayers();
+  setupInteractiveLayers();
 
   // set up the background layers of the game. contains non-interactive
   // elements not used for actual gameplay.
@@ -44,13 +35,21 @@
     background.y = 0;
     var planet = new spacebounce.Planet();
 
-    // setup star field for animation
+    // setup star field used in background aniamation
     for(var i=0;i<STAR_COUNT;i++) {
       var star = new spacebounce.Star();
-      mainGame.starFieldContainer.addChild(star);
+      containers.stars.addChild(star);
      }
-     mainGame.backgroundContainer.addChild(
-       background, planet, mainGame.starFieldContainer
+
+     containers.background.addChild(
+       background, planet, containers.stars
      );
+  }
+
+  function setupInteractiveLayers() {
+    containers.interactive.addChild(containers.gameplay, containers.hud);
+    containers.gameplay.addChild(
+      containers.orbs, containers.forceFields, containers.player
+    );
   }
 })(spacebounce.mainGame);
