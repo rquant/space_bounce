@@ -124,7 +124,7 @@ $(document).ready(function() {
         }
 
         // Creates a circular physics body for an object, and assigns an actor object to bind the two together.
-         function createCircularPhysicsBody(object) {
+         function createCircularPhysicsBody(object, velocityIsLinear) {
             var fixture = new b2FixtureDef;
             fixture.density = object.density;
             fixture.restitution = object.restitution;
@@ -143,7 +143,7 @@ $(document).ready(function() {
             actors.push(actor);
 
             //if the object is an orb type, it needs a linear velocity
-            if (object instanceof EnergyOrb || object instanceof AntimatterOrb) {
+            if (velocityIsLinear) {
                 orbBodies.push(body);
                 body.SetLinearVelocity(new b2Vec2(object.vx , object.vy));
             }

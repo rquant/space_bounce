@@ -1,10 +1,10 @@
 /*
  *loads all other required scripts and prepares the game for initialization
  */
+
+
 $(document).ready(function() {
-
   (function (mainGame) {
-
     //setup the main canvas used for the game
     var canvas = $("#main-canvas")[0];
     canvas.width = STAGE_WIDTH;
@@ -53,6 +53,7 @@ $(document).ready(function() {
     mainGame.stage.update();
 
     //the preloader is responsible for loading resources and its progress can be used to update the loading bar
+
     var preloader = new createjs.LoadQueue(false);
     preloader.installPlugin(createjs.Sound);
     preloader.addEventListener("progress", handleProgress);
@@ -65,6 +66,10 @@ $(document).ready(function() {
         {src:"js/game_assets/Star.js"},
         {src:"js/game_assets/Planet.js"},
         {src:"js/game_assets/Player.js"},
+        {src:"js/game_assets/Menu.js"},
+        {src:"js/game_assets/Button.js"},
+        {src: "js/modules/stateController.js"},
+        {src: "js/modules/menus.js"},
         {src:"js/setup_game.js"}
     ]);
 
@@ -83,6 +88,8 @@ $(document).ready(function() {
         createjs.Ticker.setRAF = true;
         createjs.Ticker.addEventListener("tick", backgroundTick);
         createjs.Sound.play("soundtrack", {loop: -1});
+
+        amplify.publish('launch-instructions-menu');
     }
 
     //runs the background animation. updated on every frame
