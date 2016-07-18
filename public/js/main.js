@@ -82,14 +82,14 @@ $(document).ready(function() {
     function handleComplete() {
         mainGame.stage.enableMouseOver(2);
         mainGame.stage.removeChild(loadProgressContainer);
-        mainGame.stage.addChild(mainGame.containers.background);
+        mainGame.stage.addChild(mainGame.containers.root);
 
         createjs.Ticker.setFPS(30);
         createjs.Ticker.setRAF = true;
         createjs.Ticker.addEventListener("tick", backgroundTick);
         createjs.Sound.play("soundtrack", {loop: -1});
 
-        amplify.publish('launch-instructions-menu');
+        amplify.publish('launch-welcome-menu');
     }
 
     //runs the background animation. updated on every frame

@@ -6,15 +6,29 @@
     var parentContainer;
     var childContainer;
 
-    function launchWelcomeMenu() {
-        parentContainer = welcomeMenu;
-        mouseHandler.switchToMenuMode;
-        backgroundContainer.addChild(welcomeMenu);
-    }
-    amplify.subscribe('launch-instructions-menu', function() {
+    amplify.subscribe('launch-welcome-menu', function() {
       parentContainer = mainGame.menus.welcomeMenu;
-      mainGame.containers.background.addChild(mainGame.menus.welcomeMenu);
+      //mouseHandler.switchToMenuMode;
+      mainGame.containers.menu.addChild(mainGame.menus.welcomeMenu);
     });
+
+    // function launchInstructions() {
+    //     instructionsMenu.parentMenu = parentContainer;
+    //     childContainer = instructionsMenu;
+    //     backgroundContainer.removeChild(parentContainer);
+    //     backgroundContainer.addChild(instructionsMenu);
+    // }
+
+    amplify.subscribe('launch-instructions-menu', function() {
+      mainGame.containers.background.removeChild(parentContainer);
+      mainGame.containers.background.addChild(mainGame.menus.instructionsMenu);
+    });
+
+    function launchParentMenu() {
+        backgroundContainer.removeChild(childContainer);
+        backgroundContainer.addChild(childContainer.parentMenu);
+    }
+
 
     function launchGameoverMenu() {
         parentContainer = gameoverMenu;
@@ -49,17 +63,9 @@
         createjs.Ticker.addEventListener("tick", backgroundTick);
     }
 
-    function launchInstructions() {
-        instructionsMenu.parentMenu = parentContainer;
-        childContainer = instructionsMenu;
-        backgroundContainer.removeChild(parentContainer);
-        backgroundContainer.addChild(instructionsMenu);
-    }
 
-    function launchParentMenu() {
-        backgroundContainer.removeChild(childContainer);
-        backgroundContainer.addChild(childContainer.parentMenu);
-    }
+
+
 
     function startGame() {
         mouseHandler.switchToGameMode();
@@ -117,17 +123,4 @@
 
     }
 
-    return {
-        launchWelcomeMenu : launchWelcomeMenu,
-        launchGameoverMenu : launchGameoverMenu,
-        launchGamecompletedMenu: launchGamecompletedMenu,
-        launchInstructions: launchInstructions,
-        launchParentMenu: launchParentMenu,
-        startGame : startGame,
-        restartGame : restartGame,
-        resumeGame : resumeGame,
-        launchPauseMenu : launchPauseMenu,
-        isAudioEnabled : isAudioEnabled,
-        toggleAudioEnabled : toggleAudioEnabled
-    }
 })(spacebounce.mainGame);
