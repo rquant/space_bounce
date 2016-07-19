@@ -69,7 +69,7 @@ $(document).ready(function() {
         {src:"js/game_assets/Menu.js"},
         {src:"js/game_assets/Button.js"},
         {src: "js/modules/stateController.js"},
-        {src: "js/modules/menus.js"},
+        {src: "js/modules/menuModule.js"},
         {src:"js/setup_game.js"}
     ]);
 
@@ -89,7 +89,7 @@ $(document).ready(function() {
         createjs.Ticker.addEventListener("tick", backgroundTick);
         createjs.Sound.play("soundtrack", {loop: -1});
 
-        amplify.publish('set-root-menu', { menuName: 'welcome' });
+        amplify.publish('launch-new-menu', { menuName: 'welcome' });
     }
 
     //runs the background animation. updated on every frame

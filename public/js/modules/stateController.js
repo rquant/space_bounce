@@ -3,27 +3,6 @@
  */
 (function (mainGame) {
 
-    amplify.subscribe('set-root-menu', function(data) {
-      var menu = mainGame.menus.getByName(data.menuName);
-      mainGame.containers.menu.removeAllChildren();
-      mainGame.containers.menu.addChild(menu);
-    });
-
-    amplify.subscribe('set-child-menu', function(data) {
-      var menu = mainGame.menus.getByName(data.menuName);
-      // assumes there is already a root menu. feels ugly...
-      var rootMenu = mainGame.containers.menu.children[0];
-      menu.parentMenu = rootMenu;
-      mainGame.containers.menu.removeAllChildren();
-      mainGame.containers.menu.addChild(menu);
-    });
-
-    amplify.subscribe('launch-parent-menu', function(data) {
-      var childMenu = mainGame.menus.getByName(data.childMenuName);
-      mainGame.containers.menu.removeAllChildren();
-      mainGame.containers.menu.addChild(childMenu.parentMenu);
-    });
-
     // function launchGameoverMenu() {
     //     parentContainer = gameoverMenu;
     //     box2d.clearBodies();
