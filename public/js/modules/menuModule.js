@@ -98,7 +98,10 @@
       currentMenu = menu;
       mainGame.containers.menu.addChild(currentMenu);
     });
+
+    amplify.subscribe('clear-menu', function() {
+      mainGame.containers.menu.removeAllChildren();
+      currentMenu = null;
+    });
   })();
-
-
 })(spacebounce.mainGame);
