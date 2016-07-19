@@ -3,124 +3,114 @@
  */
 (function (mainGame) {
 
-    var parentContainer;
-    var childContainer;
-
-    amplify.subscribe('launch-welcome-menu', function() {
-      parentContainer = mainGame.menus.welcomeMenu;
-      //mouseHandler.switchToMenuMode;
-      mainGame.containers.menu.addChild(mainGame.menus.welcomeMenu);
+    amplify.subscribe('set-root-menu', function(data) {
+      var menu = mainGame.menus.getByName(data.menuName);
+      mainGame.containers.menu.removeAllChildren();
+      mainGame.containers.menu.addChild(menu);
     });
 
-    // function launchInstructions() {
-    //     instructionsMenu.parentMenu = parentContainer;
-    //     childContainer = instructionsMenu;
-    //     backgroundContainer.removeChild(parentContainer);
-    //     backgroundContainer.addChild(instructionsMenu);
+    amplify.subscribe('set-child-menu', function(data) {
+      var menu = mainGame.menus.getByName(data.menuName);
+      // assumes there is already a root menu. feels ugly...
+      var rootMenu = mainGame.containers.menu.children[0];
+      menu.parentMenu = rootMenu;
+      mainGame.containers.menu.removeAllChildren();
+      mainGame.containers.menu.addChild(menu);
+    });
+
+    amplify.subscribe('launch-parent-menu', function(data) {
+      var childMenu = mainGame.menus.getByName(data.childMenuName);
+      mainGame.containers.menu.removeAllChildren();
+      mainGame.containers.menu.addChild(childMenu.parentMenu);
+    });
+
+    // function launchGameoverMenu() {
+    //     parentContainer = gameoverMenu;
+    //     box2d.clearBodies();
+    //     mouseHandler.switchToMenuMode();
+    //     backgroundContainer.removeChild(gameContainer);
+    //     backgroundContainer.addChild(gameoverMenu);
+    //     createjs.Ticker.removeEventListener("tick", mainTick);
+    //     createjs.Ticker.removeEventListener("tick", energyDepletionTick);
+    //     createjs.Ticker.addEventListener("tick", backgroundTick);
+    // }
+    //
+    // //temparary, remove this
+    // function launchGamecompletedMenu() {
+    //     parentContainer = gamecompletedMenu;
+    //     box2d.clearBodies();
+    //     mouseHandler.switchToMenuMode();
+    //     backgroundContainer.removeChild(gameContainer);
+    //     backgroundContainer.addChild(gamecompletedMenu);
+    //     createjs.Ticker.removeEventListener("tick", mainTick);
+    //     createjs.Ticker.removeEventListener("tick", energyDepletionTick);
+    //     createjs.Ticker.addEventListener("tick", backgroundTick);
+    // }
+    //
+    // function launchPauseMenu() {
+    //     parentContainer = pauseMenu;
+    //     mouseHandler.switchToMenuMode();
+    //     backgroundContainer.removeChild(gameContainer);
+    //     createjs.Ticker.removeEventListener("tick", mainTick);
+    //     createjs.Ticker.removeEventListener("tick", energyDepletionTick);
+    //     backgroundContainer.addChild(pauseMenu);
+    //     createjs.Ticker.addEventListener("tick", backgroundTick);
+    // }
+    //
+    // function startGame() {
+    //     mouseHandler.switchToGameMode();
+    //     backgroundContainer.removeChild(welcomeMenu);
+    //     backgroundContainer.addChild(gameContainer);
+    //     player = new Player(playerContainer);
+    //     createjs.Ticker.removeEventListener("tick", backgroundTick);
+    //     createjs.Ticker.addEventListener("tick", mainTick);
+    //     createjs.Ticker.addEventListener("tick", energyDepletionTick);
+    // }
+    //
+    // function restartGame() {
+    //     mouseHandler.switchToGameMode();
+    //     backgroundContainer.removeChild(gameoverMenu);
+    //     backgroundContainer.addChild(gameContainer);
+    //     player = new Player(playerContainer);
+    //     createjs.Ticker.removeEventListener("tick", backgroundTick);
+    //
+    //     energySupply = MAX_ENERGY;
+    //     timeToRescue = FPS * TIME_TO_RESCUE;
+    //     timeToRescueDisplay.secondsToRescue = TIME_TO_RESCUE;
+    //     createjs.Ticker.addEventListener("tick", mainTick);
+    //     createjs.Ticker.addEventListener("tick", energyDepletionTick);
+    // }
+    //
+    // function resumeGame() {
+    //     mouseHandler.switchToGameMode();
+    //     backgroundContainer.removeChild(pauseMenu);
+    //     backgroundContainer.addChild(gameContainer);
+    //     createjs.Ticker.removeEventListener("tick", backgroundTick);
+    //     createjs.Ticker.addEventListener("tick", mainTick);
+    //     createjs.Ticker.addEventListener("tick", energyDepletionTick);
     // }
 
-    amplify.subscribe('launch-instructions-menu', function() {
-      mainGame.containers.background.removeChild(parentContainer);
-      mainGame.containers.background.addChild(mainGame.menus.instructionsMenu);
-    });
-
-    function launchParentMenu() {
-        backgroundContainer.removeChild(childContainer);
-        backgroundContainer.addChild(childContainer.parentMenu);
-    }
-
-
-    function launchGameoverMenu() {
-        parentContainer = gameoverMenu;
-        box2d.clearBodies();
-        mouseHandler.switchToMenuMode();
-        backgroundContainer.removeChild(gameContainer);
-        backgroundContainer.addChild(gameoverMenu);
-        createjs.Ticker.removeEventListener("tick", mainTick);
-        createjs.Ticker.removeEventListener("tick", energyDepletionTick);
-        createjs.Ticker.addEventListener("tick", backgroundTick);
-    }
-
-    //temparary, remove this
-    function launchGamecompletedMenu() {
-        parentContainer = gamecompletedMenu;
-        box2d.clearBodies();
-        mouseHandler.switchToMenuMode();
-        backgroundContainer.removeChild(gameContainer);
-        backgroundContainer.addChild(gamecompletedMenu);
-        createjs.Ticker.removeEventListener("tick", mainTick);
-        createjs.Ticker.removeEventListener("tick", energyDepletionTick);
-        createjs.Ticker.addEventListener("tick", backgroundTick);
-    }
-
-    function launchPauseMenu() {
-        parentContainer = pauseMenu;
-        mouseHandler.switchToMenuMode();
-        backgroundContainer.removeChild(gameContainer);
-        createjs.Ticker.removeEventListener("tick", mainTick);
-        createjs.Ticker.removeEventListener("tick", energyDepletionTick);
-        backgroundContainer.addChild(pauseMenu);
-        createjs.Ticker.addEventListener("tick", backgroundTick);
-    }
-
-
-
-
-
-    function startGame() {
-        mouseHandler.switchToGameMode();
-        backgroundContainer.removeChild(welcomeMenu);
-        backgroundContainer.addChild(gameContainer);
-        player = new Player(playerContainer);
-        createjs.Ticker.removeEventListener("tick", backgroundTick);
-        createjs.Ticker.addEventListener("tick", mainTick);
-        createjs.Ticker.addEventListener("tick", energyDepletionTick);
-    }
-
-    function restartGame() {
-        mouseHandler.switchToGameMode();
-        backgroundContainer.removeChild(gameoverMenu);
-        backgroundContainer.addChild(gameContainer);
-        player = new Player(playerContainer);
-        createjs.Ticker.removeEventListener("tick", backgroundTick);
-
-        energySupply = MAX_ENERGY;
-        timeToRescue = FPS * TIME_TO_RESCUE;
-        timeToRescueDisplay.secondsToRescue = TIME_TO_RESCUE;
-        createjs.Ticker.addEventListener("tick", mainTick);
-        createjs.Ticker.addEventListener("tick", energyDepletionTick);
-    }
-
-    function resumeGame() {
-        mouseHandler.switchToGameMode();
-        backgroundContainer.removeChild(pauseMenu);
-        backgroundContainer.addChild(gameContainer);
-        createjs.Ticker.removeEventListener("tick", backgroundTick);
-        createjs.Ticker.addEventListener("tick", mainTick);
-        createjs.Ticker.addEventListener("tick", energyDepletionTick);
-    }
-
-    var audioEnabled = true;
-    function isAudioEnabled() {
-        return audioEnabled;
-    }
-
-    //enable/disable audio and change text of all audio buttons
-    function toggleAudioEnabled() {
-
-        if (isAudioEnabled()) {
-            createjs.Sound.setMute(true);
-            for(var i=0;i<audioButtons.length;i++)
-                audioButtons[i].label.text = "Enable Audio";
-            audioEnabled = false;
-        }
-        else {
-            createjs.Sound.setMute(false);
-            for(var i=0;i<audioButtons.length;i++)
-                audioButtons[i].label.text = "Disable Audio";
-            audioEnabled = true;
-        }
-
-    }
+    // var audioEnabled = true;
+    // function isAudioEnabled() {
+    //     return audioEnabled;
+    // }
+    //
+    // //enable/disable audio and change text of all audio buttons
+    // function toggleAudioEnabled() {
+    //
+    //     if (isAudioEnabled()) {
+    //         createjs.Sound.setMute(true);
+    //         for(var i=0;i<audioButtons.length;i++)
+    //             audioButtons[i].label.text = "Enable Audio";
+    //         audioEnabled = false;
+    //     }
+    //     else {
+    //         createjs.Sound.setMute(false);
+    //         for(var i=0;i<audioButtons.length;i++)
+    //             audioButtons[i].label.text = "Disable Audio";
+    //         audioEnabled = true;
+    //     }
+    //
+    // }
 
 })(spacebounce.mainGame);

@@ -89,7 +89,7 @@ $(document).ready(function() {
         createjs.Ticker.addEventListener("tick", backgroundTick);
         createjs.Sound.play("soundtrack", {loop: -1});
 
-        amplify.publish('launch-welcome-menu');
+        amplify.publish('set-root-menu', { menuName: 'welcome' });
     }
 
     //runs the background animation. updated on every frame

@@ -2,9 +2,9 @@
  *The menu is a container with a title and set of buttons
  */
 (function (window) {
-    
-    function Menu(title, buttons) {
-        this.initialize(title, buttons);
+
+    function Menu(name, title, buttons) {
+        this.initialize(name, title, buttons);
     }
 
     var p = Menu.prototype = new createjs.Container();
@@ -23,9 +23,10 @@
     p.Container_initialize = p.initialize;
 
 
-    p.initialize = function(title, buttons) {
+    p.initialize = function(name, title, buttons) {
 
         this.Container_initialize();
+        this.name = name;
         this.title = title;
         this.buttons = buttons;
         this.buttonCount = buttons.length;
