@@ -10,11 +10,7 @@
   var welcomeMenu = function () {
       var instructionsButton = new MenuButton("Instructions");
       instructionsButton.addEventListener("click", function(event) {
-        amplify.publish('launch-sub-menu',
-          {
-            menuName: 'instructions',
-          }
-        );
+        mainGame.menuController.launchSubMenu('instructions');
       });
 
       var name = 'welcome';
@@ -41,7 +37,7 @@
 
     var goBackButton = new MenuButton("Go Back");
     goBackButton.addEventListener("click", function(event) {
-        amplify.publish('launch-parent-menu');
+      mainGame.menuController.launchParentMenu();
     });
 
     var name = 'instructions'
@@ -66,42 +62,49 @@
         break;
       // TODO: this should throw an error. implment error handling...
       default:
-        menu = welcomeMenu;
+        console.error('Their is no menu matching the name "' + name + '"');;
     }
     return menu;
   }
 
-  mainGame.menuController = (function() {
+  // Maybe this logic should be placed in a class defining the menu container
+  // (which would inherit the createjs.Container class)
+  var menuController = (function() {
     var currentMenu;
 
-    amplify.subscribe('launch-new-menu', function(data) {
-      var menu = getByName(data.menuName);
+    function launchNewMenu(menuName) {
+      var menu = getByName(menuName);
       mainGame.containers.menu.removeAllChildren();
       currentMenu = menu;
       mainGame.containers.menu.addChild(currentMenu);
-    });
+    }
 
-    // launch menu with matching name, but as a sub menu to the current
-    // menu
-    amplify.subscribe('launch-sub-menu', function(data) {
-      var menu = getByName(data.menuName);
+    function launchSubMenu(menuName) {
+      var menu = getByName(menuName);
       menu.parentMenu = currentMenu;
       mainGame.containers.menu.removeChild(currentMenu);
       currentMenu = menu;
       mainGame.containers.menu.addChild(currentMenu);
-    });
+    }
 
-    // launch the menu that's the associated parent of current menu
-    amplify.subscribe('launch-parent-menu', function() {
+    function launchParentMenu() {
       var menu = currentMenu.parentMenu;
       mainGame.containers.menu.removeChild(currentMenu);
       currentMenu = menu;
       mainGame.containers.menu.addChild(currentMenu);
-    });
+    }
 
-    amplify.subscribe('clear-menu', function() {
+    function clearMenu() {
       mainGame.containers.menu.removeAllChildren();
       currentMenu = null;
-    });
+    }
+
+    return {
+      launchNewMenu: launchNewMenu,
+      launchSubMenu: launchSubMenu,
+      launchParentMenu: launchParentMenu
+    }
   })();
+
+  mainGame.menuController = menuController;
 })(spacebounce.mainGame);
