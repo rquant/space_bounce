@@ -3,23 +3,25 @@
  */
 //box2d library refs
 $(document).ready(function() {
-    b2Vec2 = Box2D.Common.Math.b2Vec2
-            , b2BodyDef = Box2D.Dynamics.b2BodyDef
-            , b2Body = Box2D.Dynamics.b2Body
-            , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
-            , b2Fixture = Box2D.Dynamics.b2Fixture
-            , b2World = Box2D.Dynamics.b2World
-            , b2MassData = Box2D.Collision.Shapes.b2MassData
-            , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
-            , b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
-            , b2DebugDraw = Box2D.Dynamics.b2DebugDraw
-            , b2ContactListener = Box2D.Dynamics.b2ContactListener
-              ;
 
     var STEP = FPS, TIMESTEP = 1/STEP; //the timestep dictates how many updates box2d will perform per second. Must match framerate.
     var SCALE = 30; //the scale used to convert between pixels and meters. Box2D measures distance in the world in meters not pixels.
 
-    box2dModule = (function() {
+    spacebounce.box2dModule = (function(spacebounce) {
+
+      var b2Vec2 = Box2D.Common.Math.b2Vec2
+              , b2BodyDef = Box2D.Dynamics.b2BodyDef
+              , b2Body = Box2D.Dynamics.b2Body
+              , b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+              , b2Fixture = Box2D.Dynamics.b2Fixture
+              , b2World = Box2D.Dynamics.b2World
+              , b2MassData = Box2D.Collision.Shapes.b2MassData
+              , b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+              , b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+              , b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+              , b2ContactListener = Box2D.Dynamics.b2ContactListener
+                ;
+
         var world;
         var actors = [];
         var bodies = [];
@@ -31,7 +33,6 @@ $(document).ready(function() {
         //Sets up the box2d world
         function setup() {
             world = new b2World(new b2Vec2(GRAVITY_X, GRAVITY_Y), true);
-            addDebug();
             world.SetContactListener(contactListener);
 
             //setup boundary sensors. Used to detect when objects have left the bounds of the stage
@@ -124,7 +125,7 @@ $(document).ready(function() {
         }
 
         // Creates a circular physics body for an object, and assigns an actor object to bind the two together.
-         function createCircularPhysicsBody(object, velocityIsLinear) {
+         function createCircularPhysicsBody(object) {
             var fixture = new b2FixtureDef;
             fixture.density = object.density;
             fixture.restitution = object.restitution;
@@ -143,7 +144,7 @@ $(document).ready(function() {
             actors.push(actor);
 
             //if the object is an orb type, it needs a linear velocity
-            if (velocityIsLinear) {
+            if (object.velocityIsLinear) {
                 orbBodies.push(body);
                 body.SetLinearVelocity(new b2Vec2(object.vx , object.vy));
             }
@@ -345,7 +346,5 @@ $(document).ready(function() {
         }
 
 
-    })();
-
-    //box2d.setup(); //initialize box2d engine
+    })(spacebounce);
 });

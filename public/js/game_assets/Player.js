@@ -2,7 +2,7 @@
  *The space capsule. While the player isn't technically the capsule, the capsule ultimately determines the state of the game
  * (completed, gameover) so it is designated as the player.
  */
-(function (window) {
+(function (spacebounce) {
 
     function Player(parentContainer) {
         this.initialize(parentContainer);
@@ -64,8 +64,8 @@
       this.restitution = 1;
       this.isSensor = false;
       this.allowSleep = false;
-      this.bodyType = b2Body.b2_dynamicBody;
-      box2dModule.createCircularPhysicsBody(this); //create the phsysics body for the player and map the display object to it
+      this.bodyType = Box2D.Dynamics.b2Body.b2_dynamicBody;
+      spacebounce.box2dModule.createCircularPhysicsBody(this); //create the phsysics body for the player and map the display object to it
 
     }
 
@@ -89,6 +89,6 @@
         this.parentContainer.removeChild(this);
     }
 
-    window.Player = Player;
+    spacebounce.Player = Player;
 
-}(window));
+}(spacebounce));
