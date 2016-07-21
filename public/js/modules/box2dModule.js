@@ -32,13 +32,16 @@ $(document).ready(function() {
 
         //Sets up the box2d world
         function setup() {
-            world = new b2World(new b2Vec2(GRAVITY_X, GRAVITY_Y), true);
-            world.SetContactListener(contactListener);
+          var debugCanvas = $("#debugCanvas")[0];
+          var debugContext = debugCanvas.getContext("2d");
+          world = new b2World(new b2Vec2(GRAVITY_X, GRAVITY_Y), true);
+          addDebug(debugContext);
+          world.SetContactListener(contactListener);
 
-            //setup boundary sensors. Used to detect when objects have left the bounds of the stage
-            createSensor(0, STAGE_HEIGHT/2, 1 / SCALE, STAGE_HEIGHT * 30); //left sensor
-            createSensor(STAGE_WIDTH, STAGE_HEIGHT / 2, 1, STAGE_HEIGHT * 30); //right sensor
-            createSensor(STAGE_WIDTH/ 2, STAGE_HEIGHT, STAGE_WIDTH/ 2, 1); //bottom sensor
+          //setup boundary sensors. Used to detect when objects have left the bounds of the stage
+          createSensor(0, STAGE_HEIGHT/2, 1 / SCALE, STAGE_HEIGHT * 30); //left sensor
+          createSensor(STAGE_WIDTH, STAGE_HEIGHT / 2, 1, STAGE_HEIGHT * 30); //right sensor
+          createSensor(STAGE_WIDTH/ 2, STAGE_HEIGHT, STAGE_WIDTH/ 2, 1); //bottom sensor
         }
 
         //setup a seperate box2d world for the bouncing player demo in the box2d demonstration page. Not used for the game.
