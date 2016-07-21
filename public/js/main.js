@@ -87,62 +87,13 @@ $(document).ready(function() {
 
         createjs.Ticker.setFPS(30);
         createjs.Ticker.setRAF = true;
-        createjs.Ticker.addEventListener("tick", backgroundTick);
+
         createjs.Sound.play("soundtrack", {loop: -1});
-
-        mainGame.menuController.launchNewMenu('welcome');
+        amplify.publish('preload-complete');
     }
 
-    //runs the background animation. updated on every frame
-    function backgroundTick() {
-        //run star field animation
-        for(var i=0; i < STAR_COUNT; i++) {
-            var s = mainGame.containers.stars.children[i];
-            if (s.y>=STAGE_HEIGHT) {
-                s.x = Math.floor(Math.random()*STAGE_WIDTH);
-                s.y = 0;
-            }
-            s.tick();
-        }
-        spacebounce.mainGame.stage.update();
-    }
   })(spacebounce.mainGame || {});
 });
-
-var orbDelayCounter = 0;
-var timeToRescue = FPS * TIME_TO_RESCUE;
-//runs the background animation and the game itself. this is updated on every frame
-function mainTick(event) {
-    //run star field animation
-    for(var i=0;i<starField.length;i++) {
-        var s = starField[i];
-        if (s.y>=STAGE_HEIGHT) {
-            s.x = Math.floor(Math.random()*STAGE_WIDTH);
-            s.y = 0;
-        }
-        s.tick();
-    }
-
-    //generate energy orbs randomly
-    orbDelayCounter++;
-    if ((orbDelayCounter % 80) == 0) {
-       var orb = new EnergyOrb();
-    }
-
-    //generate antimatter orbs
-    if (Math.random()<0.005) {
-        var antimatterOrb = new AntimatterOrb();
-    }
-
-    //decrement the time until player is rescued, by 1/30 seconds decrements
-    timeToRescue--;
-    timeToRescueDisplay.tick(timeToRescue);
-    if (timeToRescue<=0)
-        stateController.launchGamecompletedMenu();
-
-    box2d.update(); //run box2d simulation
-    spacebounce.mainGame.stage.update(event);
-}
 
 //continuously deplete player's energy. updated on every frame
 function energyDepletionTick() {

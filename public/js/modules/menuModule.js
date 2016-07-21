@@ -8,15 +8,20 @@
 
   //create the welcome menu
   var welcomeMenu = function () {
-      var instructionsButton = new MenuButton("Instructions");
-      instructionsButton.addEventListener("click", function(event) {
-        mainGame.menuController.launchSubMenu('instructions');
-      });
+    var playButton = new MenuButton("Begin");
+    playButton.addEventListener("click", function(event) {
+       amplify.publish('begin-game');
+    });
 
-      var name = 'welcome';
-      var title = "Welcome to Space Bounce";
-      var menu = new Menu(name, title, [instructionsButton]);
-      return menu;
+    var instructionsButton = new MenuButton("Instructions");
+    instructionsButton.addEventListener("click", function(event) {
+      mainGame.menuController.launchSubMenu('instructions');
+    });
+
+    var name = 'welcome';
+    var title = "Welcome to Space Bounce";
+    var menu = new Menu(name, title, [playButton, instructionsButton]);
+    return menu;
   }();
 
   var instructionsMenu = function() {
@@ -103,7 +108,8 @@
     return {
       launchNewMenu: launchNewMenu,
       launchSubMenu: launchSubMenu,
-      launchParentMenu: launchParentMenu
+      launchParentMenu: launchParentMenu,
+      clearMenu: clearMenu
     }
   })();
 

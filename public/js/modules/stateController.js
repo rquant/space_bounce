@@ -3,6 +3,67 @@
  */
 (function (mainGame) {
 
+    var player;
+
+    amplify.subscribe('preload-complete', function() {
+      createjs.Ticker.addEventListener('tick', backgroundTick);
+      mainGame.menuController.launchNewMenu('welcome');
+    });
+
+    amplify.subscribe('begin-game', function() {
+      mainGame.menuController.clearMenu();
+      // add player
+      createjs.Ticker.addEventListener(gameRunningTick);
+    });
+
+    // only runs background animations unrelated to gameplay
+    function backgroundTick() {
+        starFieldAnimation();
+        mainGame.stage.update();
+    }
+
+    function starFieldAnimation() {
+      for(var i=0; i < STAR_COUNT; i++) {
+        var s = mainGame.containers.stars.children[i];
+        if (s.y>=STAGE_HEIGHT) {
+            s.x = Math.floor(Math.random()*STAGE_WIDTH);
+            s.y = 0;
+        }
+        s.tick();
+      }
+    }
+
+    var orbDelayCounter = 0;
+    var timeToRescue = FPS * TIME_TO_RESCUE;
+    //runs the background animation and the game itself. this is updated on every frame
+
+
+
+
+    function gameRunningTick(event) {
+        //run star field animation
+
+        //generate energy orbs randomly
+        // orbDelayCounter++;
+        // if ((orbDelayCounter % 80) == 0) {
+        //    var orb = new EnergyOrb();
+        // }
+        //
+        // //generate antimatter orbs
+        // if (Math.random()<0.005) {
+        //     var antimatterOrb = new AntimatterOrb();
+        // }
+
+        //decrement the time until player is rescued, by 1/30 seconds decrements
+        // timeToRescue--;
+        // timeToRescueDisplay.tick(timeToRescue);
+        // if (timeToRescue<=0)
+        //     stateController.launchGamecompletedMenu();
+        //
+        // box2d.update(); //run box2d simulation
+        mainGame.stage.update(event);
+    }
+
     // function launchGameoverMenu() {
     //     parentContainer = gameoverMenu;
     //     box2d.clearBodies();
