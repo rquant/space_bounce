@@ -13,8 +13,8 @@
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
       player = new spacebounce.Player(mainGame.containers.root);
-      debugger;
-      createjs.Ticker.addEventListener(gameRunningTick);
+      createjs.Ticker.removeAllEventListeners();
+      createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 
     // only runs background animations unrelated to gameplay
@@ -38,30 +38,8 @@
     var timeToRescue = FPS * TIME_TO_RESCUE;
     //runs the background animation and the game itself. this is updated on every frame
 
-
-
-
     function gameRunningTick(event) {
-        //run star field animation
-
-        //generate energy orbs randomly
-        // orbDelayCounter++;
-        // if ((orbDelayCounter % 80) == 0) {
-        //    var orb = new EnergyOrb();
-        // }
-        //
-        // //generate antimatter orbs
-        // if (Math.random()<0.005) {
-        //     var antimatterOrb = new AntimatterOrb();
-        // }
-
-        //decrement the time until player is rescued, by 1/30 seconds decrements
-        // timeToRescue--;
-        // timeToRescueDisplay.tick(timeToRescue);
-        // if (timeToRescue<=0)
-        //     stateController.launchGamecompletedMenu();
-        //
-        // box2d.update(); //run box2d simulation
+        starFieldAnimation();
         spacebounce.box2dModule.update();
         mainGame.stage.update(event);
     }
