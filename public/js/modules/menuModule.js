@@ -62,7 +62,8 @@
         break;
       // TODO: this should throw an error. implment error handling...
       default:
-        console.error('Their is no menu matching the name "' + name + '"');;
+        var errMsg = 'There is no menu matching the name "' + name + '"'
+        throw new mainGame.Exception(errMsg);
     }
     return menu;
   }

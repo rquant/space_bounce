@@ -68,6 +68,7 @@ $(document).ready(function() {
         {src:"js/game_assets/Player.js"},
         {src:"js/game_assets/Menu.js"},
         {src:"js/game_assets/Button.js"},
+        {src: "js/Exception.js"},
         {src: "js/modules/stateController.js"},
         {src: "js/modules/menuModule.js"},
         {src:"js/setup_game.js"}
