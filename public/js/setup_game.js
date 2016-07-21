@@ -23,6 +23,7 @@
 
   setupBackgroundLayers();
   setupInteractiveLayers();
+  spacebounce.box2dModule.setup();
 
   mainGame.containers = containers;
 

@@ -12,7 +12,8 @@
 
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
-      // add player
+      player = new spacebounce.Player(mainGame.containers.root);
+      debugger;
       createjs.Ticker.addEventListener(gameRunningTick);
     });
 
@@ -61,6 +62,7 @@
         //     stateController.launchGamecompletedMenu();
         //
         // box2d.update(); //run box2d simulation
+        spacebounce.box2dModule.update();
         mainGame.stage.update(event);
     }
 
