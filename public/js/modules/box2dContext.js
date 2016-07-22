@@ -7,7 +7,7 @@ $(document).ready(function() {
     var STEP = FPS, TIMESTEP = 1/STEP; //the timestep dictates how many updates box2d will perform per second. Must match framerate.
     var SCALE = 30; //the scale used to convert between pixels and meters. Box2D measures distance in the world in meters not pixels.
 
-    spacebounce.box2dModule = (function(spacebounce) {
+    spacebounce.box2dContext = (function(spacebounce) {
 
       var b2Vec2 = Box2D.Common.Math.b2Vec2
               , b2BodyDef = Box2D.Dynamics.b2BodyDef

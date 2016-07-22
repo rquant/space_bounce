@@ -14,7 +14,7 @@
       mainGame.menuController.clearMenu();
 
       player = new spacebounce.Player(
-        mainGame.containers.root, spacebounce.box2dModule
+        mainGame.containers.root, spacebounce.box2dContext
       );
       createjs.Ticker.removeAllEventListeners();
       createjs.Ticker.addEventListener('tick', gameRunningTick);
@@ -43,7 +43,7 @@
 
     function gameRunningTick(event) {
         starFieldAnimation();
-        spacebounce.box2dModule.update();
+        spacebounce.box2dContext.update();
         mainGame.stage.update(event);
     }
 

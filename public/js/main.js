@@ -61,7 +61,7 @@ $(document).ready(function() {
     preloader.loadManifest([
         {src:"js/lib/GlowFilter.js"},
         {src:"js/util.js"},
-        {src:"js/modules/box2dModule.js"},
+        {src:"js/modules/box2dContext.js"},
 
         {src:"js/game_assets/Star.js"},
         {src:"js/game_assets/Planet.js"},

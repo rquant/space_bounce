@@ -74,19 +74,19 @@ createjs.Ticker.addEventListener("tick", function() { //this function will run e
   really cool HTML5 content.
 </p>
 
-<script type="text/javascript" src="js/modules/box2dModule.js"></script>
+<script type="text/javascript" src="js/modules/box2dContext.js"></script>
 <script type="text/javascript" src="js/game_assets/EnergyOrb.js"></script>
 <script type="text/javascript" src="js/game_assets/AntimatterOrb.js"></script>
 <script type="text/javascript" src="js/game_assets/Player.js"></script>
 <script>
   $(document).ready(function() {
-    var box2dModule = spacebounce.box2dModule;
-    box2dModule.demoSetup();
+    var box2dContext = spacebounce.box2dContext;
+    box2dContext.demoSetup();
     var c1 = new createjs.Stage("box2d_demo_c1");
 
     function timeout() {
-      box2dModule.clearBodies();
-      var player = new spacebounce.Player(c1);
+      box2dContext.clearBodies();
+      var player = new spacebounce.Player(c1, box2dContext);
       player.x = 100;
       player.restitution = 0.4;
       //create the phsysics body for the player and map the display object to it
@@ -97,7 +97,7 @@ createjs.Ticker.addEventListener("tick", function() { //this function will run e
 
     createjs.Ticker.setFPS(FPS);
     createjs.Ticker.addEventListener("tick", function(event) {
-      box2dModule.update();
+      box2dContext.update();
       c1.update(event);
     });
   });
