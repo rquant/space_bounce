@@ -4,8 +4,8 @@
  */
 (function (spacebounce) {
 
-    function Player(parentContainer) {
-        this.initialize(parentContainer);
+    function Player(parentContainer, physicsContext) {
+        this.initialize(parentContainer, physicsContext);
     }
 
     var p = Player.prototype = new createjs.Container();
@@ -25,7 +25,7 @@
 
     p.Container_initialize = p.initialize;
 
-    p.initialize = function(parentContainer) {
+    p.initialize = function(parentContainer, physicsContext) {
 
       playerActive = true;
 
@@ -65,8 +65,8 @@
       this.isSensor = false;
       this.allowSleep = false;
       this.bodyType = Box2D.Dynamics.b2Body.b2_dynamicBody;
-      spacebounce.box2dModule.createCircularPhysicsBody(this); //create the phsysics body for the player and map the display object to it
-
+      //create the physics body for the player and map the display object to it
+      physicsContext.createCircularPhysicsBody(this);
     }
 
     //increase the player's energy by a specified amount

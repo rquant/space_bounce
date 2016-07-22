@@ -12,7 +12,10 @@
 
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
-      player = new spacebounce.Player(mainGame.containers.root);
+
+      player = new spacebounce.Player(
+        mainGame.containers.root, spacebounce.box2dModule
+      );
       createjs.Ticker.removeAllEventListeners();
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
