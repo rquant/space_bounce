@@ -14,7 +14,7 @@
       mainGame.menuController.clearMenu();
 
       player = new spacebounce.Player(
-        mainGame.containers.root, spacebounce.box2dContext
+        mainGame.containers.player, spacebounce.box2dContext
       );
       createjs.Ticker.removeAllEventListeners();
       createjs.Ticker.addEventListener('tick', gameRunningTick);
