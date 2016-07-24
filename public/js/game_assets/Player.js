@@ -89,6 +89,10 @@
         this.parentContainer.removeChild(this);
     }
 
+    p.getClassName = function() {
+      return Player.name;
+    }
+
     spacebounce.Player = Player;
 
 }(spacebounce));

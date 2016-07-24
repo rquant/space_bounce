@@ -61,13 +61,15 @@ $(document).ready(function() {
     preloader.loadManifest([
         {src:"js/lib/GlowFilter.js"},
         {src:"js/util.js"},
-        {src:"js/modules/box2dContext.js"},
+        {src:"js/modules/box2d/box2dContext.js"},
+        {src: "js/modules/box2d/contactMediator.js"},
 
         {src:"js/game_assets/Star.js"},
         {src:"js/game_assets/Planet.js"},
         {src:"js/game_assets/Player.js"},
         {src:"js/game_assets/Menu.js"},
         {src:"js/game_assets/Button.js"},
+        {src: "js/game_assets/Sensor.js"},
         {src: "js/Exception.js"},
         {src: "js/modules/stateController.js"},
         {src: "js/modules/menuModule.js"},

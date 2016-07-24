@@ -1,5 +1,7 @@
 /*
- *  Controls the state and logic of the game.
+ *  Controls the state and logic of the game. This can be thought of as the
+    mediator in which other components of the game will publish an event and
+    this will subscribe to it to handle it.
  */
 (function (mainGame) {
 
@@ -19,6 +21,16 @@
       createjs.Ticker.removeAllEventListeners();
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
+
+    amplify.subscribe('player-exits-boundary', function() {
+    });
+
+    function endGame() {
+      spacebounce.box2dContext.clearBodies();
+      createjs.Ticker.removeEventListener('tick', gameRunningTick);
+      createjs.Ticker.addEventListener('tick', backgroundTick);
+      mainGame.menuController.launchNewMenu('gameover');
+    }
 
     // only runs background animations unrelated to gameplay
     function backgroundTick() {

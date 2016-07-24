@@ -7,7 +7,7 @@ $(document).ready(function() {
     var STEP = FPS, TIMESTEP = 1/STEP; //the timestep dictates how many updates box2d will perform per second. Must match framerate.
     var SCALE = 30; //the scale used to convert between pixels and meters. Box2D measures distance in the world in meters not pixels.
 
-    spacebounce.box2dContext = (function(spacebounce) {
+    spacebounce.box2dContext = (function(box2dContext) {
 
       var b2Vec2 = Box2D.Common.Math.b2Vec2
               , b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -96,12 +96,7 @@ $(document).ready(function() {
             var sensor = world.CreateBody(sensorBodyDef);
             sensor.CreateFixture(sensorFixture);
             //this is a temporary fix. change the way it is implemented.
-             var userData = {
-            type: "sensor",
-            object: function Sensor() {},
-             getType: function() {return this.type;},
-             getObject: function() {return this.object;}
-            };
+            var userData = new StaticActorObject(sensor, new spacebounce.Sensor());
             sensor.SetUserData(userData);
         }
 
@@ -185,6 +180,18 @@ $(document).ready(function() {
             }
         }
 
+        // TODO: this is only necessary because other bodies with createjs objects
+        // mapped to it use the same interface. Implement interfaces to ensure
+        // the right methods are exposed
+        function StaticActorObject(body, object) {
+          this.body = body;
+          this.object = object;
+
+          this.getObject = function() {
+            return this.object;
+          }
+        }
+
         //terminates the object of the actor and removes the actor
         function removeActor(actor) {
             actor.object.terminate();
@@ -245,14 +252,14 @@ $(document).ready(function() {
         //triggered after collision ends
         contactListener.EndContact = function(contact) {
              var userDataA = contact.GetFixtureA().GetBody().GetUserData();
-             var bodyB = contact.GetFixtureB().GetBody();
-             if (userDataA.getType() == "sensor") {
-                 var userDataB = bodyB.GetUserData();
-                 if (userDataB.getObject() instanceof Player) {
-                     clearBodies();
-                     stateController.launchGameoverMenu();
-                 }
-             }
+             var userDataB = contact.GetFixtureB().GetBody().GetUserData();
+             var objectAType = userDataA.getObject().getClassName();
+             var objectBType = userDataB.getObject().getClassName();
+             var mediator = spacebounce.box2dContext.contactMediator;
+             var topicToPublish = mediator.endContact(
+               objectAType, objectBType
+             );
+             amplify.publish(topicToPublish);
          }
 
          contactListener.PostSolve = function(contact, impulse) {
@@ -349,5 +356,5 @@ $(document).ready(function() {
         }
 
 
-    })(spacebounce);
+    })(spacebounce.box2dContext);
 });
