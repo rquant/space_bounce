@@ -256,7 +256,7 @@ $(document).ready(function() {
              var objectAType = userDataA.getObject().getClassName();
              var objectBType = userDataB.getObject().getClassName();
              var mediator = spacebounce.box2dContext.contactMediator;
-             var topicToPublish = mediator.endContact(
+             var topicToPublish = mediator.getEndContactTopic(
                objectAType, objectBType
              );
              amplify.publish(topicToPublish);

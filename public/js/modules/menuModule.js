@@ -56,6 +56,24 @@
     return menu;
   }();
 
+  var gameoverMenu = function() {
+    var restartButton = new MenuButton("Restart");
+    restartButton.addEventListener("click", function(event) {
+       amplify.publish('begin-game');
+    });
+
+    var instructionsButton = new MenuButton("Instructions");
+    instructionsButton.addEventListener("click", function(event) {
+      mainGame.menuController.launchSubMenu('instructions');
+    });
+
+    var name = 'gameover';
+    var title = "Game Over";
+    var buttons = [restartButton, instructionsButton];
+    var menu = new Menu(name, title, buttons);
+    return menu;
+  }();
+
   var getByName = function(name) {
     var menu;
     switch (name) {
@@ -65,7 +83,9 @@
       case 'instructions':
         menu = instructionsMenu;
         break;
-      // TODO: this should throw an error. implment error handling...
+      case 'gameover':
+        menu = gameoverMenu;
+        break
       default:
         var errMsg = 'There is no menu matching the name "' + name + '"'
         throw new mainGame.Exception(errMsg);

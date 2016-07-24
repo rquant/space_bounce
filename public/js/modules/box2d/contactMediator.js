@@ -11,7 +11,7 @@ spacebounce.box2dContext = spacebounce.box2dContext || {};
 */
 spacebounce.box2dContext.contactMediator = (function(mainGame){
 
-  function getEndContactEvent(objectAType, objectBType) {
+  function getEndContactTopic(objectAType, objectBType) {
     var interaction = {
       'Sensor': {
         'Player': 'player-exits-boundary'
@@ -25,6 +25,6 @@ spacebounce.box2dContext.contactMediator = (function(mainGame){
   }
 
   return {
-    getEndContactEvent: getEndContactEvent
+    getEndContactTopic: getEndContactTopic
   }
 }(spacebounce.mainGame));

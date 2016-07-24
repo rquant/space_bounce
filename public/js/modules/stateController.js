@@ -14,15 +14,16 @@
 
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
+      createjs.Ticker.removeAllEventListeners();
 
       player = new spacebounce.Player(
         mainGame.containers.player, spacebounce.box2dContext
       );
-      createjs.Ticker.removeAllEventListeners();
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 
     amplify.subscribe('player-exits-boundary', function() {
+      endGame();
     });
 
     function endGame() {
