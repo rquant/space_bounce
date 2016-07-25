@@ -87,7 +87,7 @@ $(document).ready(function() {
         mainGame.stage.removeChild(loadProgressContainer);
         mainGame.stage.addChild(mainGame.containers.root);
 
-        createjs.Ticker.setFPS(60);
+        createjs.Ticker.setFPS(FPS);
         createjs.Ticker.setRAF = true;
 
         createjs.Sound.play("soundtrack", {loop: -1});
