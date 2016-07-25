@@ -90,3 +90,7 @@
             this.parentContainer.removeChild(this); //this function runs on completion of the tween
         });
     }
+
+    spacebounce.EnergyOrb = EnergyOrb;
+
+})(spacebounce):

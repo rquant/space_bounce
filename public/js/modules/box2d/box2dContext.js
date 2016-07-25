@@ -337,8 +337,22 @@ $(document).ready(function() {
         }
 
         function clearAllBodies() {
-          enqueAllBodiesForRemoval();
-          //removeBodiesMarkedForRemoval();
+          for(var i=0; i<bodies.length; i++) {
+            var body = bodies[i];
+            removeActor(body.GetUserData());
+            body.SetUserData(null);
+            world.DestroyBody(body);
+          }
+          for(var i=0; i<orbBodies.length; i++) {
+            var body = orbBodies[i];
+            removeActor(body.GetUserData());
+            body.SetUserData(null);
+            world.DestroyBody(body);
+          }
+          bodies = [];
+          orbBodies = [];
+          actors = [];
+          bodiesToRemove = [];
         }
 
         //remove any forcefields on the stage
