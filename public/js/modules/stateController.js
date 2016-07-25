@@ -3,7 +3,7 @@
     mediator in which other components of the game will publish an event and
     this will subscribe to it to handle it.
  */
-(function (mainGame) {
+spacebounce.mainGame.stateController = (function (mainGame) {
 
     var player;
 
@@ -19,9 +19,9 @@
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
-      player = new spacebounce.Player(
-        mainGame.containers.player, mainGame.box2dContext
-      );
+      // player = new spacebounce.Player(
+      //   mainGame.containers.player, mainGame.box2dContext
+      // );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 
@@ -31,6 +31,7 @@
 
     function endGame() {
       mainGame.box2dContext.clearAllBodies();
+      mainGame.box2dContext.update();
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('gameover');
@@ -59,8 +60,19 @@
 
     function gameRunningTick(event) {
         starFieldAnimation();
+        //generate energy orbs randomly
+        orbDelayCounter++;
+        if ((orbDelayCounter % 120) == 0) {
+           var orb = new spacebounce.EnergyOrb(
+             mainGame.containers.orbs, mainGame.box2dContext
+            );
+        }
         mainGame.box2dContext.update();
         mainGame.stage.update(event);
+    }
+
+    return {
+      endGame: endGame
     }
 
     // function launchGameoverMenu() {

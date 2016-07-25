@@ -23,9 +23,9 @@ $(document).ready(function() {
                 ;
 
         var world;
-        var actors = [];
-        var bodies = [];
-        var orbBodies = [];
+         actors = [];
+         bodies = [];
+         orbBodies = [];
         var forceFieldBodies = [];
         var playerActor;
         var bodiesToRemove = [];
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
         }
 
-        // box2d debugger
+        // use seperate canvas for debugging
         function addDebug(debugContext) {
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite(debugContext);
@@ -84,6 +84,8 @@ $(document).ready(function() {
         /*
          * Creates a static sensor that only detects when a body has triggered it. Does not effect the physics of the body.
          */
+
+
         function createSensor(x, y, width, height) {
             var sensorFixture = new b2FixtureDef;
             sensorFixture.shape = new b2PolygonShape;
@@ -161,6 +163,7 @@ $(document).ready(function() {
                 this.object.rotation = this.body.GetAngle() * (180/Math.PI);
                 this.object.x = this.body.GetWorldCenter().x * SCALE;
                 this.object.y = this.body.GetWorldCenter().y * SCALE;
+
             }
 
             this.getType = function() {
@@ -265,28 +268,7 @@ $(document).ready(function() {
          contactListener.PostSolve = function(contact, impulse) {
          }
 
-        //if a body is enqued for removal, it must be reoved from the box2d world as well as its actor object
-        function removeBodiesMarkedForRemoval() {
-            //remove any bodies marked for removal
-            for(var i=0, l=bodiesToRemove.length;i<l;i++) {
-                var body = bodiesToRemove[i];
-                var actor = body.GetUserData();
-                removeActor(actor);
 
-                //if the object is an orb it must be removed from the array of orbs
-                // if (actor.getObject() instanceof EnergyOrb || actor.getObject() instanceof AntimatterOrb) {
-                //     orbBodies.splice(orbBodies.indexOf(body),1);
-                // }
-                //
-                // else bodies.splice(bodies.indexOf(body), 1);
-
-                bodies.splice(bodies.indexOf(body), 1);
-
-                //body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
-                world.DestroyBody(body);
-            }
-            bodiesToRemove = [];
-        }
 
         //handle each step of the simulation
         function update() {
@@ -294,7 +276,7 @@ $(document).ready(function() {
             world.DrawDebugData();
             world.ClearForces();
 
-            removeBodiesMarkedForRemoval();
+
 
             //update the actors
             for(var i=0;i<actors.length;i++)
@@ -315,6 +297,7 @@ $(document).ready(function() {
                 else orb.enteredStage = true;
 
             }
+            removeBodiesMarkedForRemoval();
         }
 
         //return the box2d world
@@ -330,9 +313,32 @@ $(document).ready(function() {
                 bodiesToRemove.push(orbBodies[i]);
         }
 
+        //if a body is enqued for removal, it must be reoved from the box2d world as well as its actor object
+        function removeBodiesMarkedForRemoval() {
+            //remove any bodies marked for removal
+            for(var i=0, l=bodiesToRemove.length;i<l;i++) {
+                var body = bodiesToRemove[i];
+                var actor = body.GetUserData();
+                removeActor(actor);
+
+                //if the object is an orb it must be removed from the array of orbs
+                if (actor.getObject() instanceof spacebounce.EnergyOrb) {
+                    orbBodies.splice(orbBodies.indexOf(body),1);
+                }
+
+                else bodies.splice(bodies.indexOf(body), 1);
+
+                //bodies.splice(bodies.indexOf(body), 1);
+
+                body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
+                world.DestroyBody(body);
+            }
+            bodiesToRemove = [];
+        }
+
         function clearAllBodies() {
           enqueAllBodiesForRemoval();
-          removeBodiesMarkedForRemoval();
+          //removeBodiesMarkedForRemoval();
         }
 
         //remove any forcefields on the stage

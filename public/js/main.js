@@ -60,21 +60,22 @@ $(document).ready(function() {
     preloader.addEventListener("progress", handleProgress);
     preloader.addEventListener("complete", handleComplete);
     preloader.loadManifest([
-        {src:"js/lib/GlowFilter.js"},
-        {src:"js/util.js"},
-        {src:"js/modules/box2d/box2dContext.js"},
+        {src: "js/lib/GlowFilter.js"},
+        {src: "js/util.js"},
+        {src: "js/modules/box2d/box2dContext.js"},
         {src: "js/modules/box2d/contactMediator.js"},
 
-        {src:"js/game_assets/Star.js"},
-        {src:"js/game_assets/Planet.js"},
+        {src: "js/game_assets/Star.js"},
+        {src: "js/game_assets/Planet.js"},
         {src:"js/game_assets/Player.js"},
-        {src:"js/game_assets/Menu.js"},
-        {src:"js/game_assets/Button.js"},
+        {src: "js/game_assets/EnergyOrb.js"},
+        {src: "js/game_assets/Menu.js"},
+        {src: "js/game_assets/Button.js"},
         {src: "js/game_assets/Sensor.js"},
         {src: "js/Exception.js"},
         {src: "js/modules/stateController.js"},
         {src: "js/modules/menuModule.js"},
-        {src:"js/setup_game.js"}
+        {src: "js/setup_game.js"}
     ]);
 
     function handleProgress() {

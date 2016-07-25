@@ -64,6 +64,7 @@
       this.restitution = 1;
       this.isSensor = false;
       this.allowSleep = false;
+      this.velocityIsLinear = false;
       this.bodyType = Box2D.Dynamics.b2Body.b2_dynamicBody;
       //create the physics body for the player and map the display object to it
       physicsContext.createCircularPhysicsBody(this);
