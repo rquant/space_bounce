@@ -46,23 +46,14 @@
   loadPageFromUrl(url);
 
   $('h1 a, nav ul li a').click(function() {
-    resetExecutionEnvironment();
     var url = $(this).attr('href');
+    if (url === '#game') {
+      // Ensures execution environment is reset so processes don't stack up
+      // upon revisiting game.
+      location.reload();
+    }
     loadPageFromUrl(url);
   });
 
-  /*
-   Since there are a lot of asynchronous processes continuously executing, we
-   need to kill them when the user leaves the current view. Since this is
-   designed as a single page app, there are no actual page refreshes when
-   user navigates to other views, and the processes will continue to run.
-   Most things created like namespace variables are reset
-   if user navigates back to the main game (preventing memory leaks), but things
-   like event listeners may respawn unless they are removed before navigating
-   to other views.
-  */
-  function resetExecutionEnvironment() {
-    createjs.Ticker.removeAllEventListeners();
-  }
 </script>
 </html>

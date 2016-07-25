@@ -5,6 +5,7 @@
 
 $(document).ready(function() {
   (function (mainGame) {
+
     //setup the main canvas used for the game
     var canvas = $("#main-canvas")[0];
     canvas.width = STAGE_WIDTH;
