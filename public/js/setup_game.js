@@ -23,7 +23,7 @@
 
   setupBackgroundLayers();
   setupInteractiveLayers();
-  spacebounce.box2dContext.setup();
+  mainGame.box2dContext.setup();
 
   mainGame.containers = containers;
 

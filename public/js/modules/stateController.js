@@ -13,11 +13,14 @@
     });
 
     amplify.subscribe('begin-game', function() {
+      // may be leftover bodies if user leaves view then returns
+      mainGame.box2dContext.clearAllBodies();
+
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
       player = new spacebounce.Player(
-        mainGame.containers.player, spacebounce.box2dContext
+        mainGame.containers.player, mainGame.box2dContext
       );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
@@ -27,7 +30,7 @@
     });
 
     function endGame() {
-      spacebounce.box2dContext.clearBodies();
+      mainGame.box2dContext.clearAllBodies();
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('gameover');
@@ -56,7 +59,7 @@
 
     function gameRunningTick(event) {
         starFieldAnimation();
-        spacebounce.box2dContext.update();
+        mainGame.box2dContext.update();
         mainGame.stage.update(event);
     }
 
