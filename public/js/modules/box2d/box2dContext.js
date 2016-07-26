@@ -212,19 +212,9 @@ $(document).ready(function() {
         // event is fired.
         contactListener.BeginContact = function(contact) {
 
-            // var userDataA = contact.GetFixtureA().GetBody().GetUserData(); //the actor of body A
-            // var userDataB = contact.GetFixtureB().GetBody().GetUserData(); //the actor of body B
-            //
-            // // TODO:
-            // //player contacts force field, remove the force field
-            // if (userDataA.getObject() instanceof ForceField) {
-            //     createjs.Sound.play("Bounce");
-            //     bodiesToRemove.push(userDataA.getBody());
-            // }
-            //
-            // //player contacts the energy orb, increase player's energy supply and remove the orb
-            //
-            // // TODO: these two cases are the same for the object, but object could be assigned to either fixutre
+            //player contacts the energy orb, increase player's energy supply and remove the orb
+
+            // TODO: these two cases are the same for the object, but object could be assigned to either fixutre
             // if (userDataA.getObject() instanceof EnergyOrb) {
             //     player.increaseEnergySupply();
             //     createjs.Sound.play("Absorb");
@@ -236,39 +226,18 @@ $(document).ready(function() {
             //     createjs.Sound.play("Absorb");
             //     bodiesToRemove.push(userDataB.getBody());
             // }
-            //
-            // //player contacts the antimatter orb, decrease player's energy supply and remove the orb
-            // // TODO: same thing here...
-            // else if (userDataA.getObject() instanceof AntimatterOrb) {
-            //     player.decreaseEnergySupply();
-            //     createjs.Sound.play("Absorb");
-            //     bodiesToRemove.push(userDataA.getBody())
-            // }
-            //
-            // else if (userDataB.getObject() instanceof AntimatterOrb) {
-            //     player.decreaseEnergySupply();
-            //     createjs.Sound.play("Absorb");
-            //     bodiesToRemove.push(userDataB.getBody());
-            // }
         }
 
         //triggered after collision ends
         contactListener.EndContact = function(contact) {
-             var userDataA = contact.GetFixtureA().GetBody().GetUserData();
-             var userDataB = contact.GetFixtureB().GetBody().GetUserData();
-             var objectAType = userDataA.getObject().getClassName();
-             var objectBType = userDataB.getObject().getClassName();
-             var mediator = spacebounce.mainGame.box2dContext.contactMediator;
-             var topicToPublish = mediator.getEndContactTopic(
-               objectAType, objectBType
-             );
-             amplify.publish(topicToPublish);
+             var actorA = contact.GetFixtureA().GetBody().GetUserData();
+             var actorB = contact.GetFixtureB().GetBody().GetUserData();
+
+             amplify.publish('box2d-end-contact', actorA, actorB);
          }
 
          contactListener.PostSolve = function(contact, impulse) {
          }
-
-
 
         //handle each step of the simulation
         function update() {

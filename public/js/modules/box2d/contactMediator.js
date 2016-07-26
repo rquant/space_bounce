@@ -12,22 +12,26 @@
   */
   mainGame.box2dContext.contactMediator = (function(){
 
-    function getEndContactTopic(objectAType, objectBType) {
-      var interaction = {
-        'Sensor': {
-          'Player': 'player-exits-boundary'
-        },
-        'Player': {
-          'Sensor': 'player-exits-boundary'
-        }
-      };
+    var stateController = mainGame.stateController;
 
-      return (interaction[objectAType][objectBType] || '');
-    }
+    amplify.subscribe('box2d-end-contact', function(actorA, actorB) {
+        var objectA = actorA.getObject();
+        var objectB = actorB.getObject();
 
-    return {
-      getEndContactTopic: getEndContactTopic
-    }
+        var interactionContext = {
+          'Sensor': {
+            'Player': 'player-exits-boundary'
+          },
+          'Player': {
+            'Sensor': 'player-exits-boundary'
+          }
+        };
+
+        var objectAType = objectA.getClassName();
+        var objectBType = objectB.getClassName();
+        var topic = interactionContext[objectAType][objectBType];
+        amplify.publish(topic, objectA, objectB);
+    });
   }());
 
 })(spacebounce.mainGame);
