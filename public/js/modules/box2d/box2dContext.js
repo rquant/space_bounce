@@ -277,7 +277,7 @@ $(document).ready(function() {
             world.ClearForces();
 
 
-
+            removeBodiesMarkedForRemoval();
             //update the actors
             for(var i=0;i<actors.length;i++)
                 actors[i].update();
@@ -297,7 +297,7 @@ $(document).ready(function() {
                 else orb.enteredStage = true;
 
             }
-            removeBodiesMarkedForRemoval();
+
         }
 
         //return the box2d world
@@ -336,24 +336,6 @@ $(document).ready(function() {
             bodiesToRemove = [];
         }
 
-        function clearAllBodies() {
-          for(var i=0; i<bodies.length; i++) {
-            var body = bodies[i];
-            removeActor(body.GetUserData());
-            body.SetUserData(null);
-            world.DestroyBody(body);
-          }
-          for(var i=0; i<orbBodies.length; i++) {
-            var body = orbBodies[i];
-            removeActor(body.GetUserData());
-            body.SetUserData(null);
-            world.DestroyBody(body);
-          }
-          bodies = [];
-          orbBodies = [];
-          actors = [];
-          bodiesToRemove = [];
-        }
 
         //remove any forcefields on the stage
         function clearForceFields() {
@@ -373,7 +355,7 @@ $(document).ready(function() {
             createPolygonalPhysicsBody: createPolygonalPhysicsBody,
             createCircularPhysicsBody: createCircularPhysicsBody,
             update: update,
-            clearAllBodies : clearAllBodies,
+            enqueAllBodiesForRemoval: enqueAllBodiesForRemoval,
             getWorld: getWorld,
         }
 

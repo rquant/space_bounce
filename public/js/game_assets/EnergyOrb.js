@@ -76,6 +76,7 @@
         this.restitution = 0.8;
         this.isSensor = true;
         this.allowSleep = false;
+        this.terminateWithTween = false;
         this.velocityIsLinear = true;
         this.bodyType = Box2D.Dynamics.b2Body.b2_kinematicBody;
         physicsContext.createCircularPhysicsBody(this);
@@ -86,16 +87,17 @@
     }
 
     p.terminate = function() {
-        createjs.Tween.get(this).to({scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn).call(function() {
-          debugger;
-            this.parentContainer.removeChild(this); //this function runs on completion of the tween
+      if(this.terminateWithTween) {
+        createjs.Tween.get(this).to(
+          {scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn
+        ).call(function() {
+          this.parentContainer.removeChild(this); //this function runs on completion of the tween
         });
+      }
+      else {
+        this.parentContainer.removeChild(this);
+      }
     }
-
-    amplify.subscribe('gameover', function() {
-      debugger;
-      this.parentContainer.removeChild(this);
-    });
 
     spacebounce.EnergyOrb = EnergyOrb;
 

@@ -13,15 +13,12 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     });
 
     amplify.subscribe('begin-game', function() {
-      // may be leftover bodies if user leaves view then returns
-      mainGame.box2dContext.clearAllBodies();
-
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
-      // player = new spacebounce.Player(
-      //   mainGame.containers.player, mainGame.box2dContext
-      // );
+      player = new spacebounce.Player(
+        mainGame.containers.player, mainGame.box2dContext
+      );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 
@@ -30,7 +27,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     });
 
     function endGame() {
-      mainGame.box2dContext.clearAllBodies();
+      mainGame.box2dContext.enqueAllBodiesForRemoval();
       mainGame.box2dContext.update();
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
