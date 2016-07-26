@@ -16,9 +16,9 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
-      player = new spacebounce.Player(
-        mainGame.containers.player, mainGame.box2dContext
-      );
+      // player = new spacebounce.Player(
+      //   mainGame.containers.player, mainGame.box2dContext
+      // );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 

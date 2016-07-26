@@ -164,6 +164,7 @@ $(document).ready(function() {
                 this.object.x = this.body.GetWorldCenter().x * SCALE;
                 this.object.y = this.body.GetWorldCenter().y * SCALE;
 
+                this.object.tick();
             }
 
             this.getType = function() {
@@ -245,28 +246,14 @@ $(document).ready(function() {
             world.DrawDebugData();
             world.ClearForces();
 
-
             removeBodiesMarkedForRemoval();
+
             //update the actors
-            for(var i=0;i<actors.length;i++)
-                actors[i].update();
-
-            //enque any orbs marked for removal to be removed
-            for(var i=0;i<orbBodies.length;i++) {
-                var orb = orbBodies[i];
-                var x = orb.GetPosition().x * SCALE;
-                var y = orb.GetPosition().y * SCALE;
-                var actor = orb.GetUserData();
-
-                if (x<-BOUNDS || x>STAGE_WIDTH+BOUNDS || y<-BOUNDS || y>STAGE_HEIGHT+BOUNDS) {
-                   if (actor.enteredStage()) {
-                        bodiesToRemove.push(orb);
-                   }
-                }
-                else orb.enteredStage = true;
-
+            for(var i=0;i<actors.length;i++){
+              actors[i].update();
+              if (actors[i].getObject().markedForRemoval)
+                bodiesToRemove.push(actors[i].getBody());
             }
-
         }
 
         //return the box2d world

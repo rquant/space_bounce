@@ -72,18 +72,27 @@
 
         //box2d properties
         this.density = 1;
-        //this.friction = 1;
         this.restitution = 0.8;
         this.isSensor = true;
         this.allowSleep = false;
-        this.terminateWithTween = false;
-        this.velocityIsLinear = true;
         this.bodyType = Box2D.Dynamics.b2Body.b2_kinematicBody;
+        this.velocityIsLinear = true;
+
+        this.markedForRemoval = false;
+        this.enteredStage = false;
+        this.terminateWithTween = false;
+
+
         physicsContext.createCircularPhysicsBody(this);
     }
 
     p.tick = function() {
-
+      if (this.x<-BOUNDS || this.x>STAGE_WIDTH+BOUNDS || this.y<-BOUNDS || this.y>STAGE_HEIGHT+BOUNDS) {
+         if (this.enteredStage) {
+              this.markedForRemoval = true;
+         }
+      }
+      else this.enteredStage = true;
     }
 
     p.terminate = function() {

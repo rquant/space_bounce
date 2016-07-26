@@ -83,7 +83,7 @@
         this.energySupply -= ANTIMATTER_ORB_VAL;
     }
 
-    p.collisionCallback = function() {
+    p.tick = function() {
     }
 
     p.terminate = function() {
