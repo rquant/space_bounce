@@ -87,10 +87,16 @@
 
     p.terminate = function() {
         createjs.Tween.get(this).to({scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn).call(function() {
+          debugger;
             this.parentContainer.removeChild(this); //this function runs on completion of the tween
         });
     }
 
+    amplify.subscribe('gameover', function() {
+      debugger;
+      this.parentContainer.removeChild(this);
+    });
+
     spacebounce.EnergyOrb = EnergyOrb;
 
-})(spacebounce):
+})(spacebounce);
