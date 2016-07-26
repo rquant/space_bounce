@@ -28,7 +28,6 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     function endGame() {
       mainGame.box2dContext.enqueAllBodiesForRemoval();
-      mainGame.box2dContext.update();
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('gameover');
