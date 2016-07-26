@@ -23,9 +23,7 @@ $(document).ready(function() {
                 ;
 
         var world;
-         actors = [];
-         bodies = [];
-         orbBodies = [];
+        var actors = [];
         var forceFieldBodies = [];
         var playerActor;
         var bodiesToRemove = [];
@@ -121,7 +119,6 @@ $(document).ready(function() {
             var actor = new ActorObject(body, object);
             body.SetUserData(actor);
             actors.push(actor);
-            bodies.push(body);
         }
 
         // Creates a circular physics body for an object, and assigns an actor object to bind the two together.
@@ -145,10 +142,8 @@ $(document).ready(function() {
 
             //if the object is an orb type, it needs a linear velocity
             if (object.velocityIsLinear) {
-                orbBodies.push(body);
                 body.SetLinearVelocity(new b2Vec2(object.vx , object.vy));
             }
-            else bodies.push(body);
         }
 
         //create an actor object that maps the physics body to the game object (display, position, rotation, ect.)
@@ -263,10 +258,10 @@ $(document).ready(function() {
 
         //eunque all box2d bodies for removal
         function enqueAllBodiesForRemoval() {
-            for(var i=0;i<bodies.length;i++)
-                bodiesToRemove.push(bodies[i]);
-            for(var i=0;i<orbBodies.length;i++)
-                bodiesToRemove.push(orbBodies[i]);
+            for(var i=0, j = actors.length; i<j; i++) {
+              var actor = actors[i];
+              bodiesToRemove.push(actor.getBody());
+            }
         }
 
         //if a body is enqued for removal, it must be reoved from the box2d world as well as its actor object
@@ -276,15 +271,6 @@ $(document).ready(function() {
                 var body = bodiesToRemove[i];
                 var actor = body.GetUserData();
                 removeActor(actor);
-
-                //if the object is an orb it must be removed from the array of orbs
-                if (actor.getObject() instanceof spacebounce.EnergyOrb) {
-                    orbBodies.splice(orbBodies.indexOf(body),1);
-                }
-
-                else bodies.splice(bodies.indexOf(body), 1);
-
-                //bodies.splice(bodies.indexOf(body), 1);
 
                 body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
                 world.DestroyBody(body);
