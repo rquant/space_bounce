@@ -30,6 +30,23 @@
         }
       }
     });
+
+    amplify.subscribe('box2d-end-contact', function(objectA, objectB) {
+      var objectAType = objectA.getClassName();
+      var objectBType = objectB.getClassName();
+
+      if (objectAType == 'Player') {
+        if (objectBType == 'Sensor') {
+          amplify.publish('player-exits-boundary', objectA, objectB);
+        }
+      }
+
+      if (objectAType == 'Sensor') {
+        if (objectBType == 'Player') {
+          amplify.publish('player-exits-boundary', objectB, objectA);
+        }
+      }
+    });
   }());
 
 })(spacebounce.mainGame);
