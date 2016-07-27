@@ -28,6 +28,8 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     });
 
     amplify.subscribe('player-consumes-energyorb', function(player, orb) {
+      player.increaseEnergySupply();
+      console.log('Player energy supply: ' + player.energySupply);
       orb.markedForRemoval = true;
       orb.terminateWithTween = true;
     });
