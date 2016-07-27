@@ -210,10 +210,8 @@ $(document).ready(function() {
 
         //triggered after collision ends
         contactListener.EndContact = function(contact) {
-
           var objectA = contact.GetFixtureA().GetBody().GetUserData().getObject();
           var objectB = contact.GetFixtureB().GetBody().GetUserData().getObject();
-
 
           amplify.publish('box2d-end-contact', objectA, objectB);
          }

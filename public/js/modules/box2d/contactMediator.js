@@ -14,46 +14,21 @@
 
     var stateController = mainGame.stateController;
 
-    function getInteractionContext(mapping, objectA, objectB) {
+    amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
       var objectAType = objectA.getClassName();
       var objectBType = objectB.getClassName();
 
-      var topic = '';
-      if (mapping[objectAType] && mapping[objectAType][objectBType])
-        topic = mapping[objectAType][objectBType];
-
-      return topic;
-    }
-
-    amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
-
-      var cotactContextMapping = {
-        'Player': {
-          'EnergyOrb': 'player-contacts-energyorb'
-        },
-        'EnergyOrb': {
-          'Player': 'energyorb-contacts-player'
+      if (objectAType == 'Player') {
+        if (objectBType == 'EnergyOrb') {
+          amplify.publish('player-consumes-energyorb', objectA, objectB);
         }
-      };
+      }
 
-      var topic = getInteractionContext(cotactContextMapping, objectA, objectB);
-      amplify.publish(topic, objectA, objectB);
-
-    });
-
-    amplify.subscribe('box2d-end-contact', function(objectA, objectB) {
-
-        var cotactContextMapping = {
-          'Sensor': {
-            'Player': 'player-exits-boundary'
-          },
-          'Player': {
-            'Sensor': 'player-exits-boundary'
-          }
-        };
-
-        var topic = getInteractionContext(cotactContextMapping, objectA, objectB);
-        amplify.publish(topic, objectA, objectB);
+      if (objectAType == 'EnergyOrb') {
+        if (objectBType == 'Player') {
+          amplify.publish('player-consumes-energyorb', objectB, objectA);
+        }
+      }
     });
   }());
 

@@ -27,12 +27,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       endGame();
     });
 
-    amplify.subscribe('player-contacts-energyorb', function(player, orb) {
-      orb.markedForRemoval = true;
-      orb.terminateWithTween = true;
-    });
-
-    amplify.subscribe('energyorb-contacts-player', function(orb, player) {
+    amplify.subscribe('player-consumes-energyorb', function(player, orb) {
       orb.markedForRemoval = true;
       orb.terminateWithTween = true;
     });
