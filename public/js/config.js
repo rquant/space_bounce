@@ -34,7 +34,7 @@ var BOUNDARY_THICKNESS = 3;
 
 //physics data
 var GRAVITY_X = 0;
-var GRAVITY_Y = 6;
+var GRAVITY_Y = 0;
 
 //the length of boundary from the stage, used for checking bounds of kinematic bodies
 var BOUNDS = 10;

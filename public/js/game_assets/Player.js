@@ -20,7 +20,6 @@
     p.port_radius;
     p.port_color;
 
-
     p.respawnOnTermination;
 
     p.Container_initialize = p.initialize;
@@ -47,7 +46,8 @@
       capsule.graphics.beginFill(this.port_color).drawCircle(0, 0, this.port_radius).endFill();
 
       this.x = STAGE_WIDTH/2;
-      this.y = -3 * this.port_radius;
+      // this.y = -3 * this.port_radius;
+      this.y = STAGE_HEIGHT / 2;
 
       this.addChild(capsule, port);
       // TODO: ugly!! find a better way

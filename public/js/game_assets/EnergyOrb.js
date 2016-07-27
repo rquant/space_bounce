@@ -57,6 +57,12 @@
                 this.x = Math.random() * STAGE_WIDTH / 2 + STAGE_WIDTH / 2;
         }
 
+        // TEMP
+        this.x = STAGE_WIDTH / 2;
+        this.y= STAGE_HEIGHT / 4;
+        this.vx = 0;
+        this.vy = 4;
+
 
         this.color = "#66F0B9";
         this.alpha = 0.6;
