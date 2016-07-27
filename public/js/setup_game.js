@@ -2,6 +2,8 @@
  *Sets up the elements to be used in the game
  */
 (function(mainGame) {
+  spacebounce.audio.init();
+
   mainGame.player;
   // maybe this should be part of the state controller?
   mainGame.playerActive = false;

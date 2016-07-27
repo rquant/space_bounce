@@ -32,6 +32,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       console.log('Player energy supply: ' + player.energySupply);
       orb.markedForRemoval = true;
       orb.terminateWithTween = true;
+      createjs.Sound.play("Absorb");
     });
 
     function endGame() {

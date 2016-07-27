@@ -62,6 +62,7 @@ $(document).ready(function() {
     preloader.loadManifest([
         {src: "js/lib/GlowFilter.js"},
         {src: "js/util.js"},
+        {src: "js/audio_config.js"},
         {src: "js/modules/box2d/box2dContext.js"},
         {src: "js/modules/box2d/contactMediator.js"},
 
