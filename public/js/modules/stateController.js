@@ -16,14 +16,25 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
-      // player = new spacebounce.Player(
-      //   mainGame.containers.player, mainGame.box2dContext
-      // );
+      player = new spacebounce.Player(
+        mainGame.containers.player, mainGame.box2dContext
+      );
+      player.y = STAGE_HEIGHT / 2;
       createjs.Ticker.addEventListener('tick', gameRunningTick);
     });
 
     amplify.subscribe('player-exits-boundary', function() {
       endGame();
+    });
+
+    amplify.subscribe('player-contacts-energyorb', function(player, orb) {
+      orb.markedForRemoval = true;
+      orb.terminateWithTween = true;
+    });
+
+    amplify.subscribe('energyorb-contacts-player', function(orb, player) {
+      orb.markedForRemoval = true;
+      orb.terminateWithTween = true;
     });
 
     function endGame() {
@@ -58,7 +69,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         starFieldAnimation();
         //generate energy orbs randomly
         orbDelayCounter++;
-        if ((orbDelayCounter % 120) == 0) {
+        if ((orbDelayCounter % 160) == 0) {
            var orb = new spacebounce.EnergyOrb(
              mainGame.containers.orbs, mainGame.box2dContext
             );

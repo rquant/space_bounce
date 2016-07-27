@@ -191,12 +191,6 @@ $(document).ready(function() {
           }
         }
 
-        //terminates the object of the actor and removes the actor
-        function removeActor(actor) {
-            actor.object.terminate();
-            actors.splice(actors.indexOf(actor),1);
-        }
-
         //Listeners
         //collision detection listener
         var contactListener = new b2ContactListener;
@@ -207,29 +201,21 @@ $(document).ready(function() {
         // if energy supply should be increased. EnergyOrb would publish this notice when contact
         // event is fired.
         contactListener.BeginContact = function(contact) {
+          var objectA = contact.GetFixtureA().GetBody().GetUserData().getObject();
+          var objectB = contact.GetFixtureB().GetBody().GetUserData().getObject();
 
-            //player contacts the energy orb, increase player's energy supply and remove the orb
+          amplify.publish('box2d-begin-contact', objectA, objectB);
 
-            // TODO: these two cases are the same for the object, but object could be assigned to either fixutre
-            // if (userDataA.getObject() instanceof EnergyOrb) {
-            //     player.increaseEnergySupply();
-            //     createjs.Sound.play("Absorb");
-            //     bodiesToRemove.push(userDataA.getBody())
-            // }
-            //
-            // else if (userDataB.getObject() instanceof EnergyOrb) {
-            //     player.increaseEnergySupply();
-            //     createjs.Sound.play("Absorb");
-            //     bodiesToRemove.push(userDataB.getBody());
-            // }
         }
 
         //triggered after collision ends
         contactListener.EndContact = function(contact) {
-             var actorA = contact.GetFixtureA().GetBody().GetUserData();
-             var actorB = contact.GetFixtureB().GetBody().GetUserData();
 
-             amplify.publish('box2d-end-contact', actorA, actorB);
+          var objectA = contact.GetFixtureA().GetBody().GetUserData().getObject();
+          var objectB = contact.GetFixtureB().GetBody().GetUserData().getObject();
+
+
+          amplify.publish('box2d-end-contact', objectA, objectB);
          }
 
          contactListener.PostSolve = function(contact, impulse) {
@@ -271,11 +257,18 @@ $(document).ready(function() {
                 var body = bodiesToRemove[i];
                 var actor = body.GetUserData();
                 removeActor(actor);
-
-                body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
+                //body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
                 world.DestroyBody(body);
+
             }
             bodiesToRemove = [];
+        }
+
+        //terminates the object of the actor and removes the actor
+        function removeActor(actor) {
+
+            actor.object.terminate();
+            actors.splice(actors.indexOf(actor),1);
         }
 
 

@@ -14,11 +14,36 @@
 
     var stateController = mainGame.stateController;
 
-    amplify.subscribe('box2d-end-contact', function(actorA, actorB) {
-        var objectA = actorA.getObject();
-        var objectB = actorB.getObject();
+    function getInteractionContext(mapping, objectA, objectB) {
+      var objectAType = objectA.getClassName();
+      var objectBType = objectB.getClassName();
 
-        var interactionContext = {
+      var topic = '';
+      if (mapping[objectAType] && mapping[objectAType][objectBType])
+        topic = mapping[objectAType][objectBType];
+
+      return topic;
+    }
+
+    amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
+
+      var cotactContextMapping = {
+        'Player': {
+          'EnergyOrb': 'player-contacts-energyorb'
+        },
+        'EnergyOrb': {
+          'Player': 'energyorb-contacts-player'
+        }
+      };
+
+      var topic = getInteractionContext(cotactContextMapping, objectA, objectB);
+      amplify.publish(topic, objectA, objectB);
+
+    });
+
+    amplify.subscribe('box2d-end-contact', function(objectA, objectB) {
+
+        var cotactContextMapping = {
           'Sensor': {
             'Player': 'player-exits-boundary'
           },
@@ -27,9 +52,7 @@
           }
         };
 
-        var objectAType = objectA.getClassName();
-        var objectBType = objectB.getClassName();
-        var topic = interactionContext[objectAType][objectBType];
+        var topic = getInteractionContext(cotactContextMapping, objectA, objectB);
         amplify.publish(topic, objectA, objectB);
     });
   }());

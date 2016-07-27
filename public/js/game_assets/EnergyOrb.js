@@ -108,6 +108,10 @@
       }
     }
 
+    p.getClassName = function() {
+      return EnergyOrb.name;
+    }
+
     spacebounce.EnergyOrb = EnergyOrb;
 
 })(spacebounce);
