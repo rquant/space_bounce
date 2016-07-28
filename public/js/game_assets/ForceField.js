@@ -3,8 +3,8 @@
  */
 (function (spacebounce) {
 
-    function ForceField(parentContainer, x, y, width, height, angle, physicsContext, tracingMode) {
-        this.initialize(parentContainer, x, y, width, height, angle, physicsContext, tracingMode);
+    function ForceField(parentContainer, props, physicsContext, tracingMode) {
+        this.initialize(parentContainer, props, physicsContext, tracingMode);
     }
 
     var p = ForceField.prototype = new createjs.Shape();
@@ -17,21 +17,21 @@
 
     p.Shape_initialize = p.initialize;
 
-    p.initialize = function(parentContainer, x, y, width, height, angle, physicsContext, tracingMode) {
+    p.initialize = function(parentContainer, props, physicsContext, tracingMode) {
 
         this.Shape_initialize();
 
         this.parentContainer = parentContainer;
-        this.width = width;
-        this.height = height;
-        this.regX = width/2;
-        this.regY = height/2;
-        this.x = x;
-        this.y = y;
+        this.width = props.width;
+        this.height = props.height;
+        this.regX = this.width/2;
+        this.regY = this.height/2;
+        this.x = props.x;
+        this.y = props.y;
 
         this.color = "pink";
         this.alpha = 0.2;
-        this.rotation = angle;
+        this.rotation = props.angle;
         this.graphics.beginFill(this.color).drawRect(0, 0, this.width, this.height).endFill();
 
         // only one force field should be present at a time

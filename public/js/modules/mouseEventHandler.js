@@ -62,8 +62,15 @@ spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
             var x = (a.x+b.x)/2;
             var y = (a.y+b.y)/2;
 
+            var properties = {
+              x: x,
+              y: y,
+              width: length,
+              height: height,
+              angle: angle
+            }
             return new spacebounce.ForceField(
-              mainGame.containers.forceFields, x, y, length, height, angle, box2dContext, tracingMode
+              mainGame.containers.forceFields, properties, box2dContext, tracingMode
             );
         }
 
