@@ -3,6 +3,8 @@
  */
 (function (spacebounce) {
 
+    function ForceField(parentContainer, x, y, width, height, angle, physicsContext, tracingMode) {
+        this.initialize(parentContainer, x, y, width, height, angle, physicsContext, tracingMode);
     }
 
     var p = ForceField.prototype = new createjs.Shape();
@@ -15,6 +17,7 @@
 
     p.Shape_initialize = p.initialize;
 
+    p.initialize = function(parentContainer, x, y, width, height, angle, physicsContext, tracingMode) {
 
         this.Shape_initialize();
 
@@ -40,26 +43,31 @@
         this.friction = 1;
         this.restitution = 0.8;
         this.isSensor = false;
-        this.bodyType = b2Body.b2_staticBody;
+        this.bodyType = Box2D.Dynamics.b2Body.b2_staticBody;
 
         /*if tracing mode is on, the user is currently dragging the mouse to create the forcefield. The display drawn simply
           allows the user to trace its path visually. The actual force field body should not be created until the user has
           released mouse-press event*/
         if (!tracingMode) {
             this.alpha = 0.4;
-            box2d.createPolygonalPhysicsBody(this);
+            physicsContext.createPolygonalPhysicsBody(this);
         }
 
     }
-    p.collisionCallback = function() {
-        createjs.Tween.get(this, {loop:false}).to({alpha:1}, 100, createjs.Ease.quadIn)
-        .to({alpha:0.4}, 100, createjs.Ease.quadIn).call(function () {
-            p.terminate();
-        });
+
+    p.tick = function() {
 
     }
+
     p.terminate = function() {
-        createjs.Tween.get(this, {loop:false}).to({alpha:1}, 100, createjs.Ease.quadIn)
+        createjs.Tween.get(
+          this, {loop:false}).to({alpha:1}, 100, createjs.Ease.quadIn
+        )
         .to({alpha:0.4}, 100, createjs.Ease.quadIn).call(function () {
+            this.parentContainer.removeChild(this);
         });
     }
+
+    spacebounce.ForceField = ForceField;
+
+}(spacebounce));

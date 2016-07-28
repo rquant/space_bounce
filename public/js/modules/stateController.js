@@ -16,7 +16,11 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       mainGame.menuController.clearMenu();
       createjs.Ticker.removeAllEventListeners();
 
+      // player = new spacebounce.Player(
+      //   mainGame.containers.player, mainGame.box2dContext
+      // );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
+      amplify.publish('game-active');
     });
 
     amplify.subscribe('player-exits-boundary', function() {
@@ -36,6 +40,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('gameover');
+      amplify.publish('game-inactive');
     }
 
     // only runs background animations unrelated to gameplay
