@@ -14,11 +14,10 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
-      createjs.Ticker.removeAllEventListeners();
-
-      // player = new spacebounce.Player(
-      //   mainGame.containers.player, mainGame.box2dContext
-      // );
+      createjs.Ticker.removeEventListener('tick', backgroundTick);
+      player = new spacebounce.Player(
+        mainGame.containers.player, mainGame.box2dContext
+      );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
     });
@@ -26,6 +25,11 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     amplify.subscribe('player-exits-boundary', function() {
       endGame();
     });
+
+    amplify.subscribe('player-contacts-forcefield', function(forceField) {
+      createjs.Sound.play("Bounce");
+      forceField.markedForRemoval = true;
+    })
 
     amplify.subscribe('player-consumes-energyorb', function(player, orb) {
       player.increaseEnergySupply();

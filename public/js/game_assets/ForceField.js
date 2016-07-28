@@ -60,12 +60,17 @@
     }
 
     p.terminate = function() {
-        createjs.Tween.get(
-          this, {loop:false}).to({alpha:1}, 100, createjs.Ease.quadIn
-        )
-        .to({alpha:0.4}, 100, createjs.Ease.quadIn).call(function () {
-            this.parentContainer.removeChild(this);
-        });
+
+
+      createjs.Tween.get(
+        this, {loop:false}).to({alpha:1}, 100, createjs.Ease.quadIn
+      ).to({alpha:0.4}, 100, createjs.Ease.quadIn).call(function () {
+          this.parentContainer.removeChild(this);
+      });
+    }
+
+    p.getClassName = function() {
+      return ForceField.name;
     }
 
     spacebounce.ForceField = ForceField;

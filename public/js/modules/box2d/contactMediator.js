@@ -18,15 +18,25 @@
       var objectAType = objectA.getClassName();
       var objectBType = objectB.getClassName();
 
+
       if (objectAType == 'Player') {
         if (objectBType == 'EnergyOrb') {
           amplify.publish('player-consumes-energyorb', objectA, objectB);
         }
+        else if(objectB == 'ForceField') {
+          amplify.publish('player-contacts-forcefield', objectB);
+        }
       }
 
-      if (objectAType == 'EnergyOrb') {
+      else if (objectAType == 'EnergyOrb') {
         if (objectBType == 'Player') {
           amplify.publish('player-consumes-energyorb', objectB, objectA);
+        }
+      }
+
+      else if (objectAType == 'ForceField') {
+        if (objectBType == 'Player') {
+          amplify.publish('player-contacts-forcefield', objectA);
         }
       }
     });
