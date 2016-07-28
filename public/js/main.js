@@ -14,7 +14,7 @@ $(document).ready(function() {
     var context = canvas.getContext("2d");
     context.fillStyle = BACKGROUND_COLOR;
     context.fillRect(0,0, canvas.width, canvas.height);
-    mainGame.stage = new createjs.Stage("main-canvas");
+    var stage = new createjs.Stage("main-canvas");
 
     debugCanvas = $("#debugCanvas")[0]; //seperate convas for debugging box2d simulation
 
@@ -50,8 +50,11 @@ $(document).ready(function() {
     loadProgressContainer.addChild(loadingBarContainer);
     loadProgressContainer.y = STAGE_HEIGHT/2 - loadProgressContainerHeight/2;
 
-    mainGame.stage.addChild(loadProgressContainer);
-    mainGame.stage.update();
+    stage.addChild(loadProgressContainer);
+    stage.update();
+
+    mainGame.canvas = canvas;
+    mainGame.stage = stage;
 
     //the preloader is responsible for loading resources and its progress can be used to update the loading bar
 
@@ -63,8 +66,6 @@ $(document).ready(function() {
         {src: "js/lib/GlowFilter.js"},
         {src: "js/util.js"},
         {src: "js/audio_config.js"},
-        {src: "js/modules/box2d/box2dContext.js"},
-        {src: "js/modules/box2d/contactMediator.js"},
 
         {src: "js/game_assets/Star.js"},
         {src: "js/game_assets/Planet.js"},
@@ -73,7 +74,12 @@ $(document).ready(function() {
         {src: "js/game_assets/Menu.js"},
         {src: "js/game_assets/Button.js"},
         {src: "js/game_assets/Sensor.js"},
+        {src: "js/game_assets/ForceField.js"},
+
         {src: "js/Exception.js"},
+        {src: "js/modules/box2d/box2dContext.js"},
+        {src: "js/modules/box2d/contactMediator.js"},
+        {src: "js/modules/mouseEventHandler.js"},
         {src: "js/modules/stateController.js"},
         {src: "js/modules/menuModule.js"},
         {src: "js/setup_game.js"}
@@ -81,14 +87,14 @@ $(document).ready(function() {
 
     function handleProgress() {
         loadingBar.scaleX = preloader.progress * loadingBarWidth;
-        mainGame.stage.update();
+        stage.update();
     }
 
     //all resources loaded, begin the game introduction
     function handleComplete() {
-        mainGame.stage.enableMouseOver(2);
-        mainGame.stage.removeChild(loadProgressContainer);
-        mainGame.stage.addChild(mainGame.containers.root);
+        stage.enableMouseOver(2);
+        stage.removeChild(loadProgressContainer);
+        stage.addChild(mainGame.containers.root);
 
         createjs.Ticker.setFPS(FPS);
         createjs.Ticker.setRAF = true;
