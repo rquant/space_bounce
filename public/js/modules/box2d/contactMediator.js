@@ -2,13 +2,14 @@
   mainGame.box2dContext = mainGame.box2dContext || {};
 
   /*
-    Determines the context of the collision of two objects, based on the type of
-    objects colliding. Because this is tightly coupled to the type of objects
-    present in the game, this logic is placed into a submodule to keep the more
-    complex box2dContext parent module loosely coupled.
+    Determines the context of the collision of two objects. This context is defined by the type
+    of objects colliding, and is abstacted into a pub/sub topic that is
+    published to a subscriber in the game state controller.
 
-    The context is returned as a pub/sub topic which is subscribed to by the state
-    controller to handle the collision.
+    Because this implementation is tightly coupled to class types
+    present in the game (I'm not currently aware of a better way around this),
+    it is placed into a submodule to keep the more
+    complex box2dContext parent module loosely coupled from other classes.
   */
   mainGame.box2dContext.contactMediator = (function(){
 

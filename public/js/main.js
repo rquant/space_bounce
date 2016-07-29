@@ -106,14 +106,3 @@ $(document).ready(function() {
 
   })(spacebounce.mainGame || {});
 });
-
-//continuously deplete player's energy. updated on every frame
-function energyDepletionTick() {
-
-    energyGuage.tick(player.energySupply);
-    if (player.energySupply<=0) {
-        mouseHandler.switchToMenuMode(); //the player's energy has run out, prevent them from drawing new force fields by switching to menu mode
-        createjs.Ticker.removeEventListener("tick", energyDepletionTick);
-    }
-    player.energySupply--;
-}

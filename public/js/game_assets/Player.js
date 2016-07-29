@@ -84,6 +84,10 @@
     }
 
     p.tick = function() {
+      console.log('player energy: ' + this.energySupply);
+      if(this.energySupply >= 0)
+        this.energySupply--;
+      else amplify.publish('player-energy-depleted');
     }
 
     p.terminate = function() {
