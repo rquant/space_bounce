@@ -72,10 +72,16 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         starFieldAnimation();
         //generate energy orbs randomly
         orbDelayCounter++;
-        if ((orbDelayCounter % 160) == 0) {
-           var orb = new spacebounce.EnergyOrb(
+        if ((orbDelayCounter % 80) == 0) {
+           new spacebounce.EnergyOrb(
              mainGame.containers.orbs, mainGame.box2dContext
             );
+        }
+
+        if (Math.random()<0.002) {
+          new spacebounce.AntimatterOrb(
+            mainGame.containers.orbs, mainGame.box2dContext
+          );
         }
         mainGame.box2dContext.update();
         mainGame.stage.update(event);

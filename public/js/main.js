@@ -71,6 +71,7 @@ $(document).ready(function() {
         {src: "js/game_assets/Planet.js"},
         {src:"js/game_assets/Player.js"},
         {src: "js/game_assets/EnergyOrb.js"},
+        {src: "js/game_assets/AntimatterOrb.js"},
         {src: "js/game_assets/Menu.js"},
         {src: "js/game_assets/Button.js"},
         {src: "js/game_assets/Sensor.js"},
