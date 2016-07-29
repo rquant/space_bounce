@@ -29,10 +29,18 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     amplify.subscribe('player-contacts-forcefield', function(forceField) {
       createjs.Sound.play("Bounce");
       forceField.markedForRemoval = true;
-    })
+    });
 
     amplify.subscribe('player-consumes-energyorb', function(player, orb) {
       player.increaseEnergySupply();
+      console.log('Player energy supply: ' + player.energySupply);
+      orb.markedForRemoval = true;
+      orb.terminateWithTween = true;
+      createjs.Sound.play("Absorb");
+    });
+
+    amplify.subscribe('player-consumes-antimatterorb', function(player, orb) {
+      player.decreaseEnergySupply();
       console.log('Player energy supply: ' + player.energySupply);
       orb.markedForRemoval = true;
       orb.terminateWithTween = true;

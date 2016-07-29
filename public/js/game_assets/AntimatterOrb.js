@@ -57,7 +57,6 @@
                 this.x = Math.random() * STAGE_WIDTH / 2 + STAGE_WIDTH / 2;
         }
 
-
         this.color = "red";
         this.alpha = 0.6;
         this.graphics.beginFill(this.color).drawCircle(0, 0, this.radius).endFill();
@@ -86,7 +85,7 @@
     }
 
     p.getClassName = function() {
-      return EnergyOrb.name;
+      return AntimatterOrb.name;
     }
 
     spacebounce.AntimatterOrb = AntimatterOrb;

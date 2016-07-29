@@ -23,6 +23,9 @@
         if (objectBType == 'EnergyOrb') {
           amplify.publish('player-consumes-energyorb', objectA, objectB);
         }
+        else if (objectBType == 'AntimatterOrb') {
+          amplify.publish('player-consumes-antimatterorb', objectA, objectB);
+        }
         else if(objectB == 'ForceField') {
           amplify.publish('player-contacts-forcefield', objectB);
         }
@@ -31,6 +34,11 @@
       else if (objectAType == 'EnergyOrb') {
         if (objectBType == 'Player') {
           amplify.publish('player-consumes-energyorb', objectB, objectA);
+        }
+      }
+      else if (objectAType == 'AntimatterOrb') {
+        if (objectBType == 'Player') {
+          amplify.publish('player-consumes-antimatterorb', objectB, objectA);
         }
       }
 
