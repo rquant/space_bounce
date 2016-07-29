@@ -83,7 +83,10 @@
         createjs.Tween.get(this).to({scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn).call(function() {
             this.parentContainer.removeChild(this); //this function runs on completion of the tween
         });
+    }
 
+    p.getClassName = function() {
+      return EnergyOrb.name;
     }
 
     spacebounce.AntimatterOrb = AntimatterOrb;
