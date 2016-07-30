@@ -14,6 +14,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     amplify.subscribe('begin-game', function() {
       mainGame.menuController.clearMenu();
+      mainGame.containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       player = new spacebounce.Player(
         mainGame.containers.player, mainGame.box2dContext
@@ -51,6 +52,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     function endGame() {
       mainGame.box2dContext.enqueAllBodiesForRemoval();
+      mainGame.containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('gameover');

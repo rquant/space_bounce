@@ -54,6 +54,7 @@
 
   function setupInteractiveLayers() {
     mainGame.energyGuage = new spacebounce.EnergyGuage(containers.hud);
+    containers.hud.visible = false;
 
     containers.gameplay.addChild(
       containers.orbs, containers.forceFields, containers.player
