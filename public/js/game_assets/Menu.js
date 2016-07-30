@@ -22,7 +22,6 @@
 
     p.Container_initialize = p.initialize;
 
-
     p.initialize = function(name, title, buttons) {
 
         this.Container_initialize();

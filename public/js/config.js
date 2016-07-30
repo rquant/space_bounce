@@ -1,5 +1,7 @@
-// TODO: think about where this should go
 var spacebounce = spacebounce || {};
+// TODO: maybe for simplicity's sake this sub namespace should not exist. everyting
+// being used within root namespace is being used for this game, and the demo could just
+// have seperate code which would be better to illustrate it anyway
 spacebounce.mainGame = spacebounce.mainGame || {};
 
 var STAGE_WIDTH = 950;

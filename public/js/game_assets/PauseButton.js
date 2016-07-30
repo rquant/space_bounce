@@ -72,7 +72,7 @@
 
         //re-enables gameplay interactions when user is no longer hovering over pause button
          p.addEventListener("mouseout", function () {
-            spacebounce.mainGame.stage.fireMouseEvent = false;
+            spacebounce.mainGame.stage.fireMouseEvent = true;
         });
 
     spacebounce.PauseButton = PauseButton;
