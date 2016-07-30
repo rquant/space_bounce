@@ -53,9 +53,12 @@
   }
 
   function setupInteractiveLayers() {
+    mainGame.energyGuage = new spacebounce.EnergyGuage(containers.hud);
+
     containers.gameplay.addChild(
       containers.orbs, containers.forceFields, containers.player
     );
+
     containers.interactive.addChild(
       containers.gameplay, containers.hud, containers.menu
     );
