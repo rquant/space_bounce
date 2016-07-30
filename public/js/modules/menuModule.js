@@ -74,6 +74,24 @@
     return menu;
   }();
 
+  var pauseMenu = function() {
+    var resumeButton = new MenuButton("Resume");
+    resumeButton.addEventListener("click", function(event) {
+       mainGame.stateController.resumeGame();
+    });
+
+    var instructionsButton = new MenuButton("Instructions");
+    instructionsButton.addEventListener("click", function(event) {
+      mainGame.menuController.launchSubMenu('instructions');
+    });
+
+    var name = 'pause';
+    var title = "Game Paused";
+    var buttons = [resumeButton, instructionsButton];
+    var menu = new Menu(name, title, buttons);
+    return menu;
+  }();
+
   var getByName = function(name) {
     var menu;
     switch (name) {
@@ -85,6 +103,9 @@
         break;
       case 'gameover':
         menu = gameoverMenu;
+        break
+      case 'pause':
+        menu = pauseMenu;
         break
       default:
         var errMsg = 'There is no menu matching the name "' + name + '"'

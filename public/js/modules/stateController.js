@@ -8,7 +8,20 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     var player;
 
     function pauseGame() {
-      alert('game paused');
+      mainGame.containers.hud.visible = false;
+      createjs.Ticker.removeEventListener('tick', gameRunningTick);
+      createjs.Ticker.addEventListener('tick', backgroundTick);
+      mainGame.menuController.launchNewMenu('pause');
+      amplify.publish('game-inactive');
+    }
+
+    function resumeGame() {
+      mainGame.menuController.clearMenu();
+      mainGame.containers.hud.visible = true;
+      createjs.Ticker.removeEventListener('tick', backgroundTick);
+      createjs.Ticker.addEventListener('tick', gameRunningTick);
+      amplify.publish('game-active');
+
     }
 
     function endGame() {
@@ -29,9 +42,9 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       mainGame.menuController.clearMenu();
       mainGame.containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
-      // player = new spacebounce.Player(
-      //   mainGame.containers.player, mainGame.box2dContext
-      // );
+      player = new spacebounce.Player(
+        mainGame.containers.player, mainGame.box2dContext
+      );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
     });
@@ -114,6 +127,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     return {
       getPlayerInstance: getPlayerInstance,
       pauseGame: pauseGame,
+      resumeGame: resumeGame,
       endGame: endGame
     }
 
