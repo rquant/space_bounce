@@ -7,6 +7,19 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     var player;
 
+    function pauseGame() {
+      alert('game paused');
+    }
+
+    function endGame() {
+      mainGame.box2dContext.enqueAllBodiesForRemoval();
+      mainGame.containers.hud.visible = false;
+      createjs.Ticker.removeEventListener('tick', gameRunningTick);
+      createjs.Ticker.addEventListener('tick', backgroundTick);
+      mainGame.menuController.launchNewMenu('gameover');
+      amplify.publish('game-inactive');
+    }
+
     amplify.subscribe('preload-complete', function() {
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('welcome');
@@ -16,9 +29,9 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       mainGame.menuController.clearMenu();
       mainGame.containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
-      player = new spacebounce.Player(
-        mainGame.containers.player, mainGame.box2dContext
-      );
+      // player = new spacebounce.Player(
+      //   mainGame.containers.player, mainGame.box2dContext
+      // );
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
     });
@@ -49,15 +62,6 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       orb.terminateWithTween = true;
       createjs.Sound.play("Absorb");
     });
-
-    function endGame() {
-      mainGame.box2dContext.enqueAllBodiesForRemoval();
-      mainGame.containers.hud.visible = false;
-      createjs.Ticker.removeEventListener('tick', gameRunningTick);
-      createjs.Ticker.addEventListener('tick', backgroundTick);
-      mainGame.menuController.launchNewMenu('gameover');
-      amplify.publish('game-inactive');
-    }
 
     // only runs background animations unrelated to gameplay
     function backgroundTick() {
@@ -96,7 +100,8 @@ spacebounce.mainGame.stateController = (function (mainGame) {
           );
         }
 
-        mainGame.energyGuage.tick(player.energySupply);
+        if (player)
+          mainGame.energyGuage.tick(player.energySupply);
 
         mainGame.box2dContext.update();
         mainGame.stage.update(event);
@@ -108,6 +113,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     return {
       getPlayerInstance: getPlayerInstance,
+      pauseGame: pauseGame,
       endGame: endGame
     }
 

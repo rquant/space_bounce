@@ -74,9 +74,11 @@ $(document).ready(function() {
         {src: "js/game_assets/AntimatterOrb.js"},
         {src: "js/game_assets/Sensor.js"},
         {src: "js/game_assets/ForceField.js"},
+
         {src: "js/game_assets/Menu.js"},
         {src: "js/game_assets/Button.js"},
         {src: "js/game_assets/EnergyGuage.js"},
+        {src: "js/game_assets/PauseButton.js"},
 
         {src: "js/Exception.js"},
         {src: "js/modules/box2d/box2dContext.js"},
