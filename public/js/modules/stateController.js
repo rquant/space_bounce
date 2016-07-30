@@ -93,11 +93,19 @@ spacebounce.mainGame.stateController = (function (mainGame) {
             mainGame.containers.orbs, mainGame.box2dContext
           );
         }
+
+        mainGame.energyGuage.tick(player.energySupply);
+
         mainGame.box2dContext.update();
         mainGame.stage.update(event);
     }
 
+    function getPlayerInstance() {
+      return player;
+    }
+
     return {
+      getPlayerInstance: getPlayerInstance,
       endGame: endGame
     }
 
