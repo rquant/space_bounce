@@ -55,10 +55,11 @@
   function setupInteractiveLayers() {
     mainGame.energyGuage = new spacebounce.EnergyGuage(containers.hud);
     mainGame.pauseButton = new spacebounce.PauseButton();
+    mainGame.timerLabel = new spacebounce.TimerLabel();
     // TODO: after thinking about, maybe it's best not to pass parent container as param
     // to our objects. the createjs objects have an internal reference to parent already,
     // and the display order of objects is determined by there initialization order (bad)
-    containers.hud.addChild(mainGame.pauseButton);
+    containers.hud.addChild(mainGame.pauseButton, mainGame.timerLabel);
     containers.hud.visible = false;
 
     containers.gameplay.addChild(

@@ -79,6 +79,7 @@ $(document).ready(function() {
         {src: "js/game_assets/Button.js"},
         {src: "js/game_assets/EnergyGuage.js"},
         {src: "js/game_assets/PauseButton.js"},
+        {src: "js/game_assets/TimerLabel.js"},
 
         {src: "js/Exception.js"},
         {src: "js/modules/box2d/box2dContext.js"},

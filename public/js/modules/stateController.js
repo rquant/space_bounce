@@ -6,6 +6,9 @@
 spacebounce.mainGame.stateController = (function (mainGame) {
 
     var player;
+    // the number of ticks remaining in Ticker before game ends
+    var ticksRemaining;
+    var orbDelayCounter;
 
     function pauseGame() {
       mainGame.containers.hud.visible = false;
@@ -45,6 +48,8 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       player = new spacebounce.Player(
         mainGame.containers.player, mainGame.box2dContext
       );
+      ticksRemaining = FPS * TIME_REMAINING;
+      orbDelayCounter = 0;
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
     });
@@ -93,11 +98,12 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       }
     }
 
-    var orbDelayCounter = 0;
-    var timeToRescue = FPS * TIME_TO_RESCUE;
-    //runs the background animation and the game itself. this is updated on every frame
 
     function gameRunningTick(event) {
+      // The amount of ticks remaining until the game ends
+        if (ticksRemaining <= 0)
+          endGame();
+
         starFieldAnimation();
         //generate energy orbs randomly
         orbDelayCounter++;
@@ -113,8 +119,12 @@ spacebounce.mainGame.stateController = (function (mainGame) {
           );
         }
 
-        if (player)
+        if (player) {
+
           mainGame.energyGuage.tick(player.energySupply);
+          mainGame.timerLabel.tick(ticksRemaining);
+          ticksRemaining--;
+        }
 
         mainGame.box2dContext.update();
         mainGame.stage.update(event);
