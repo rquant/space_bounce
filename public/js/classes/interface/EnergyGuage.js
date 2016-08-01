@@ -3,8 +3,8 @@
  */
 (function (spacebounce) {
 
-    function EnergyGuage(parentContainer) {
-        this.initialize(parentContainer);
+    function EnergyGuage() {
+        this.initialize();
     }
 
     var p = EnergyGuage.prototype = new createjs.Container();
@@ -18,12 +18,11 @@
     //constructor
     p.Container_initialize = p.initialize;
 
-    p.initialize = function(parentContainer) {
+    p.initialize = function() {
 
         //call super
         this.Container_initialize();
         //set up loading screen
-        this.parentContainer = parentContainer;
         var energyGuageWidth = 80;
         var energyGuageHeight = 10;
 
@@ -43,11 +42,6 @@
         this.y = HUD_OFFSET;
         this.alpha = 0.3;
 
-        // TODO: I use dependency injenction to add parent container since objects, but I should
-        // add this check in other classes that use it, or rethink how this is
-        // implemented
-        if (this.parentContainer instanceof createjs.Container)
-          this.parentContainer.addChild(this);
     }
 
     //update the guage to match the energy supply
