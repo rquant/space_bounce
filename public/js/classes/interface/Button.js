@@ -1,7 +1,7 @@
 /*
  *A button used for a menu
  */
-(function (window) {
+(function (spacebounce) {
 
     function Button(text, width, height) {
         this.initialize(text, width, height);
@@ -50,6 +50,6 @@
     //    underlay.alpha = 1;
     //});
     //
-    window.Button = Button;
+    spacebounce.Button = Button;
 
-}(window));
+}(spacebounce));

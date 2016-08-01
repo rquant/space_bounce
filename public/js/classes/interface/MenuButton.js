@@ -8,7 +8,7 @@
         this.initialize(text);
     }
 
-      var p = MenuButton.prototype = new Button();
+      var p = MenuButton.prototype = new spacebounce.Button();
       p.Button_initialize = p.initialize;
 
       p.initialize = function(text) {
