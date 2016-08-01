@@ -8,12 +8,12 @@
 
   //create the welcome menu
   var welcomeMenu = function () {
-    var playButton = new MenuButton("Begin");
+    var playButton = new spacebounce.MenuButton("Begin");
     playButton.addEventListener("click", function(event) {
        amplify.publish('begin-game');
     });
 
-    var instructionsButton = new MenuButton("Instructions");
+    var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
       mainGame.menuController.launchSubMenu('instructions');
     });
@@ -40,7 +40,7 @@
     description.y = STAGE_HEIGHT/3;
     content.addChild(description);
 
-    var goBackButton = new MenuButton("Go Back");
+    var goBackButton = new spacebounce.MenuButton("Go Back");
     goBackButton.addEventListener("click", function(event) {
       mainGame.menuController.launchParentMenu();
     });
@@ -57,12 +57,12 @@
   }();
 
   var gameoverMenu = function() {
-    var restartButton = new MenuButton("Restart");
+    var restartButton = new spacebounce.MenuButton("Restart");
     restartButton.addEventListener("click", function(event) {
        amplify.publish('begin-game');
     });
 
-    var instructionsButton = new MenuButton("Instructions");
+    var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
       mainGame.menuController.launchSubMenu('instructions');
     });
@@ -75,12 +75,12 @@
   }();
 
   var pauseMenu = function() {
-    var resumeButton = new MenuButton("Resume");
+    var resumeButton = new spacebounce.MenuButton("Resume");
     resumeButton.addEventListener("click", function(event) {
        mainGame.stateController.resumeGame();
     });
 
-    var instructionsButton = new MenuButton("Instructions");
+    var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
       mainGame.menuController.launchSubMenu('instructions');
     });

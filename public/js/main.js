@@ -77,6 +77,7 @@ $(document).ready(function() {
 
         {src: "js/classes/interface/Menu.js"},
         {src: "js/classes/interface/Button.js"},
+        {src: "js/classes/interface/MenuButton.js"},
         {src: "js/classes/interface/EnergyGuage.js"},
         {src: "js/classes/interface/PauseButton.js"},
         {src: "js/classes/interface/TimerLabel.js"},
