@@ -4,7 +4,6 @@
 (function (spacebounce) {
 
     function MenuButton(text) {
-
         this.initialize(text);
     }
 
