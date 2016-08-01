@@ -13,6 +13,9 @@
 
       p.initialize = function(text) {
           this.Button_initialize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
+          this.frame.graphics.setStrokeStyle(2).beginStroke("#FFFFFF").drawRoundRect(
+            0, 0 , this.width, this.height, 2
+          ).endFill();
           this.underlay.alpha = 0.7;
 
           var textWrapper = new createjs.Text(text, "20px Avenir", "#FFFFFF");

@@ -9,6 +9,8 @@
 
         var p = Button.prototype = new createjs.Container();
 
+        p.x;
+        p.y;
         p.width;
         p.height;
         p.text;
@@ -23,12 +25,11 @@
           this.height = height;
 
           var underlay = new createjs.Shape(); //this is a transparent underlay so the button will detect click events any where in the container
-          underlay.graphics.beginFill("#000").drawRoundRect(0, 0 , width, height, 2).endFill();
-
-          var frame = new createjs.Shape();
-          frame.graphics.setStrokeStyle(2).beginStroke("#FFFFFF").drawRoundRect(
+          underlay.graphics.beginFill("#000").drawRoundRect(
             0, 0 , width, height, 2
           ).endFill();
+
+          var frame = new createjs.Shape();
           var label = new createjs.Container();
 
           this.underlay = underlay;

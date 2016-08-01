@@ -3,59 +3,44 @@
  */
 (function (spacebounce) {
 
-    function PauseButton(text) {
-        this.initialize(text);
+    function PauseButton() {
+        this.initialize();
     }
 
-        var p = PauseButton.prototype = new createjs.Container();
+        var p = PauseButton.prototype = new spacebounce.Button();
 
         p.parentContainer;
-        p.text;
-        p.buttonWidth = 18;
-        p.buttonHeight = 18;
         p.padding = BUTTON_PADDING;
-        p.Container_initialize = p.initialize;
+        p.Button_initialize = p.initialize;
 
-        p.initialize = function(text) {
+        p.initialize = function() {
 
-            this.Container_initialize();
+            this.Button_initialize(18, 18);
 
-            //this.parentContainer = gameContainer;
-            this.text = text;
-            var button = new createjs.Container();
-
-            var frame = new createjs.Shape();
-            frame.graphics.beginFill("#6699FF").drawRoundRect(
-              0, 0 , this.buttonWidth, this.buttonHeight, 2
+            this.frame.graphics.beginFill("#6699FF").drawRoundRect(
+              0, 0 , this.width, this.height, 2
             ).endFill();
+            this.alpha = 0.3;
+            this.x = STAGE_WIDTH - (HUD_OFFSET + this.width);
+            this.y = HUD_OFFSET;
 
             //these shapes together represent the pause icon
             var rectWidth = 3;
-            var rectHeight = this.buttonHeight*(1/2);
+            var rectHeight = this.height*(1/2);
             var rect1 = new createjs.Shape();
             rect1.graphics.beginFill("#FFF").drawRect(0,0, rectWidth, rectHeight);
             rect1.regX = rectWidth/2;
             rect1.regY = rectHeight/2;
-            rect1.x = this.buttonWidth/2 - 3;
-            rect1.y = this.buttonHeight/2;
+            rect1.x = this.width/2 - 3;
+            rect1.y = this.width/2;
 
-            var rect2 = new createjs.Shape();
-            rect2.graphics.beginFill("#FFF").drawRect(0,0, rectWidth, rectHeight);
-            rect2.regX = rectWidth/2;
-            rect2.regY = rectHeight/2;
-            rect2.x = this.buttonWidth/2 + 3;
-            rect2.y = this.buttonHeight/2;
+            var rect2 = $.extend({}, rect1);
+            rect2.x = this.width/2 + 3;
 
-
-            this.addChild(frame, rect1, rect2);
-            this.mouseChildren = false;
-            this.x = STAGE_WIDTH - (HUD_OFFSET + this.buttonWidth);
-            this.y = HUD_OFFSET;
-            this.alpha = 0.3;
+            this.label.addChild(rect1, rect2);
         }
 
         p.addEventListener("click", function() {
-            console.log("pause click..");
             spacebounce.mainGame.stateController.pauseGame();
         });
 
