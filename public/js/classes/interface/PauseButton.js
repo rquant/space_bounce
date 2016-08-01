@@ -16,8 +16,6 @@
         p.padding = BUTTON_PADDING;
         p.Container_initialize = p.initialize;
 
-        p.vX;
-        p.vY;
         p.initialize = function(text) {
 
             this.Container_initialize();
@@ -54,10 +52,6 @@
             this.x = STAGE_WIDTH - (HUD_OFFSET + this.buttonWidth);
             this.y = HUD_OFFSET;
             this.alpha = 0.3;
-
-
-            this.vX = 0;
-            this.vY = 0;
         }
 
         p.addEventListener("click", function() {
