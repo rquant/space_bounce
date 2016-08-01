@@ -10,7 +10,7 @@
   var welcomeMenu = function () {
     var playButton = new spacebounce.MenuButton("Begin");
     playButton.addEventListener("click", function(event) {
-       amplify.publish('begin-game');
+       mainGame.stateController.beginGame();
     });
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
@@ -59,7 +59,7 @@
   var gameoverMenu = function() {
     var restartButton = new spacebounce.MenuButton("Restart");
     restartButton.addEventListener("click", function(event) {
-       amplify.publish('begin-game');
+       mainGame.stateController.beginGame();
     });
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");

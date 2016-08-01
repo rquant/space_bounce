@@ -10,6 +10,19 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     var ticksRemaining;
     var orbDelayCounter;
 
+    function beginGame() {
+      mainGame.menuController.clearMenu();
+      mainGame.containers.hud.visible = true;
+      createjs.Ticker.removeEventListener('tick', backgroundTick);
+      player = new spacebounce.Player(
+        mainGame.containers.player, mainGame.box2dContext
+      );
+      ticksRemaining = FPS * TIME_REMAINING;
+      orbDelayCounter = 0;
+      createjs.Ticker.addEventListener('tick', gameRunningTick);
+      amplify.publish('game-active');
+    }
+
     function pauseGame() {
       mainGame.containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
@@ -39,19 +52,6 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     amplify.subscribe('preload-complete', function() {
       createjs.Ticker.addEventListener('tick', backgroundTick);
       mainGame.menuController.launchNewMenu('welcome');
-    });
-
-    amplify.subscribe('begin-game', function() {
-      mainGame.menuController.clearMenu();
-      mainGame.containers.hud.visible = true;
-      createjs.Ticker.removeEventListener('tick', backgroundTick);
-      player = new spacebounce.Player(
-        mainGame.containers.player, mainGame.box2dContext
-      );
-      ticksRemaining = FPS * TIME_REMAINING;
-      orbDelayCounter = 0;
-      createjs.Ticker.addEventListener('tick', gameRunningTick);
-      amplify.publish('game-active');
     });
 
     amplify.subscribe('player-exits-boundary', function() {
@@ -136,6 +136,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     return {
       getPlayerInstance: getPlayerInstance,
+      beginGame, beginGame,
       pauseGame: pauseGame,
       resumeGame: resumeGame,
       endGame: endGame
