@@ -50,4 +50,4 @@ spacebounce.classes = spacebounce.classes || {};
 
     classes.Planet = Planet;
 
-}(spacebounce.classes || {}));
+}(spacebounce.classes));

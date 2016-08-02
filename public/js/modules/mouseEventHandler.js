@@ -5,7 +5,7 @@ spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
 
         var stage = mainGame.stage;
         var canvas = mainGame.canvas;
-        var box2dContext = mainGame.box2dContext;
+        var b2Context = spacebounce.box2dContext;
 
         stage.fireMouseEvent = true; //indicates if the stage's mouse events should be fired. Disabled when user's mouse is over buttons
 
@@ -70,7 +70,7 @@ spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
               angle: angle
             }
             return new spacebounce.ForceField(
-              mainGame.containers.forceFields, properties, box2dContext, tracingMode
+              mainGame.containers.forceFields, properties, b2Context, tracingMode
             );
         }
 

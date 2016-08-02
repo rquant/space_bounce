@@ -9,13 +9,14 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     // the number of ticks remaining in Ticker before game ends
     var ticksRemaining;
     var orbDelayCounter;
+    var b2Context = spacebounce.box2dContext;
 
     function beginGame() {
       mainGame.menuController.clearMenu();
       mainGame.containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       player = new spacebounce.Player(
-        mainGame.containers.player, mainGame.box2dContext
+        mainGame.containers.player, b2Context
       );
       ticksRemaining = FPS * TIME_REMAINING;
       orbDelayCounter = 0;
@@ -41,7 +42,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     }
 
     function endGame() {
-      mainGame.box2dContext.enqueAllBodiesForRemoval();
+      b2Context.enqueAllBodiesForRemoval();
       mainGame.containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
@@ -109,13 +110,13 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         orbDelayCounter++;
         if ((orbDelayCounter % 80) == 0) {
            new spacebounce.EnergyOrb(
-             mainGame.containers.orbs, mainGame.box2dContext
+             mainGame.containers.orbs, b2Context
             );
         }
 
         if (Math.random()<0.002) {
           new spacebounce.AntimatterOrb(
-            mainGame.containers.orbs, mainGame.box2dContext
+            mainGame.containers.orbs, b2Context
           );
         }
 
@@ -126,7 +127,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
           ticksRemaining--;
         }
 
-        mainGame.box2dContext.update();
+        b2Context.update();
         mainGame.stage.update(event);
     }
 

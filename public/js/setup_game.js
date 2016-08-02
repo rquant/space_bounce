@@ -1,7 +1,10 @@
 /*
  *Sets up the elements to be used in the game
  */
-(function(mainGame) {
+(function(spacebounce) {
+  var mainGame = spacebounce.mainGame;
+  var classes = spacebounce.classes;
+  var b2Context = spacebounce.box2dContext;
   spacebounce.audio.init();
 
   mainGame.player;
@@ -25,7 +28,7 @@
 
   setupBackgroundLayers();
   setupInteractiveLayers();
-  mainGame.box2dContext.setup();
+  b2Context.setup();
 
   mainGame.containers = containers;
 
@@ -74,4 +77,4 @@
     mainGame.energyGuage = energyGuage;
     mainGame.timerLabel = timerLabel;
   }
-})(spacebounce.mainGame);
+})(spacebounce);

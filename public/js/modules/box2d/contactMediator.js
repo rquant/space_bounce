@@ -1,5 +1,5 @@
-(function(mainGame) {
-  mainGame.box2dContext = mainGame.box2dContext || {};
+(function(spacebounce) {
+  spacebounce.box2dContext = spacebounce.box2dContext || {};
 
   /*
     Determines the context of the collision of two objects. This context is defined by the type
@@ -11,9 +11,9 @@
     it is placed into a submodule to keep the more
     complex box2dContext parent module loosely coupled from other classes.
   */
-  mainGame.box2dContext.contactMediator = (function(){
+  spacebounce.box2dContext.contactMediator = (function(){
 
-    var stateController = mainGame.stateController;
+    var stateController = spacebounce.mainGame.stateController;
 
     amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
       var objectAType = objectA.getClassName();
@@ -68,4 +68,4 @@
     });
   }());
 
-})(spacebounce.mainGame);
+})(spacebounce);
