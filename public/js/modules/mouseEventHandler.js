@@ -2,9 +2,9 @@
  * The mouse handler is responsible for handling all mouse interactions within the game stage.
  */
 spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
-
-        var stage = mainGame.stage;
-        var canvas = mainGame.canvas;
+        var game = spacebounce.game || {};
+        var stage = game.stage;
+        var canvas = game.canvas;
         var b2Context = spacebounce.box2dContext;
 
         stage.fireMouseEvent = true; //indicates if the stage's mouse events should be fired. Disabled when user's mouse is over buttons

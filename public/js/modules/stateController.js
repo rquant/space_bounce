@@ -4,12 +4,13 @@
     this will subscribe to it to handle it.
  */
 spacebounce.mainGame.stateController = (function (mainGame) {
+    var game = spacebounce.game;
+    var b2Context = spacebounce.box2dContext;
 
     var player;
     // the number of ticks remaining in Ticker before game ends
     var ticksRemaining;
     var orbDelayCounter;
-    var b2Context = spacebounce.box2dContext;
 
     function beginGame() {
       mainGame.menuController.clearMenu();
@@ -85,7 +86,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     // only runs background animations unrelated to gameplay
     function backgroundTick() {
         starFieldAnimation();
-        mainGame.stage.update();
+        game.stage.update();
     }
 
     function starFieldAnimation() {
@@ -128,7 +129,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         }
 
         b2Context.update();
-        mainGame.stage.update(event);
+        game.stage.update(event);
     }
 
     function getPlayerInstance() {

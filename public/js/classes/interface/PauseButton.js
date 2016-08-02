@@ -3,8 +3,8 @@
  */
 (function (spacebounce) {
 
-    function PauseButton() {
-        this.initialize();
+    function PauseButton(stage) {
+        this.initialize(stage);
     }
 
         var p = PauseButton.prototype = new spacebounce.Button();
@@ -13,7 +13,7 @@
         p.padding = BUTTON_PADDING;
         p.Button_initialize = p.initialize;
 
-        p.initialize = function() {
+        p.initialize = function(stage) {
 
             this.Button_initialize(18, 18);
 
@@ -46,12 +46,12 @@
 
         //ensures gameplay interactions (force field creation) is disabled when user clicks on pause button
         p.addEventListener("mouseover", function () {
-            spacebounce.mainGame.stage.fireMouseEvent = false;
+            stage.fireMouseEvent = false;
         });
 
         //re-enables gameplay interactions when user is no longer hovering over pause button
          p.addEventListener("mouseout", function () {
-            spacebounce.mainGame.stage.fireMouseEvent = true;
+            stage.fireMouseEvent = true;
         });
 
     spacebounce.PauseButton = PauseButton;

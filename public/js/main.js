@@ -4,7 +4,9 @@
 
 
 $(document).ready(function() {
-  (function (mainGame) {
+  (function (spacebounce) {
+    var mainGame = spacebounce.mainGame;
+    var game = spacebounce.game;
 
     //setup the main canvas used for the game
     var canvas = $("#main-canvas")[0];
@@ -53,8 +55,8 @@ $(document).ready(function() {
     stage.addChild(loadProgressContainer);
     stage.update();
 
-    mainGame.canvas = canvas;
-    mainGame.stage = stage;
+    game.canvas = canvas;
+    game.stage = stage;
 
     //the preloader is responsible for loading resources and its progress can be used to update the loading bar
 
@@ -109,5 +111,5 @@ $(document).ready(function() {
         amplify.publish('preload-complete');
     }
 
-  })(spacebounce.mainGame || {});
+  })(spacebounce);
 });

@@ -3,6 +3,7 @@ var spacebounce = spacebounce || {};
 // being used within root namespace is being used for this game, and the demo could just
 // have seperate code which would be better to illustrate it anyway
 spacebounce.mainGame = spacebounce.mainGame || {};
+spacebounce.game = spacebounce.game || {};
 
 var STAGE_WIDTH = 950;
 var STAGE_HEIGHT = 650;

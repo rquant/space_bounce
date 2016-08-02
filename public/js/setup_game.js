@@ -3,6 +3,7 @@
  */
 (function(spacebounce) {
   var mainGame = spacebounce.mainGame;
+  var game = spacebounce.game;
   var classes = spacebounce.classes;
   var b2Context = spacebounce.box2dContext;
   spacebounce.audio.init();
@@ -13,6 +14,7 @@
 
   // the containers define 2D layers of the game that can contain other objects
   // within that layer
+  //TODO: i think this should be placed into its own module, including their bindings
   var containers = {
     root: new createjs.Container(),
     background: new createjs.Container(),
@@ -57,7 +59,7 @@
 
   function setupInteractiveLayers() {
     var energyGuage = new spacebounce.EnergyGuage();
-    var pauseButton = new spacebounce.PauseButton();
+    var pauseButton = new spacebounce.PauseButton(game.stage);
     var timerLabel = new spacebounce.TimerLabel();
     // TODO: after thinking about, maybe it's best not to pass parent container as param
     // to our objects. the createjs objects have an internal reference to parent already,
