@@ -4,9 +4,10 @@
     module directly, rather than directly comunicating with other modules to
     avoid tight coupling.
  */
-spacebounce.game.state = (function (game) {
-    var mainGame = spacebounce.mainGame;
+spacebounce.game = spacebounce.game || {};
 
+spacebounce.game.state = (function (game, state) {
+    var mainGame = spacebounce.mainGame;
     var b2Context = spacebounce.box2dContext;
     var containers = game.containers;
     var player;
@@ -14,13 +15,13 @@ spacebounce.game.state = (function (game) {
     var ticksRemaining;
     var orbDelayCounter;
 
-    /*
-      TODO: It may be feasible to greatly decouple this module by placing subscriptions
-      in the other modules its referencing. i.e. container visibility could be changed
-      in it's own module.
-    */
-    function beginGame() {
-      game.menuController.clearMenu();
+    state.welcomeUser = function() {
+      createjs.Ticker.addEventListener('tick', backgroundTick);
+      state.menu.launchNewMenu('welcome');
+    }
+
+    state.beginGame = function() {
+      state.menu.clearMenu();
       containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       player = new spacebounce.Player(
@@ -32,63 +33,30 @@ spacebounce.game.state = (function (game) {
       amplify.publish('game-active');
     }
 
-    function pauseGame() {
+    state.pauseGame = function() {
       containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      game.menuController.launchNewMenu('pause');
+      state.menu.launchNewMenu('pause');
       amplify.publish('game-inactive');
     }
 
-    function resumeGame() {
-      game.menuController.clearMenu();
+    state.resumeGame = function() {
+      state.menu.clearMenu();
       containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
-
     }
 
-    function endGame() {
+    state.endGame = function() {
       b2Context.enqueAllBodiesForRemoval();
       containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      game.menuController.launchNewMenu('gameover');
+      state.menu.launchNewMenu('gameover');
       amplify.publish('game-inactive');
     }
-
-    amplify.subscribe('preload-complete', function() {
-      createjs.Ticker.addEventListener('tick', backgroundTick);
-      game.menuController.launchNewMenu('welcome');
-    });
-
-    amplify.subscribe('player-exits-boundary', function() {
-      endGame();
-    });
-
-    amplify.subscribe('player-energy-depleted', function() {
-      endGame();
-    });
-
-    amplify.subscribe('player-contacts-forcefield', function(forceField) {
-      createjs.Sound.play("Bounce");
-      forceField.markedForRemoval = true;
-    });
-
-    amplify.subscribe('player-consumes-energyorb', function(player, orb) {
-      player.increaseEnergySupply();
-      orb.markedForRemoval = true;
-      orb.terminateWithTween = true;
-      createjs.Sound.play("Absorb");
-    });
-
-    amplify.subscribe('player-consumes-antimatterorb', function(player, orb) {
-      player.decreaseEnergySupply();
-      orb.markedForRemoval = true;
-      orb.terminateWithTween = true;
-      createjs.Sound.play("Absorb");
-    });
 
     // only runs background animations unrelated to gameplay
     function backgroundTick() {
@@ -142,12 +110,49 @@ spacebounce.game.state = (function (game) {
       return player;
     }
 
-    return {
-      getPlayerInstance: getPlayerInstance,
-      beginGame, beginGame,
-      pauseGame: pauseGame,
-      resumeGame: resumeGame,
-      endGame: endGame
-    }
+    /*
+      The subscriptions submodule acts as a mediator, and passively controls
+      state based on observations of events happening in the app that
+      other modules publish. This decreases coupling.
+    */
+    state.subscriptions = (function() {
+      amplify.subscribe('player-exits-boundary', function() {
+        state.endGame();
+      });
 
-})(spacebounce.game || {});
+      amplify.subscribe('player-energy-depleted', function() {
+        state.endGame();
+      });
+
+      amplify.subscribe('player-contacts-forcefield', function(forceField) {
+        createjs.Sound.play("Bounce");
+        forceField.markedForRemoval = true;
+      });
+
+      amplify.subscribe('player-consumes-energyorb', function(player, orb) {
+        player.increaseEnergySupply();
+        orb.markedForRemoval = true;
+        orb.terminateWithTween = true;
+        createjs.Sound.play("Absorb");
+      });
+
+      amplify.subscribe('player-consumes-antimatterorb', function(player, orb) {
+        player.decreaseEnergySupply();
+        orb.markedForRemoval = true;
+        orb.terminateWithTween = true;
+        createjs.Sound.play("Absorb");
+      });
+    })();
+
+    return state;
+
+    // return {
+    //   getPlayerInstance: getPlayerInstance,
+    //   welcomeUser: welcomeUser,
+    //   beginGame, beginGame,
+    //   pauseGame: pauseGame,
+    //   resumeGame: resumeGame,
+    //   endGame: endGame
+    // }
+
+})(spacebounce.game || {}, spacebounce.game.state || {});

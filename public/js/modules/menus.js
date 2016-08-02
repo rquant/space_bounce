@@ -4,7 +4,7 @@
   module rather than allowing direct assess in order to decrease coupling.
 */
 
-(function(game) {
+spacebounce.game.menus = (function(game) {
 
   //create the welcome menu
   var welcomeMenu = function () {
@@ -15,7 +15,7 @@
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      game.menuController.launchSubMenu('instructions');
+      game.state.menu.launchSubMenu('instructions');
     });
 
     var name = 'welcome';
@@ -42,7 +42,7 @@
 
     var goBackButton = new spacebounce.MenuButton("Go Back");
     goBackButton.addEventListener("click", function(event) {
-      game.menuController.launchParentMenu();
+      game.state.menu.launchParentMenu();
     });
 
     var name = 'instructions'
@@ -64,7 +64,7 @@
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      game.menuController.launchSubMenu('instructions');
+      game.state.menu.launchSubMenu('instructions');
     });
 
     var name = 'gameover';
@@ -82,7 +82,7 @@
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      game.menuController.launchSubMenu('instructions');
+      game.menu.controller.launchSubMenu('instructions');
     });
 
     var name = 'pause';
@@ -92,67 +92,28 @@
     return menu;
   }();
 
-  var getByName = function(name) {
-    var menu;
-    switch (name) {
-      case 'welcome':
-        menu = welcomeMenu;
-        break;
-      case 'instructions':
-        menu = instructionsMenu;
-        break;
-      case 'gameover':
-        menu = gameoverMenu;
-        break
-      case 'pause':
-        menu = pauseMenu;
-        break
-      default:
-        var errMsg = 'There is no menu matching the name "' + name + '"'
-        throw new game.Exception(errMsg);
+  return {
+    getByName: function(name) {
+      var menu;
+      switch (name) {
+        case 'welcome':
+          menu = welcomeMenu;
+          break;
+        case 'instructions':
+          menu = instructionsMenu;
+          break;
+        case 'gameover':
+          menu = gameoverMenu;
+          break
+        case 'pause':
+          menu = pauseMenu;
+          break
+        default:
+          var errMsg = 'There is no menu matching the name "' + name + '"'
+          throw new game.Exception(errMsg);
+      }
+      return menu;
     }
-    return menu;
   }
 
-  // Maybe this logic should be placed in a class defining the menu container
-  // (which would inherit the createjs.Container class)
-  var menuController = (function() {
-    var currentMenu;
-
-    function launchNewMenu(menuName) {
-      var menu = getByName(menuName);
-      game.containers.menu.removeAllChildren();
-      currentMenu = menu;
-      game.containers.menu.addChild(currentMenu);
-    }
-
-    function launchSubMenu(menuName) {
-      var menu = getByName(menuName);
-      menu.parentMenu = currentMenu;
-      game.containers.menu.removeChild(currentMenu);
-      currentMenu = menu;
-      game.containers.menu.addChild(currentMenu);
-    }
-
-    function launchParentMenu() {
-      var menu = currentMenu.parentMenu;
-      game.containers.menu.removeChild(currentMenu);
-      currentMenu = menu;
-      game.containers.menu.addChild(currentMenu);
-    }
-
-    function clearMenu() {
-      game.containers.menu.removeAllChildren();
-      currentMenu = null;
-    }
-
-    return {
-      launchNewMenu: launchNewMenu,
-      launchSubMenu: launchSubMenu,
-      launchParentMenu: launchParentMenu,
-      clearMenu: clearMenu
-    }
-  })();
-
-  game.menuController = menuController;
 })(spacebounce.game);

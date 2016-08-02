@@ -42,7 +42,7 @@
         }
 
         p.addEventListener("click", function() {
-            spacebounce.mainGame.stateController.pauseGame();
+            spacebounce.game.state.pauseGame();
         });
 
         //ensures gameplay interactions (force field creation) is disabled when user clicks on pause button

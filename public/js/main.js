@@ -89,8 +89,9 @@ $(document).ready(function() {
         {src: "js/modules/box2d/box2dContext.js"},
         {src: "js/modules/box2d/contactMediator.js"},
         {src: "js/modules/mouseEventHandler.js"},
-        {src: "js/modules/state.js"},
-        {src: "js/modules/menuModule.js"},
+        {src: "js/modules/state/state.js"},
+        {src: "js/modules/state/menu.js"},
+        {src: "js/modules/menus.js"},
         {src: "js/setup_game.js"}
     ]);
 
@@ -108,8 +109,7 @@ $(document).ready(function() {
         createjs.Ticker.setFPS(FPS);
         createjs.Ticker.setRAF = true;
 
-        createjs.Sound.play("soundtrack", {loop: -1});
-        amplify.publish('preload-complete');
+        game.state.welcomeUser();
     }
 
   })(spacebounce);
