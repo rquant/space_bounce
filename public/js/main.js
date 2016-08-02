@@ -89,7 +89,7 @@ $(document).ready(function() {
         {src: "js/modules/box2d/box2dContext.js"},
         {src: "js/modules/box2d/contactMediator.js"},
         {src: "js/modules/mouseEventHandler.js"},
-        {src: "js/modules/stateController.js"},
+        {src: "js/modules/state.js"},
         {src: "js/modules/menuModule.js"},
         {src: "js/setup_game.js"}
     ]);
@@ -103,7 +103,7 @@ $(document).ready(function() {
     function handleComplete() {
         stage.enableMouseOver(2);
         stage.removeChild(loadProgressContainer);
-        stage.addChild(mainGame.containers.root);
+        stage.addChild(game.containers.root);
 
         createjs.Ticker.setFPS(FPS);
         createjs.Ticker.setRAF = true;

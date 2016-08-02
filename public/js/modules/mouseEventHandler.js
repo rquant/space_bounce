@@ -1,8 +1,7 @@
 /*
  * The mouse handler is responsible for handling all mouse interactions within the game stage.
  */
-spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
-        var game = spacebounce.game || {};
+spacebounce.game.mouseEventHandler = (function (game) {
         var stage = game.stage;
         var canvas = game.canvas;
         var b2Context = spacebounce.box2dContext;
@@ -70,7 +69,7 @@ spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
               angle: angle
             }
             return new spacebounce.ForceField(
-              mainGame.containers.forceFields, properties, b2Context, tracingMode
+              game.containers.forceFields, properties, b2Context, tracingMode
             );
         }
 
@@ -102,4 +101,4 @@ spacebounce.mainGame.mouseEventHandler = (function (mainGame) {
       canvas.removeEventListener("mouseup", handleMouseUp);
     });
 
-}(spacebounce.mainGame));
+})(spacebounce.game || {});

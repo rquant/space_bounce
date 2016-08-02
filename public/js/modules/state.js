@@ -1,23 +1,30 @@
 /*
- *  Controls the state and logic of the game. This can be thought of as the
-    mediator in which other components of the game will publish an event and
-    this will subscribe to it to handle it.
+ *  This module is essentailly the core of the application, and controls the
+    state and logic of the game. Other modules/classes communicate with this
+    module directly, rather than directly comunicating with other modules to
+    avoid tight coupling.
  */
-spacebounce.mainGame.stateController = (function (mainGame) {
-    var game = spacebounce.game;
-    var b2Context = spacebounce.box2dContext;
+spacebounce.game.state = (function (game) {
+    var mainGame = spacebounce.mainGame;
 
+    var b2Context = spacebounce.box2dContext;
+    var containers = game.containers;
     var player;
     // the number of ticks remaining in Ticker before game ends
     var ticksRemaining;
     var orbDelayCounter;
 
+    /*
+      TODO: It may be feasible to greatly decouple this module by placing subscriptions
+      in the other modules its referencing. i.e. container visibility could be changed
+      in it's own module.
+    */
     function beginGame() {
-      mainGame.menuController.clearMenu();
-      mainGame.containers.hud.visible = true;
+      game.menuController.clearMenu();
+      containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       player = new spacebounce.Player(
-        mainGame.containers.player, b2Context
+        containers.player, b2Context
       );
       ticksRemaining = FPS * TIME_REMAINING;
       orbDelayCounter = 0;
@@ -26,16 +33,16 @@ spacebounce.mainGame.stateController = (function (mainGame) {
     }
 
     function pauseGame() {
-      mainGame.containers.hud.visible = false;
+      containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      mainGame.menuController.launchNewMenu('pause');
+      game.menuController.launchNewMenu('pause');
       amplify.publish('game-inactive');
     }
 
     function resumeGame() {
-      mainGame.menuController.clearMenu();
-      mainGame.containers.hud.visible = true;
+      game.menuController.clearMenu();
+      containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
@@ -44,16 +51,16 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     function endGame() {
       b2Context.enqueAllBodiesForRemoval();
-      mainGame.containers.hud.visible = false;
+      containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      mainGame.menuController.launchNewMenu('gameover');
+      game.menuController.launchNewMenu('gameover');
       amplify.publish('game-inactive');
     }
 
     amplify.subscribe('preload-complete', function() {
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      mainGame.menuController.launchNewMenu('welcome');
+      game.menuController.launchNewMenu('welcome');
     });
 
     amplify.subscribe('player-exits-boundary', function() {
@@ -91,7 +98,7 @@ spacebounce.mainGame.stateController = (function (mainGame) {
 
     function starFieldAnimation() {
       for(var i=0; i < STAR_COUNT; i++) {
-        var s = mainGame.containers.stars.children[i];
+        var s = containers.stars.children[i];
         if (s.y>=STAGE_HEIGHT) {
             s.x = Math.floor(Math.random()*STAGE_WIDTH);
             s.y = 0;
@@ -99,7 +106,6 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         s.tick();
       }
     }
-
 
     function gameRunningTick(event) {
       // The amount of ticks remaining until the game ends
@@ -111,13 +117,13 @@ spacebounce.mainGame.stateController = (function (mainGame) {
         orbDelayCounter++;
         if ((orbDelayCounter % 80) == 0) {
            new spacebounce.EnergyOrb(
-             mainGame.containers.orbs, b2Context
+             containers.orbs, b2Context
             );
         }
 
         if (Math.random()<0.002) {
           new spacebounce.AntimatterOrb(
-            mainGame.containers.orbs, b2Context
+            containers.orbs, b2Context
           );
         }
 
@@ -144,4 +150,4 @@ spacebounce.mainGame.stateController = (function (mainGame) {
       endGame: endGame
     }
 
-})(spacebounce.mainGame);
+})(spacebounce.game || {});

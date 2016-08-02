@@ -4,18 +4,18 @@
   module rather than allowing direct assess in order to decrease coupling.
 */
 
-(function(mainGame) {
+(function(game) {
 
   //create the welcome menu
   var welcomeMenu = function () {
     var playButton = new spacebounce.MenuButton("Begin");
     playButton.addEventListener("click", function(event) {
-       mainGame.stateController.beginGame();
+       game.state.beginGame();
     });
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      mainGame.menuController.launchSubMenu('instructions');
+      game.menuController.launchSubMenu('instructions');
     });
 
     var name = 'welcome';
@@ -42,7 +42,7 @@
 
     var goBackButton = new spacebounce.MenuButton("Go Back");
     goBackButton.addEventListener("click", function(event) {
-      mainGame.menuController.launchParentMenu();
+      game.menuController.launchParentMenu();
     });
 
     var name = 'instructions'
@@ -59,12 +59,12 @@
   var gameoverMenu = function() {
     var restartButton = new spacebounce.MenuButton("Restart");
     restartButton.addEventListener("click", function(event) {
-       mainGame.stateController.beginGame();
+       game.state.beginGame();
     });
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      mainGame.menuController.launchSubMenu('instructions');
+      game.menuController.launchSubMenu('instructions');
     });
 
     var name = 'gameover';
@@ -77,12 +77,12 @@
   var pauseMenu = function() {
     var resumeButton = new spacebounce.MenuButton("Resume");
     resumeButton.addEventListener("click", function(event) {
-       mainGame.stateController.resumeGame();
+       game.state.resumeGame();
     });
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      mainGame.menuController.launchSubMenu('instructions');
+      game.menuController.launchSubMenu('instructions');
     });
 
     var name = 'pause';
@@ -109,7 +109,7 @@
         break
       default:
         var errMsg = 'There is no menu matching the name "' + name + '"'
-        throw new mainGame.Exception(errMsg);
+        throw new game.Exception(errMsg);
     }
     return menu;
   }
@@ -121,28 +121,28 @@
 
     function launchNewMenu(menuName) {
       var menu = getByName(menuName);
-      mainGame.containers.menu.removeAllChildren();
+      game.containers.menu.removeAllChildren();
       currentMenu = menu;
-      mainGame.containers.menu.addChild(currentMenu);
+      game.containers.menu.addChild(currentMenu);
     }
 
     function launchSubMenu(menuName) {
       var menu = getByName(menuName);
       menu.parentMenu = currentMenu;
-      mainGame.containers.menu.removeChild(currentMenu);
+      game.containers.menu.removeChild(currentMenu);
       currentMenu = menu;
-      mainGame.containers.menu.addChild(currentMenu);
+      game.containers.menu.addChild(currentMenu);
     }
 
     function launchParentMenu() {
       var menu = currentMenu.parentMenu;
-      mainGame.containers.menu.removeChild(currentMenu);
+      game.containers.menu.removeChild(currentMenu);
       currentMenu = menu;
-      mainGame.containers.menu.addChild(currentMenu);
+      game.containers.menu.addChild(currentMenu);
     }
 
     function clearMenu() {
-      mainGame.containers.menu.removeAllChildren();
+      game.containers.menu.removeAllChildren();
       currentMenu = null;
     }
 
@@ -154,5 +154,5 @@
     }
   })();
 
-  mainGame.menuController = menuController;
-})(spacebounce.mainGame);
+  game.menuController = menuController;
+})(spacebounce.game);
