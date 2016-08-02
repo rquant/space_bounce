@@ -38,7 +38,7 @@
     );
     background.x = 0;
     background.y = 0;
-    var planet = new spacebounce.Planet();
+    var planet = new spacebounce.classes.Planet();
 
     // setup star field used in background aniamation
     for(var i=0;i<STAR_COUNT;i++) {
