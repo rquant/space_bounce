@@ -9,7 +9,7 @@
 
         var p = PauseButton.prototype = new spacebounce.Button();
 
-        p.parentContainer;
+        p.stage;
         p.padding = BUTTON_PADDING;
         p.Button_initialize = p.initialize;
 
@@ -23,6 +23,7 @@
             this.alpha = 0.3;
             this.x = STAGE_WIDTH - (HUD_OFFSET + this.width);
             this.y = HUD_OFFSET;
+            this.stage = stage;
 
             //these shapes together represent the pause icon
             var rectWidth = 3;
@@ -45,13 +46,13 @@
         });
 
         //ensures gameplay interactions (force field creation) is disabled when user clicks on pause button
-        p.addEventListener("mouseover", function () {
-            stage.fireMouseEvent = false;
+        p.addEventListener("mouseover", function (event) {
+            event.target.stage.fireMouseEvent = false;
         });
 
         //re-enables gameplay interactions when user is no longer hovering over pause button
-         p.addEventListener("mouseout", function () {
-            stage.fireMouseEvent = true;
+         p.addEventListener("mouseout", function (event) {
+            event.target.stage.fireMouseEvent = true;
         });
 
     spacebounce.PauseButton = PauseButton;

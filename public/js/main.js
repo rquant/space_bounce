@@ -85,6 +85,7 @@ $(document).ready(function() {
         {src: "js/classes/interface/TimerLabel.js"},
 
         {src: "js/Exception.js"},
+        {src: "js/modules/containers.js"},
         {src: "js/modules/box2d/box2dContext.js"},
         {src: "js/modules/box2d/contactMediator.js"},
         {src: "js/modules/mouseEventHandler.js"},

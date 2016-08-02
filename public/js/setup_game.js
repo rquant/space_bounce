@@ -5,6 +5,7 @@
   var mainGame = spacebounce.mainGame;
   var game = spacebounce.game;
   var classes = spacebounce.classes;
+  var containers = game.containers;
   var b2Context = spacebounce.box2dContext;
   spacebounce.audio.init();
 
@@ -15,24 +16,10 @@
   // the containers define 2D layers of the game that can contain other objects
   // within that layer
   //TODO: i think this should be placed into its own module, including their bindings
-  var containers = {
-    root: new createjs.Container(),
-    background: new createjs.Container(),
-    stars: new createjs.Container(),
-    interactive: new createjs.Container(),
-    menu: new createjs.Container(),
-    hud: new createjs.Container(),
-    gameplay: new createjs.Container(),
-    orbs: new createjs.Container(),
-    forceFields: new createjs.Container(),
-    player: new createjs.Container()
-  }
 
   setupBackgroundLayers();
   setupInteractiveLayers();
   b2Context.setup();
-
-  mainGame.containers = containers;
 
   // set up the background layers of the game. contains non-interactive
   // elements not used for actual gameplay.
