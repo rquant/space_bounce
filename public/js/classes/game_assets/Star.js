@@ -16,6 +16,7 @@
 
     //constructor
     p.Shape_initialize = p.initialize;
+    var utils = spacebounce.utils;
 
     p.initialize = function() {
 
@@ -28,7 +29,7 @@
         this.y = Math.floor(Math.random()*STAGE_HEIGHT);
 
         //get arbitrary radius within the specified interval
-        var radius = getRandomArbitrary(MIN_STAR_RADIUS, MAX_STAR_RADIUS);
+        var radius = utils.getRandomArbitrary(MIN_STAR_RADIUS, MAX_STAR_RADIUS);
         this.radius = radius;
 
         /*get the velocity that is proportionate to the radius and is within velocity range.
