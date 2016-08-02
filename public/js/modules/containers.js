@@ -13,5 +13,4 @@
     player: new createjs.Container()
   }
 
-  spacebounce.mainGame.containers = game.containers;
 })(spacebounce.game || {});

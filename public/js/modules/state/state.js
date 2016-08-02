@@ -15,12 +15,12 @@ spacebounce.game.state = (function (game, state) {
     var ticksRemaining;
     var orbDelayCounter;
 
-    state.welcomeUser = function() {
+    function welcomeUser () {
       createjs.Ticker.addEventListener('tick', backgroundTick);
       state.menu.launchNewMenu('welcome');
     }
 
-    state.beginGame = function() {
+    function beginGame () {
       state.menu.clearMenu();
       containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
@@ -33,7 +33,7 @@ spacebounce.game.state = (function (game, state) {
       amplify.publish('game-active');
     }
 
-    state.pauseGame = function() {
+    function pauseGame () {
       containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
@@ -41,7 +41,7 @@ spacebounce.game.state = (function (game, state) {
       amplify.publish('game-inactive');
     }
 
-    state.resumeGame = function() {
+    function resumeGame() {
       state.menu.clearMenu();
       containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
@@ -49,7 +49,7 @@ spacebounce.game.state = (function (game, state) {
       amplify.publish('game-active');
     }
 
-    state.endGame = function() {
+    function endGame() {
       b2Context.enqueAllBodiesForRemoval();
       containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
@@ -106,10 +106,6 @@ spacebounce.game.state = (function (game, state) {
         game.stage.update(event);
     }
 
-    function getPlayerInstance() {
-      return player;
-    }
-
     /*
       The subscriptions submodule acts as a mediator, and passively controls
       state based on observations of events happening in the app that
@@ -117,11 +113,11 @@ spacebounce.game.state = (function (game, state) {
     */
     state.subscriptions = (function() {
       amplify.subscribe('player-exits-boundary', function() {
-        state.endGame();
+        endGame();
       });
 
       amplify.subscribe('player-energy-depleted', function() {
-        state.endGame();
+        endGame();
       });
 
       amplify.subscribe('player-contacts-forcefield', function(forceField) {
@@ -144,15 +140,12 @@ spacebounce.game.state = (function (game, state) {
       });
     })();
 
-    return state;
+    state.welcomeUser = welcomeUser;
+    state.beginGame = beginGame;
+    state.pauseGame = pauseGame;
+    state.resumeGame = resumeGame;
+    state.endGame = endGame;
 
-    // return {
-    //   getPlayerInstance: getPlayerInstance,
-    //   welcomeUser: welcomeUser,
-    //   beginGame, beginGame,
-    //   pauseGame: pauseGame,
-    //   resumeGame: resumeGame,
-    //   endGame: endGame
-    // }
+    return state;
 
 })(spacebounce.game || {}, spacebounce.game.state || {});

@@ -13,8 +13,6 @@
   */
   spacebounce.box2dContext.contactMediator = (function(){
 
-    var stateController = spacebounce.mainGame.stateController;
-
     amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
       var objectAType = objectA.getClassName();
       var objectBType = objectB.getClassName();
