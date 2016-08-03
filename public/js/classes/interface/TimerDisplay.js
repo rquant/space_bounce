@@ -6,14 +6,14 @@
     function TimerDisplay() {
         this.initialize();
     }
-
+    var config = spacebounce.config;
     var p = TimerDisplay.prototype = new createjs.Container();
 
     p.label;
     p.timer;
     p.labelWidth;
     p.color = "#FFF";
-    p.secondsRemaining = TIME_REMAINING;
+    p.secondsRemaining = config.gameplay.timeRemaining;
 
     //constructor
     p.Container_initialize = p.initialize;
@@ -29,13 +29,13 @@
         label.textAlign = "center";
 
         this.label = label;
-        this.x = STAGE_WIDTH/2;
+        this.x = config.stage.width / 2;
         this.y = 15;
         this.addChild(label);
     }
 
     p.tick = function(ticksRemaining) {
-        var secondsRemaining = Math.floor(ticksRemaining / FPS);
+        var secondsRemaining = Math.floor(ticksRemaining / config.framerate);
         this.label.text = "TIME REMAINING : " + secondsRemaining;
     }
 

@@ -5,7 +5,9 @@
 */
 
 spacebounce.game.menus = (function(game) {
-
+  var config = spacebounce.config;
+  const STAGE_WIDTH = config.stage.width;
+  const STAGE_HEIGHT = config.stage.height;
   //create the welcome menu
   var welcomeMenu = function () {
     var playButton = new spacebounce.MenuButton("Begin");
@@ -20,7 +22,7 @@ spacebounce.game.menus = (function(game) {
 
     var name = 'welcome';
     var title = "Welcome to Space Bounce";
-    var menu = new Menu(name, title, [playButton, instructionsButton]);
+    var menu = new spacebounce.Menu(name, title, [playButton, instructionsButton]);
     return menu;
   }();
 
@@ -49,7 +51,7 @@ spacebounce.game.menus = (function(game) {
     var title = "Instructions";
     var buttons = [goBackButton];
 
-    var menu = new Menu(name, title, buttons);
+    var menu = new spacebounce.Menu(name, title, buttons);
     menu.buttonContainer.y = STAGE_HEIGHT - 50;
     menu.addChild(content);
 
@@ -70,7 +72,7 @@ spacebounce.game.menus = (function(game) {
     var name = 'gameover';
     var title = "Game Over";
     var buttons = [restartButton, instructionsButton];
-    var menu = new Menu(name, title, buttons);
+    var menu = new spacebounce.Menu(name, title, buttons);
     return menu;
   }();
 
@@ -88,7 +90,7 @@ spacebounce.game.menus = (function(game) {
     var name = 'pause';
     var title = "Game Paused";
     var buttons = [resumeButton, instructionsButton];
-    var menu = new Menu(name, title, buttons);
+    var menu = new spacebounce.Menu(name, title, buttons);
     return menu;
   }();
 

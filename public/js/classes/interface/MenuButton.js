@@ -11,7 +11,7 @@
       p.Button_initialize = p.initialize;
 
       p.initialize = function(text) {
-          this.Button_initialize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
+          this.Button_initialize(180, 30);
           this.frame.graphics.setStrokeStyle(2).beginStroke("#FFFFFF").drawRoundRect(
             0, 0 , this.width, this.height, 2
           ).endFill();

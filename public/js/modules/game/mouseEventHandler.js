@@ -2,6 +2,9 @@
  * The mouse handler is responsible for handling all mouse interactions within the game stage.
  */
 spacebounce.game.mouseEventHandler = (function (game) {
+    var config = spacebounce.config;
+    const MAX_FORCE_FIELD_LENGTH = config.gameplay.maxForceFieldLength;
+    const BOUNDARY_THICKNESS = 3;
     var stage = game.stage;
     var canvas = game.canvas;
     var b2Context = spacebounce.box2dContext;
@@ -64,8 +67,7 @@ spacebounce.game.mouseEventHandler = (function (game) {
         var properties = {
           x: x,
           y: y,
-          width: length,
-          height: height,
+          length: length,
           angle: angle
         }
         return new spacebounce.ForceField(

@@ -7,19 +7,16 @@
     function Player(parentContainer, physicsContext) {
         this.initialize(parentContainer, physicsContext);
     }
+    var config = spacebounce.config;
 
     var p = Player.prototype = new createjs.Container();
-    p.parentContainer;
-    p.energySupply; //used for determining state of the game
 
+    p.parentContainer;
+    p.energySupply; //if this runs out the game will end
+    p.maxEnergy;
     //properties of the capsule
     p.capsule_radius;
     p.capsule_color;
-
-    //properties of port on the capsule
-    p.port_radius;
-    p.port_color;
-
 
     p.respawnOnTermination;
 
@@ -32,24 +29,40 @@
       this.Container_initialize();
 
       this.parentContainer = parentContainer;
+      this.energySupply = this.maxEnergy = config.gameplay.maxPlayerEnergy;
 
-      this.energySupply = MAX_ENERGY;
-      this.capsule_radius = PLAYER_RADIUS;
-      this.capsule_color = "#E6E6E6";
+      this.capsule_radius = config.gameplay.playerRadius;
+      this.capsule_color = "#b3b3b3";
       var capsule = new createjs.Shape();
       capsule.alpha = 1;
-      capsule.graphics.beginFill(this.capsule_color).drawCircle(0, 0, this.capsule_radius).endFill();
+      capsule.graphics.beginFill(this.capsule_color).drawCircle(
+        0, 0, this.capsule_radius
+      ).endFill();
 
-      this.port_radius = PLAYER_RADIUS/3;
-      this.port_color = "#FF8533";
-      var port = new createjs.Shape();
-      port.alpha = 1;
-      capsule.graphics.beginFill(this.port_color).drawCircle(0, 0, this.port_radius).endFill();
 
-      this.x = STAGE_WIDTH/2;
-      this.y = -3 * this.port_radius;
+      this.x = config.stage.width / 2;
+      this.y = -this.capsule_radius;
 
-      this.addChild(capsule, port);
+      this.addChild(capsule);
+
+      // radial lines drawn to make object appear more like a space capsule
+      // rather than just a circle, shows rotation of object
+      var lines = 8;
+      for(i=0; i<lines; i++) {
+        var l = new createjs.Shape();
+        l.graphics.setStrokeStyle(0.2);
+        l.graphics.beginStroke('#404040');
+        l.graphics.moveTo(0, 0);
+
+        var theta = (i/lines) * (2*Math.PI);
+        var endX = this.capsule_radius * Math.cos(theta);
+        var endY = this.capsule_radius * Math.sin(theta);
+        l.graphics.lineTo(endX, endY);
+        l.graphics.endStroke();
+
+        this.addChild(l);
+      }
+
       // TODO: ugly!! find a better way
       if(parentContainer) {
         parentContainer.addChild(this);
@@ -73,14 +86,15 @@
 
     //increase the player's energy by a specified amount
     p.increaseEnergySupply = function() {
-        if (this.energySupply + ENERGY_ORB_VAL > MAX_ENERGY)
-            this.energySupply = MAX_ENERGY;
+      const ENERGY_ORB_VAL = config.gameplay.energyOrbVal;
+        if (this.energySupply + ENERGY_ORB_VAL > this.maxEnergy)
+            this.energySupply = this.maxEnergy;
         else this.energySupply += ENERGY_ORB_VAL;
     }
 
     //decrease the player's energy by a specified amount
     p.decreaseEnergySupply = function() {
-        this.energySupply -= ANTIMATTER_ORB_VAL;
+        this.energySupply -= config.gameplay.antimatterOrbVal;
     }
 
     p.tick = function() {

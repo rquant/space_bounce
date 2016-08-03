@@ -6,7 +6,7 @@
     function Star() {
         this.initialize();
     }
-
+    var config = spacebounce.config;
     var p = Star.prototype = new createjs.Shape();
 
     //public properties
@@ -25,26 +25,32 @@
 
         this.color = "white";
 
-        this.x = Math.floor(Math.random()*STAGE_WIDTH);
-        this.y = Math.floor(Math.random()*STAGE_HEIGHT);
+        this.x = Math.floor(Math.random() * config.stage.width);
+        this.y = Math.floor(Math.random() * config.stage.height);
 
-        //get arbitrary radius within the specified interval
-        var radius = utils.getRandomArbitrary(MIN_STAR_RADIUS, MAX_STAR_RADIUS);
-        this.radius = radius;
+        /*
+          To acheive a sense of depth, stars will be generated with a random
+          radius and a proportionate velocity will be calculated. So slower,
+          smaller stars will appear to be further away from the  user and vice
+          versa.
+        */
+        const MIN_RADIUS = 0.3;
+        const MAX_RADIUS = 0.7;
+        const MIN_VELOCITY = 0.1;
+        const MAX_VELOCITY = 0.7;
 
-        /*get the velocity that is proportionate to the radius and is within velocity range.
-         *this effect makes closer stars move faster in relation to the user, while farther ones move slower.
-         */
-        var radius_interval_length = MAX_STAR_RADIUS - MIN_STAR_RADIUS;
-        var ratio = (radius - MIN_STAR_RADIUS) / radius_interval_length;
-        var velocity_interval_length = MAX_STAR_VELOCITY-MIN_STAR_VELOCITY;
-        var vY = ratio * velocity_interval_length + MIN_STAR_VELOCITY;
+        var radius = utils.getRandomArbitrary(MIN_RADIUS, MAX_RADIUS);
+
+        var radius_interval_length = MAX_RADIUS - MIN_RADIUS;
+        var ratio = (radius - MIN_RADIUS) / radius_interval_length;
+        var velocity_interval_length = MAX_VELOCITY-MIN_VELOCITY;
+        var vY = ratio * velocity_interval_length + MIN_VELOCITY;
         this.vY = vY;
+        this.radius = radius;
 
         //draw the star as a circle
         this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
     }
-
 
     p.tick = function() {
         this.y += this.vY;

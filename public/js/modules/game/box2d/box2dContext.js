@@ -1,7 +1,15 @@
 spacebounce.box2dContext = (function(box2dContext) {
-
-  var STEP = FPS, TIMESTEP = 1/STEP; //the timestep dictates how many updates box2d will perform per second. Must match framerate.
-  var SCALE = 30; //the scale used to convert between pixels and meters. Box2D measures distance in the world in meters not pixels.
+  var config = spacebounce.config;
+  const STEP = config.framerate
+  // dictates how many updates box2d will perform per second.
+  const TIMESTEP = 1/STEP;
+  // the scale used to convert between pixels and meters.
+  // Box2D measures distance for the physics world in meters not pixels.
+  const SCALE = 30;
+  const GRAVITY_X = config.physics.gravityX;
+  const GRAVITY_Y = config.physics.gravityY;
+  const STAGE_WIDTH = config.stage.width;
+  const STAGE_HEIGHT = config.stage.height;
 
   var b2Vec2 = Box2D.Common.Math.b2Vec2
           , b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -243,13 +251,12 @@ spacebounce.box2dContext = (function(box2dContext) {
     //if a body is enqued for removal, it must be reoved from the box2d world as well as its actor object
     function removeBodiesMarkedForRemoval() {
         //remove any bodies marked for removal
-        for(var i=0, l=bodiesToRemove.length;i<l;i++) {
+        for(var i=0, l=bodiesToRemove.length; i<l;i++) {
             var body = bodiesToRemove[i];
             var actor = body.GetUserData();
             removeActor(actor);
             //body.SetUserData(null); //must eventually use a callback for this to so it becomes asynchronous
             world.DestroyBody(body);
-
         }
         bodiesToRemove = [];
     }

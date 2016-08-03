@@ -22,8 +22,8 @@
         this.Shape_initialize();
 
         this.parentContainer = parentContainer;
-        this.width = props.width;
-        this.height = props.height;
+        this.width = props.length;
+        this.height = 3;
         this.regX = this.width/2;
         this.regY = this.height/2;
         this.x = props.x;

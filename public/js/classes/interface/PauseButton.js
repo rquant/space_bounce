@@ -6,22 +6,22 @@
     function PauseButton(stage) {
         this.initialize(stage);
     }
-
+        var config = spacebounce.config;
         var p = PauseButton.prototype = new spacebounce.Button();
 
         p.stage;
-        p.padding = BUTTON_PADDING;
         p.Button_initialize = p.initialize;
 
         p.initialize = function(stage) {
-
             this.Button_initialize(18, 18);
+
+            const HUD_OFFSET = config.stage.hudOffset;
 
             this.frame.graphics.beginFill("#6699FF").drawRoundRect(
               0, 0 , this.width, this.height, 2
             ).endFill();
             this.alpha = 0.3;
-            this.x = STAGE_WIDTH - (HUD_OFFSET + this.width);
+            this.x = config.stage.width - (HUD_OFFSET + this.width);
             this.y = HUD_OFFSET;
             this.stage = stage;
 

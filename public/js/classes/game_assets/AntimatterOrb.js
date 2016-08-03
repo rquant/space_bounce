@@ -6,6 +6,9 @@
     function AntimatterOrb(parentContainer, physicsContext) {
         this.initialize(parentContainer, physicsContext);
     }
+    var config = spacebounce.config;
+    const STAGE_WIDTH = config.stage.width;
+    const STAGE_HEIGHT = config.stage.height;
 
     var p = AntimatterOrb.prototype = new createjs.Shape();
     p.parentContainer;
@@ -74,6 +77,8 @@
         physicsContext.createCircularPhysicsBody(this);
     }
 
+    // TODO: Looks like I forgot to check for out of bounds and then removal! this
+    // could be causing a big performance leak.
     p.tick = function() {
     }
 

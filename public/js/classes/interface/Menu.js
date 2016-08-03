@@ -1,24 +1,27 @@
 /*
  *The menu is a container with a title and set of buttons
  */
-(function (window) {
+(function (spacebounce) {
 
     function Menu(name, title, buttons) {
         this.initialize(name, title, buttons);
     }
+    var config = spacebounce.config;
+    const STAGE_WIDTH = config.stage.width;
+    const STAGE_HEIGHT = config.stage.height;
 
     var p = Menu.prototype = new createjs.Container();
-
     p.parentMenu;
     p.title;
     p.buttonContainer;
     p.buttons;
     p.buttonCount;
-    p.buttonWidth = MENU_BUTTON_WIDTH;
-    p.buttonHeight = MENU_BUTTON_HEIGHT;
-    p.padding = BUTTON_PADDING;
+    p.buttonWidth = config.menu.buttonWidth;;
+    p.buttonHeight = config.menu.buttonHeight;
+    p.buttonPadding = config.menu.buttonPadding;
     p.menuWidth = p.buttonWidth;
     p.menuHeight;
+
 
     p.Container_initialize = p.initialize;
 
@@ -41,11 +44,11 @@
         //add the button parameters to the button container and position them properly
         for(var i=0;i<this.buttonCount;i++) {
             var button = this.buttons[i];
-            button.y = i*this.buttonHeight + i*this.padding; //position button
+            button.y = i*this.buttonHeight + i*this.buttonPadding; //position button
             buttonContainer.addChild(button);
         }
 
-        this.menuHeight = this.buttonCount*this.buttonHeight + (this.buttonCount-1)*this.padding;
+        this.menuHeight = this.buttonCount * this.buttonHeight + (this.buttonCount-1)*this.buttonPadding;
 
         buttonContainer.x = Math.round(STAGE_WIDTH/2 - this.menuWidth/2);
         buttonContainer.y = Math.round(STAGE_HEIGHT/2 - this.menuHeight/2);
@@ -53,6 +56,6 @@
         this.addChild(buttonContainer);
     }
 
-    window.Menu = Menu;
+    spacebounce.Menu = Menu;
 
-}(window));
+}(spacebounce));
