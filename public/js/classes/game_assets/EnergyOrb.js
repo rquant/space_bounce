@@ -15,10 +15,9 @@
     p.vx;
     p.vy;
 
-   // p.markedForRemoval;
-
     p.Shape_initialize = p.initialize;
 
+    const BOUNDS = spacebounce.config.stage.boundary;
     p.initialize = function(parentContainer, physicsContext) {
 
         this.Shape_initialize();
@@ -82,19 +81,25 @@
         this.enteredStage = false;
         this.terminateWithTween = false;
 
-
         physicsContext.createCircularPhysicsBody(this);
     }
 
+    /*
+      if orb is outside stage (after already entering it), it is ready to be
+      removed. Ideally, it would be nice to use a box2d sensor rather than
+      manually check every step, but they don't work with kinematic bodies
+      such as this unfortunately.
+    */
     p.tick = function() {
       if (this.x<-BOUNDS || this.x>STAGE_WIDTH+BOUNDS || this.y<-BOUNDS || this.y>STAGE_HEIGHT+BOUNDS) {
          if (this.enteredStage) {
-              this.markedForRemoval = true;
+           this.markedForRemoval = true;
          }
       }
       else this.enteredStage = true;
     }
 
+    // TODO: I don't think terminateWithTween is needed anymore
     p.terminate = function() {
       if(this.terminateWithTween) {
         createjs.Tween.get(this).to(

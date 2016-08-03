@@ -86,7 +86,7 @@
 
     //decrease the player's energy by a specified amount
     p.decreaseEnergySupply = function() {
-        this.energySupply -= gameplay.antimatterOrbVal;
+        this.energySupply -= config.gameplay.antimatterOrbVal;
     }
 
     p.tick = function() {

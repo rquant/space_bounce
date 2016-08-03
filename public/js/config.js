@@ -3,8 +3,8 @@ var spacebounce = spacebounce || {};
 (function(spacebounce) {
   var config = {};
 
-  var framerate = 60;
-  config.framerate = framerate;
+  const FRAMERATE = 60; // per second
+  config.framerate = FRAMERATE;
 
   config.stage = {
     width: 950,
@@ -20,15 +20,21 @@ var spacebounce = spacebounce || {};
     }
   };
 
+  config.menu = {
+    buttonWidth: 180,
+    buttonHeight: 30,
+    buttonPadding: 20
+  }
+
   config.physics = {
     gravityX: 0,
     gravityY: 6
   }
 
   config.gameplay = {
-    maxPlayerEnergy: framerate * 30,
-    energyOrbVal: framerate * 3,
-    antimatterOrbVal: framerate * 2
+    maxPlayerEnergy: FRAMERATE * 30,
+    energyOrbVal: FRAMERATE * 3,
+    antimatterOrbVal: FRAMERATE * 2
   }
 
   spacebounce.config = config;
