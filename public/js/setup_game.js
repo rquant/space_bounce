@@ -1,21 +1,14 @@
 /*
- *Sets up the elements to be used in the game
+ *Self executing script that sets up elements of the game and prepares it for
+* initialization
  */
 (function(spacebounce) {
-  var mainGame = spacebounce.mainGame;
-  var game = spacebounce.game;
   var classes = spacebounce.classes;
+  var game = spacebounce.game;
   var containers = game.containers;
+  var hud = game.hud;
   var b2Context = spacebounce.box2dContext;
   spacebounce.audio.init();
-
-  mainGame.player;
-  // maybe this should be part of the state controller?
-  mainGame.playerActive = false;
-
-  // the containers define 2D layers of the game that can contain other objects
-  // within that layer
-  //TODO: i think this should be placed into its own module, including their bindings
 
   setupBackgroundLayers();
   setupInteractiveLayers();
@@ -45,13 +38,10 @@
   }
 
   function setupInteractiveLayers() {
-    var energyGuage = new spacebounce.EnergyGuage();
-    var pauseButton = new spacebounce.PauseButton(game.stage);
-    var timerLabel = new spacebounce.TimerLabel();
     // TODO: after thinking about, maybe it's best not to pass parent container as param
     // to our objects. the createjs objects have an internal reference to parent already,
     // and the display order of objects is determined by there initialization order (bad)
-    containers.hud.addChild(energyGuage, pauseButton, timerLabel);
+    containers.hud.addChild(hud.energyGuage, hud.pauseButton, hud.timerDisplay);
     containers.hud.visible = false;
 
     containers.gameplay.addChild(
@@ -62,8 +52,5 @@
       containers.gameplay, containers.hud, containers.menu
     );
     containers.root.addChild(containers.interactive);
-
-    mainGame.energyGuage = energyGuage;
-    mainGame.timerLabel = timerLabel;
   }
 })(spacebounce);

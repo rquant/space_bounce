@@ -7,9 +7,10 @@
 spacebounce.game = spacebounce.game || {};
 
 spacebounce.game.state = (function (game, state) {
-    var mainGame = spacebounce.mainGame;
     var b2Context = spacebounce.box2dContext;
     var containers = game.containers;
+    var hud = game.hud;
+
     var player;
     // the number of ticks remaining in Ticker before game ends
     var ticksRemaining;
@@ -96,9 +97,8 @@ spacebounce.game.state = (function (game, state) {
         }
 
         if (player) {
-
-          mainGame.energyGuage.tick(player.energySupply);
-          mainGame.timerLabel.tick(ticksRemaining);
+          hud.energyGuage.tick(player.energySupply);
+          hud.timerDisplay.tick(ticksRemaining);
           ticksRemaining--;
         }
 

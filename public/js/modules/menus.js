@@ -82,7 +82,7 @@ spacebounce.game.menus = (function(game) {
 
     var instructionsButton = new spacebounce.MenuButton("Instructions");
     instructionsButton.addEventListener("click", function(event) {
-      game.menu.controller.launchSubMenu('instructions');
+      game.state.menu.launchSubMenu('instructions');
     });
 
     var name = 'pause';

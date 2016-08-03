@@ -3,12 +3,11 @@
  */
 (function (spacebounce) {
 
-    function TimerLabel() {
+    function TimerDisplay() {
         this.initialize();
     }
 
-    var p = TimerLabel.prototype = new createjs.Container();
-
+    var p = TimerDisplay.prototype = new createjs.Container();
 
     p.label;
     p.timer;
@@ -40,6 +39,6 @@
         this.label.text = "TIME REMAINING : " + secondsRemaining;
     }
 
-    spacebounce.TimerLabel = TimerLabel;
+    spacebounce.TimerDisplay = TimerDisplay;
 
 }(spacebounce));

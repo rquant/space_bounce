@@ -11,7 +11,7 @@
     it is placed into a submodule to keep the more
     complex box2dContext parent module loosely coupled from other classes.
   */
-  spacebounce.box2dContext.contactMediator = (function(){
+  spacebounce.box2dContext.contactMediator = (function() {
 
     amplify.subscribe('box2d-begin-contact', function(objectA, objectB) {
       var objectAType = objectA.getClassName();
