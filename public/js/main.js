@@ -89,14 +89,14 @@ $(document).ready(function() {
         {src: "js/classes/interface/TimerDisplay.js"},
 
         {src: "js/Exception.js"},
-        {src: "js/modules/containers.js"},
-        {src: "js/modules/hud.js"},
-        {src: "js/modules/box2d/box2dContext.js"},
-        {src: "js/modules/box2d/contactMediator.js"},
-        {src: "js/modules/mouseEventHandler.js"},
-        {src: "js/modules/state/state.js"},
-        {src: "js/modules/state/menu.js"},
-        {src: "js/modules/menus.js"},
+        {src: "js/modules/game/containers.js"},
+        {src: "js/modules/game/hud.js"},
+        {src: "js/modules/game/menus.js"},
+        {src: "js/modules/game/box2d/box2dContext.js"},
+        {src: "js/modules/game/box2d/contactMediator.js"},
+        {src: "js/modules/game/mouseEventHandler.js"},
+        {src: "js/modules/game/state/state.js"},
+        {src: "js/modules/game/state/menu.js"},
         {src: "js/setup_game.js"}
     ]);
 
