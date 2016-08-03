@@ -19,7 +19,6 @@ spacebounce.box2dContext = (function(box2dContext) {
     var world;
     var actors = [];
     var forceFieldBodies = [];
-    var playerActor;
     var bodiesToRemove = [];
 
     //Sets up the box2d world
