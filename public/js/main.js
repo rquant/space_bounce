@@ -1,8 +1,6 @@
 /*
  *loads all other required scripts and prepares the game for initialization
  */
-
-
 $(document).ready(function() {
   (function (spacebounce) {
     var mainGame = spacebounce.mainGame;
@@ -18,7 +16,8 @@ $(document).ready(function() {
     context.fillRect(0,0, canvas.width, canvas.height);
     var stage = new createjs.Stage("main-canvas");
 
-    debugCanvas = $("#debugCanvas")[0]; //seperate convas for debugging box2d simulation
+    //seperate convas for debugging box2d simulation
+    debugCanvas = $("#debugCanvas")[0];
 
     //set up loading screen
     var loadProgressContainer = new createjs.Container();
@@ -39,7 +38,9 @@ $(document).ready(function() {
     var loadingBar = new createjs.Shape();
     loadingBar.graphics.beginFill("#FFFFFF").drawRect(0, 0, 1, loadingBarHeight).endFill();
     var frame = new createjs.Shape();
-    frame.graphics.setStrokeStyle(2).beginStroke("#FFFFFF").drawRoundRect(0, 0, loadingBarWidth, loadingBarHeight, 2);
+    frame.graphics.setStrokeStyle(2).beginStroke("#FFFFFF").drawRoundRect(
+      0, 0, loadingBarWidth, loadingBarHeight, 2
+    );
 
 
     loadingBarContainer.addChild(frame, loadingBar);
@@ -58,7 +59,10 @@ $(document).ready(function() {
     game.canvas = canvas;
     game.stage = stage;
 
-    //the preloader is responsible for loading resources and its progress can be used to update the loading bar
+    /*
+     * the preloader is responsible for compiling recourses and its progress
+       is can be shown to user via loading screen
+    */
 
     var preloader = new createjs.LoadQueue(false);
     preloader.installPlugin(createjs.Sound);
@@ -66,8 +70,8 @@ $(document).ready(function() {
     preloader.addEventListener("complete", handleComplete);
     preloader.loadManifest([
         {src: "js/lib/GlowFilter.js"},
-        {src: "js/util.js"},
-        {src: "js/audio_config.js"},
+        {src: "js/modules/util.js"},
+        {src: "js/modules/audio.js"},
 
         {src: "js/classes/game_assets/Star.js"},
         {src: "js/classes/game_assets/Planet.js"},
