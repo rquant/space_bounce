@@ -1,6 +1,30 @@
 var spacebounce = spacebounce || {};
 spacebounce.game = spacebounce.game || {};
 
+spacebounce.config = {
+  stage: {
+    width: 950,
+    height: 650,
+    boundary: 10
+  },
+
+  framerate: 60,
+
+  background: {
+    color: "#303030",
+    stars: {
+      count: 300
+    }
+  },
+
+  physics: {
+    gravity_x: 0,
+    gravity_y: 6
+  }
+}
+
+
+
 var STAGE_WIDTH = 950;
 var STAGE_HEIGHT = 650;
 
@@ -19,9 +43,6 @@ var MIN_STAR_RADIUS = 0.3;
 var MAX_STAR_RADIUS = 0.7;
 var MIN_STAR_VELOCITY = 0.1;
 var MAX_STAR_VELOCITY = 0.7;
-
-//energy orb data
-var ENERGYORB_COUNT = 5;
 
 //player capsule data
 var PLAYER_RADIUS = 35;
