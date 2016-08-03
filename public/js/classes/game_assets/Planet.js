@@ -1,9 +1,7 @@
 /*
  *The planet used for the background.
  */
-spacebounce.classes = spacebounce.classes || {};
-
-(function (classes) {
+(function (spacebounce) {
 
     function Planet() {
         this.initialize();
@@ -48,6 +46,6 @@ spacebounce.classes = spacebounce.classes || {};
 
     }
 
-    classes.Planet = Planet;
+    spacebounce.Planet = Planet;
 
-}(spacebounce.classes));
+}(spacebounce));

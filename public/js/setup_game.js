@@ -1,9 +1,8 @@
 /*
- *Self executing script that sets up elements of the game and prepares it for
-* initialization
+ * Self executing script that sets up elements of the game and prepares it for
+ * initialization
  */
 (function(spacebounce) {
-  var classes = spacebounce.classes;
   var game = spacebounce.game;
   var containers = game.containers;
   var hud = game.hud;
@@ -23,7 +22,7 @@
     );
     background.x = 0;
     background.y = 0;
-    var planet = new spacebounce.classes.Planet();
+    var planet = new spacebounce.Planet();
 
     // setup star field used in background aniamation
     for(var i=0;i<STAR_COUNT;i++) {
