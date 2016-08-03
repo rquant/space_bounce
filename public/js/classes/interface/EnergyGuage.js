@@ -6,7 +6,7 @@
     function EnergyGuage() {
         this.initialize();
     }
-
+    var config = spacebounce.config;
     var p = EnergyGuage.prototype = new createjs.Container();
 
     //public properties
@@ -38,15 +38,15 @@
         this.energyGuageBar = energyGuageBar;
         this.addChild(frame, energyGuageBar);
 
-        this.x = HUD_OFFSET;
-        this.y = HUD_OFFSET;
+        this.x = config.stage.hudOffset;
+        this.y = config.stage.hudOffset;
         this.alpha = 0.3;
 
     }
 
     //update the guage to match the energy supply
     p.tick = function(energySupply) {
-        energySupplyRatio = energySupply/MAX_ENERGY;
+        energySupplyRatio = energySupply / config.gameplay.maxPlayerEnergy;
         this.energyGuageBar.scaleX = energySupplyRatio;
     }
 

@@ -1,28 +1,38 @@
 var spacebounce = spacebounce || {};
-spacebounce.game = spacebounce.game || {};
 
-spacebounce.config = {
-  stage: {
+(function(spacebounce) {
+  var config = {};
+
+  var framerate = 60;
+  config.framerate = framerate;
+
+  config.stage = {
     width: 950,
     height: 650,
-    boundary: 10
-  },
+    boundary: 10,
+    hudOffset: 15
+  };
 
-  framerate: 60,
-
-  background: {
+  config.background = {
     color: "#303030",
     stars: {
       count: 300
     }
-  },
+  };
 
-  physics: {
-    gravity_x: 0,
-    gravity_y: 6
+  config.physics = {
+    gravityX: 0,
+    gravityY: 6
   }
-}
 
+  config.gameplay = {
+    maxPlayerEnergy: framerate * 30,
+    energyOrbVal: framerate * 3,
+    antimatterOrbVal: framerate * 2
+  }
+
+  spacebounce.config = config;
+}(spacebounce || {}));
 
 
 var STAGE_WIDTH = 950;
