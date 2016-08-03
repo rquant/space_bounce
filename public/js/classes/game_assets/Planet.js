@@ -17,12 +17,14 @@
     p.initialize = function() {
 
         this.Shape_initialize();
+        const STAGE_WIDTH = spacebounce.config.stage.width;
+        const STAGE_HEIGHT = spacebounce.config.stage.height;
 
         this.x = STAGE_WIDTH/2;
-        this.y = (2.2)*STAGE_HEIGHT+50;
+        this.y = (2.2)* STAGE_HEIGHT +50;
         //this.y = (3)*STAGE_HEIGHT;
         this.radius = STAGE_WIDTH;
-        this.color = PLANET_COLOR;
+        this.color = "#E7F3FF";
 
         this.graphics.beginFill(this.color).drawCircle(0, 0, this.radius).endFill();
 

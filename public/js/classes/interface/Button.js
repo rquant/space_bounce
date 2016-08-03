@@ -40,14 +40,6 @@
           this.mouseChildren = false;
     }
 
-    //for some reason the properties are undefined after buttons are created. investigate this.
-    //p.addEventListener("mouseover", function(event) {
-    //    var target = event.target;
-    //    var underlay = this.underlay;
-    //    underlay.graphics.clear().beginFill("#FFF").drawRect(0, 0, this.buttonWidth, this.buttonHeight).endFill();
-    //    underlay.alpha = 1;
-    //});
-    //
     spacebounce.Button = Button;
 
 }(spacebounce));

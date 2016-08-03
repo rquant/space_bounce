@@ -3,6 +3,7 @@
  * initialization
  */
 (function(spacebounce) {
+  var config = spacebounce.config;
   var game = spacebounce.game;
   var containers = game.containers;
   var hud = game.hud;
@@ -17,15 +18,15 @@
   // elements not used for actual gameplay.
   function setupBackgroundLayers() {
     var background = new createjs.Shape();
-    background.graphics.beginFill(BACKGROUND_COLOR).drawRect(
-      0, 0, STAGE_WIDTH, STAGE_HEIGHT
+    background.graphics.beginFill(config.background.color).drawRect(
+      0, 0, config.stage.width, config.stage.height
     );
     background.x = 0;
     background.y = 0;
     var planet = new spacebounce.Planet();
 
     // setup star field used in background aniamation
-    for(var i=0;i<STAR_COUNT;i++) {
+    for(var i=0; j=config.background.stars.count, i < j; i++) {
       var star = new spacebounce.Star();
       containers.stars.addChild(star);
      }

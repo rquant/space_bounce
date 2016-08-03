@@ -3,7 +3,11 @@
  */
 $(document).ready(function() {
   (function (spacebounce) {
-    var game = spacebounce.game;
+    var config = spacebounce.config;
+    var game = spacebounce.game = spacebounce.game || {};
+
+    const STAGE_WIDTH = config.stage.width;
+    const STAGE_HEIGHT = config.stage.height;
 
     //setup the main canvas used for the game
     var canvas = $("#main-canvas")[0];
@@ -11,7 +15,7 @@ $(document).ready(function() {
     canvas.height = STAGE_HEIGHT;
 
     var context = canvas.getContext("2d");
-    context.fillStyle = BACKGROUND_COLOR;
+    context.fillStyle = config.background.color;
     context.fillRect(0,0, canvas.width, canvas.height);
     var stage = new createjs.Stage("main-canvas");
 
@@ -110,11 +114,11 @@ $(document).ready(function() {
         stage.removeChild(loadProgressContainer);
         stage.addChild(game.containers.root);
 
-        createjs.Ticker.setFPS(FPS);
+        createjs.Ticker.setFPS(config.framerate);
         createjs.Ticker.setRAF = true;
 
         game.state.welcomeUser();
     }
 
-  })(spacebounce);
+  })(spacebounce || {});
 });
