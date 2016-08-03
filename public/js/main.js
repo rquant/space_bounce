@@ -3,7 +3,6 @@
  */
 $(document).ready(function() {
   (function (spacebounce) {
-    var mainGame = spacebounce.mainGame;
     var game = spacebounce.game;
 
     //setup the main canvas used for the game

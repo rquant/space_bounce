@@ -74,10 +74,9 @@ spacebounce.box2dContext = (function(box2dContext) {
     }
 
     /*
-     * Creates a static sensor that only detects when a body has triggered it. Does not effect the physics of the body.
+     * Creates a static sensor that only detects when a body has triggered it.
+       Does not effect the physics of the body.
      */
-
-
     function createSensor(x, y, width, height) {
         var sensorFixture = new b2FixtureDef;
         sensorFixture.shape = new b2PolygonShape;
@@ -95,7 +94,8 @@ spacebounce.box2dContext = (function(box2dContext) {
     }
 
 
-    // Creates a polygonal physics body for an object, and assigns an actor object to bind the two together.
+    // Creates a polygonal physics body for an object, and assigns an
+    // actor object to bind the two together.
     function createPolygonalPhysicsBody(object) {
         var fixture = new b2FixtureDef;
         fixture.density = object.density;
@@ -115,7 +115,8 @@ spacebounce.box2dContext = (function(box2dContext) {
         actors.push(actor);
     }
 
-    // Creates a circular physics body for an object, and assigns an actor object to bind the two together.
+    // Creates a circular physics body for an object, and assigns an actor
+    // object to bind the two together.
      function createCircularPhysicsBody(object) {
         var fixture = new b2FixtureDef;
         fixture.density = object.density;
@@ -134,13 +135,13 @@ spacebounce.box2dContext = (function(box2dContext) {
         body.SetUserData(actor);
         actors.push(actor);
 
-        //if the object is an orb type, it needs a linear velocity
         if (object.velocityIsLinear) {
             body.SetLinearVelocity(new b2Vec2(object.vx , object.vy));
         }
     }
 
-    //create an actor object that maps the physics body to the game object (display, position, rotation, ect.)
+    // create an actor object that maps the physics body to the game object
+    // (display, position, rotation, ect.)
     function ActorObject(body, object) {
         this.body = body;
         this.object = object;
@@ -173,9 +174,7 @@ spacebounce.box2dContext = (function(box2dContext) {
         }
     }
 
-    // TODO: this is only necessary because other bodies with createjs objects
-    // mapped to it use the same interface. Implement interfaces to ensure
-    // the right methods are exposed
+    // Creates
     function StaticActorObject(body, object) {
       this.body = body;
       this.object = object;
@@ -287,4 +286,4 @@ spacebounce.box2dContext = (function(box2dContext) {
     }
 
 
-})(spacebounce.mainGame.box2dContext);
+})(spacebounce.box2dContext);
