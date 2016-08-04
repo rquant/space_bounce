@@ -4,6 +4,7 @@
 spacebounce.game.mouseEventHandler = (function (game) {
     var config = spacebounce.config;
     const MAX_FORCE_FIELD_LENGTH = config.gameplay.maxForceFieldLength;
+    const BOUNDARY_THICKNESS = 3;
     var stage = game.stage;
     var canvas = game.canvas;
     var b2Context = spacebounce.box2dContext;

@@ -40,7 +40,6 @@ var spacebounce = spacebounce || {};
     antimatterOrbVal: FRAMERATE * 2,
     maxForceFieldLength: playerRadius * 3
   }
-  config.gameplay.maxForceFieldLength = config
 
   spacebounce.config = config;
 }(spacebounce || {}));
@@ -71,7 +70,7 @@ var spacebounce = spacebounce || {};
 //
 // //force field data
 // var MAX_FORCE_FIELD_LENGTH = PLAYER_RADIUS * 3;
-var BOUNDARY_THICKNESS = 3;
+// var BOUNDARY_THICKNESS = 3;
 //
 // //physics data
 // var GRAVITY_X = 0;
