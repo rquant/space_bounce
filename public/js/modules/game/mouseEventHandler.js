@@ -67,8 +67,7 @@ spacebounce.game.mouseEventHandler = (function (game) {
         var properties = {
           x: x,
           y: y,
-          width: length,
-          height: height,
+          length: length,
           angle: angle
         }
         return new spacebounce.ForceField(
