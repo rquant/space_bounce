@@ -6,7 +6,7 @@
     function Star() {
         this.initialize();
     }
-
+    var config = spacebounce.config;
     var p = Star.prototype = new createjs.Shape();
 
     //public properties
@@ -25,8 +25,8 @@
 
         this.color = "white";
 
-        this.x = Math.floor(Math.random()*STAGE_WIDTH);
-        this.y = Math.floor(Math.random()*STAGE_HEIGHT);
+        this.x = Math.floor(Math.random() * config.stage.width);
+        this.y = Math.floor(Math.random() * config.stage.height);
 
         /*
           To acheive a sense of depth, stars will be generated with a random

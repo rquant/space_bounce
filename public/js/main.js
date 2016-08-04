@@ -15,7 +15,7 @@ $(document).ready(function() {
     canvas.height = STAGE_HEIGHT;
 
     var context = canvas.getContext("2d");
-    context.fillStyle = BACKGROUND_COLOR;
+    context.fillStyle = config.background.color;
     context.fillRect(0,0, canvas.width, canvas.height);
     var stage = new createjs.Stage("main-canvas");
 

@@ -5,7 +5,9 @@
 */
 
 spacebounce.game.menus = (function(game) {
-
+  var config = spacebounce.config;
+  const STAGE_WIDTH = config.stage.width;
+  const STAGE_HEIGHT = config.stage.height;
   //create the welcome menu
   var welcomeMenu = function () {
     var playButton = new spacebounce.MenuButton("Begin");

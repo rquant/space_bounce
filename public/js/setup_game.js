@@ -18,7 +18,7 @@
   // elements not used for actual gameplay.
   function setupBackgroundLayers() {
     var background = new createjs.Shape();
-    background.graphics.beginFill(BACKGROUND_COLOR).drawRect(
+    background.graphics.beginFill(config.background.color).drawRect(
       0, 0, config.stage.width, config.stage.height
     );
     background.x = 0;

@@ -35,7 +35,7 @@
       this.parentContainer = parentContainer;
       this.energySupply = this.maxEnergy = config.gameplay.maxPlayerEnergy;
 
-      this.capsule_radius = PLAYER_RADIUS;
+      this.capsule_radius = config.gameplay.playerRadius;
       this.capsule_color = "#E6E6E6";
       var capsule = new createjs.Shape();
       capsule.alpha = 1;
@@ -43,7 +43,7 @@
         0, 0, this.capsule_radius
       ).endFill();
 
-      this.port_radius = PLAYER_RADIUS/3;
+      this.port_radius = this.capsule_radius / 3;
       this.port_color = "#FF8533";
       var port = new createjs.Shape();
       port.alpha = 1;

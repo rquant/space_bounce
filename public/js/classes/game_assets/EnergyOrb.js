@@ -6,6 +6,10 @@
     function EnergyOrb(parentContainer, physicsContext) {
         this.initialize(parentContainer, physicsContext);
     }
+    var config = spacebounce.config;
+    const BOUNDS = config.stage.boundary;
+    const STAGE_WIDTH = config.stage.width;
+    const STAGE_HEIGHT = config.stage.height;
 
     var p = EnergyOrb.prototype = new createjs.Shape();
     p.parentContainer;
@@ -17,7 +21,6 @@
 
     p.Shape_initialize = p.initialize;
 
-    const BOUNDS = spacebounce.config.stage.boundary;
     p.initialize = function(parentContainer, physicsContext) {
 
         this.Shape_initialize();
@@ -30,7 +33,7 @@
         this.vy = Math.sin(angle) * 2;
 
         //set the initial position based on this velocity so the orb floats across the stage
-        if ((Math.random()*(STAGE_WIDTH+STAGE_HEIGHT))>STAGE_WIDTH) {
+        if ((Math.random()*(STAGE_WIDTH + STAGE_HEIGHT))> STAGE_WIDTH) {
             //position on left or right
             if (this.vx > 0)
                 this.x = -this.radius;

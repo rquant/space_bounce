@@ -7,6 +7,7 @@
 spacebounce.game = spacebounce.game || {};
 
 spacebounce.game.state = (function (game, state) {
+    var config = spacebounce.config;
     var b2Context = spacebounce.box2dContext;
     var containers = game.containers;
     var hud = game.hud;
@@ -15,6 +16,10 @@ spacebounce.game.state = (function (game, state) {
     // the number of ticks remaining in Ticker before game ends
     var ticksRemaining;
     var orbDelayCounter;
+
+    const FPS = config.framerate;
+    const STAGE_WIDTH = config.stage.width;
+    const STAGE_HEIGHT = config.stage.height;
 
     function welcomeUser () {
       createjs.Ticker.addEventListener('tick', backgroundTick);
@@ -28,7 +33,7 @@ spacebounce.game.state = (function (game, state) {
       player = new spacebounce.Player(
         containers.player, b2Context
       );
-      ticksRemaining = FPS * TIME_REMAINING;
+      ticksRemaining = FPS * config.gameplay.timeRemaining;
       orbDelayCounter = 0;
       createjs.Ticker.addEventListener('tick', gameRunningTick);
       amplify.publish('game-active');
@@ -66,10 +71,10 @@ spacebounce.game.state = (function (game, state) {
     }
 
     function starFieldAnimation() {
-      for(var i=0; i < STAR_COUNT; i++) {
+      for(var i=0; j = config.background.stars.count, i < j; i++) {
         var s = containers.stars.children[i];
         if (s.y>=STAGE_HEIGHT) {
-            s.x = Math.floor(Math.random()*STAGE_WIDTH);
+            s.x = Math.floor(Math.random() * STAGE_WIDTH);
             s.y = 0;
         }
         s.tick();
