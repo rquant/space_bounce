@@ -20,6 +20,7 @@ spacebounce.game.state = (function (game, state) {
     const FPS = config.framerate;
     const STAGE_WIDTH = config.stage.width;
     const STAGE_HEIGHT = config.stage.height;
+    const STAR_COUNT = config.background.stars.count;
 
     function welcomeUser () {
       createjs.Ticker.addEventListener('tick', backgroundTick);
@@ -71,7 +72,7 @@ spacebounce.game.state = (function (game, state) {
     }
 
     function starFieldAnimation() {
-      for(var i=0; j = config.background.stars.count, i < j; i++) {
+      for(var i=0; i < STAR_COUNT; i++) {
         var s = containers.stars.children[i];
         if (s.y>=STAGE_HEIGHT) {
             s.x = Math.floor(Math.random() * STAGE_WIDTH);
