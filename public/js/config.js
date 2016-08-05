@@ -16,7 +16,7 @@ var spacebounce = spacebounce || {};
   config.background = {
     color: "#303030",
     stars: {
-      count: 300
+      count: 275
     }
   };
 
@@ -28,14 +28,14 @@ var spacebounce = spacebounce || {};
 
   config.physics = {
     gravityX: 0,
-    gravityY: 6
+    gravityY: 8
   }
 
   var playerRadius = 35;
   config.gameplay = {
     timeRemaining: 40,
     playerRadius: 35,
-    maxPlayerEnergy: FRAMERATE * 30,
+    maxPlayerEnergy: FRAMERATE * 26,
     energyOrbVal: FRAMERATE * 3,
     antimatterOrbVal: FRAMERATE * 2,
     maxForceFieldLength: playerRadius * 3
