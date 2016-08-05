@@ -7,6 +7,7 @@
     userErrorMessage.x = STAGE_WIDTH / 2;
     userErrorMessage.y = STAGE_HEIGHT / 3;
     userErrorMessage.textAlign = "center";
+    // TODO: make param a container
     //spacebounce.mainGame.containers.root.addChild(userErrorMessage);
   }
 }(spacebounce));

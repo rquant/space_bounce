@@ -1,6 +1,3 @@
-/*
- *A button used for a menu
- */
 (function (spacebounce) {
 
     function Button(width, height) {
@@ -24,7 +21,9 @@
           this.width = width;
           this.height = height;
 
-          var underlay = new createjs.Shape(); //this is a transparent underlay so the button will detect click events any where in the container
+          // transparent layer ensuring the button will detect click events
+          // any where in the container
+          var underlay = new createjs.Shape();
           underlay.graphics.beginFill("#000").drawRoundRect(
             0, 0 , width, height, 2
           ).endFill();

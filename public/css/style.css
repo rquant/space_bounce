@@ -3,14 +3,6 @@ body {
     text-align: center;
 }
 
-#root-container {
-    width: 959px;
-    height: 730px;
-    margin-top: 0;
-    margin-right: auto;
-    margin-left: auto;
-}
-
 div, body, h1 {
     margin: 0; padding: 0; border: 0;
 }
@@ -41,12 +33,6 @@ header nav ul li a {
 
 a:hover {
     color: #FFFFFF;
-}
-
-
-#page-content {
-    clear: both;
-    overflow: hidden;
 }
 
 h2 {
@@ -103,4 +89,22 @@ footer {
     font-family: Avenir;
     font-size: 14px;
     color: #FFFFFF;
+}
+
+#root-container {
+    width: 959px;
+    height: 730px;
+    margin-top: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#debug-canvas {
+  border: solid 1px;
+  display: none;
+}
+
+#page-content {
+    clear: both;
+    overflow: hidden;
 }

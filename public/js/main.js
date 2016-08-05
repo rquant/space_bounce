@@ -9,7 +9,7 @@ $(document).ready(function() {
     const STAGE_WIDTH = config.stage.width;
     const STAGE_HEIGHT = config.stage.height;
 
-    //setup the main canvas used for the game
+    // setup the main canvas used for the game
     var canvas = $("#main-canvas")[0];
     canvas.width = STAGE_WIDTH;
     canvas.height = STAGE_HEIGHT;
@@ -19,10 +19,7 @@ $(document).ready(function() {
     context.fillRect(0,0, canvas.width, canvas.height);
     var stage = new createjs.Stage("main-canvas");
 
-    //seperate convas for debugging box2d simulation
-    debugCanvas = $("#debugCanvas")[0];
-
-    //set up loading screen
+    // set up loading screen
     var loadProgressContainer = new createjs.Container();
 
     var loadProgressLabel = new createjs.Text(
@@ -59,9 +56,14 @@ $(document).ready(function() {
     stage.addChild(loadProgressContainer);
     stage.update();
 
-    game.canvas = canvas;
-    game.stage = stage;
+    // seperate canvas for debugging box2d simulation
+    var debugCanvas = $("#debug-canvas")[0];
+    debugCanvas.width = STAGE_WIDTH;
+    debugCanvas.height = STAGE_HEIGHT;
 
+    game.canvas = canvas;
+    game.debugCanvas = debugCanvas;
+    game.stage = stage;
     /*
      * the preloader is responsible for compiling recourses and its progress
        is can be shown to user via loading screen

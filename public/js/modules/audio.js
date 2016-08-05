@@ -1,4 +1,4 @@
-//load and prepare the audio assets
+// load and prepare the audio assets for use
 spacebounce.audio = (function() {
 
     function init() {

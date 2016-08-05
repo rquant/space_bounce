@@ -1,5 +1,5 @@
 /*
- *The menu is a container with a title and set of buttons
+ *The menu is represented by container with a title and set of buttons
  */
 (function (spacebounce) {
 

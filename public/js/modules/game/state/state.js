@@ -1,6 +1,6 @@
 /*
  *  This module is essentailly the core of the application, and controls the
-    state and logic of the game. Other modules/classes communicate with this
+    state and logic of the game. Other modules and classes communicate with this
     module directly, rather than directly comunicating with other modules to
     avoid tight coupling.
  */
@@ -56,16 +56,16 @@ spacebounce.game.state = (function (game, state) {
       amplify.publish('game-active');
     }
 
-    function endGame() {
+    function endGame(menuName) {
       b2Context.enqueAllBodiesForRemoval();
       containers.hud.visible = false;
       createjs.Ticker.removeEventListener('tick', gameRunningTick);
       createjs.Ticker.addEventListener('tick', backgroundTick);
-      state.menu.launchNewMenu('gameover');
+      state.menu.launchNewMenu(menuName);
       amplify.publish('game-inactive');
     }
 
-    // only runs background animations unrelated to gameplay
+    // executes single step of background aniation when gameplay is inactive
     function backgroundTick() {
         starFieldAnimation();
         game.stage.update();
@@ -82,23 +82,24 @@ spacebounce.game.state = (function (game, state) {
       }
     }
 
+    // executes a single step of active gameplay
     function gameRunningTick(event) {
       // The amount of ticks remaining until the game ends
         if (ticksRemaining <= 0)
-          endGame();
+          endGame('gamecompleted');
 
         starFieldAnimation();
         //generate energy orbs randomly
         orbDelayCounter++;
         if ((orbDelayCounter % 80) == 0) {
            new spacebounce.EnergyOrb(
-             containers.orbs, b2Context
+             containers.orbs, b2Context, config.gameplay.energyOrbVal
             );
         }
 
         if (Math.random()<0.002) {
           new spacebounce.AntimatterOrb(
-            containers.orbs, b2Context
+            containers.orbs, b2Context, config.gameplay.antimatterOrbVal
           );
         }
 
@@ -114,16 +115,16 @@ spacebounce.game.state = (function (game, state) {
 
     /*
       The subscriptions submodule acts as a mediator, and passively controls
-      state based on observations of events happening in the app that
+      game state based on observations of events happening in the app that
       other modules publish. This decreases coupling.
     */
     state.subscriptions = (function() {
       amplify.subscribe('player-exits-boundary', function() {
-        endGame();
+        endGame('gameover');
       });
 
       amplify.subscribe('player-energy-depleted', function() {
-        endGame();
+        endGame('gameover');
       });
 
       amplify.subscribe('player-contacts-forcefield', function(forceField) {
@@ -132,14 +133,13 @@ spacebounce.game.state = (function (game, state) {
       });
 
       amplify.subscribe('player-consumes-energyorb', function(player, orb) {
-        player.increaseEnergySupply();
+        player.increaseEnergySupply(orb.energyVal);
         orb.markedForRemoval = true;
-        orb.terminateWithTween = true;
         createjs.Sound.play("Absorb");
       });
 
       amplify.subscribe('player-consumes-antimatterorb', function(player, orb) {
-        player.decreaseEnergySupply();
+        player.decreaseEnergySupply(orb.energyVal);
         orb.markedForRemoval = true;
         orb.terminateWithTween = true;
         createjs.Sound.play("Absorb");

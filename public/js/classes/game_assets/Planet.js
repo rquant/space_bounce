@@ -6,7 +6,7 @@
     function Planet() {
         this.initialize();
     }
-
+    var config = spacebounce.config;
     var p = Planet.prototype = new createjs.Shape();
 
     p.radius;
@@ -17,16 +17,17 @@
     p.initialize = function() {
 
         this.Shape_initialize();
-        const STAGE_WIDTH = spacebounce.config.stage.width;
-        const STAGE_HEIGHT = spacebounce.config.stage.height;
+        const STAGE_WIDTH = config.stage.width;
+        const STAGE_HEIGHT = config.stage.height;
 
         this.x = STAGE_WIDTH/2;
         this.y = (2.2)* STAGE_HEIGHT +50;
-        //this.y = (3)*STAGE_HEIGHT;
         this.radius = STAGE_WIDTH;
         this.color = "#E7F3FF";
 
-        this.graphics.beginFill(this.color).drawCircle(0, 0, this.radius).endFill();
+        this.graphics.beginFill(this.color).drawCircle(
+          0, 0, this.radius
+        ).endFill();
 
          var blurFilter = new createjs.BlurFilter(5, 5, 2);
 
@@ -40,12 +41,15 @@
         var quality = 1;
         var inner = false;
         var knockout = false;
-        var glowFilter = new createjs.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
+        var glowFilter = new createjs.GlowFilter(
+          color, alpha, blurX, blurY, strength, quality, inner, knockout
+        );
 
         this.filters = [blurFilter, glowFilter];
-        this.cache(-STAGE_WIDTH+bounds.x, -STAGE_WIDTH+bounds.y, (2*STAGE_WIDTH+STAGE_WIDTH)+bounds.width, 2*STAGE_WIDTH+bounds.height);
-        var dataUrl = this.getCacheDataURL();
-
+        this.cache(-STAGE_WIDTH+bounds.x,
+                   -STAGE_WIDTH+bounds.y,
+                   (2*STAGE_WIDTH+STAGE_WIDTH)+bounds.width,
+                   2*STAGE_WIDTH+bounds.height);
     }
 
     spacebounce.Planet = Planet;

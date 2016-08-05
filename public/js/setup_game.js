@@ -7,15 +7,17 @@
   var game = spacebounce.game;
   var containers = game.containers;
   var hud = game.hud;
+  var audio = spacebounce.audio;
   var b2Context = spacebounce.box2dContext;
-  spacebounce.audio.init();
+
+  audio.init();
+  b2Context.init(game.debugCanvas);
 
   setupBackgroundLayers();
   setupInteractiveLayers();
-  b2Context.setup();
 
   // set up the background layers of the game. contains non-interactive
-  // elements not used for actual gameplay.
+  // elements not related to active gameplay.
   function setupBackgroundLayers() {
     var background = new createjs.Shape();
     background.graphics.beginFill(config.background.color).drawRect(
@@ -40,7 +42,7 @@
   function setupInteractiveLayers() {
     // TODO: after thinking about, maybe it's best not to pass parent container as param
     // to our objects. the createjs objects have an internal reference to parent already,
-    // and the display order of objects is determined by there initialization order (bad)
+    // and the display order of objects is determined by their initialization order (bad)
     containers.hud.addChild(hud.energyGuage, hud.pauseButton, hud.timerDisplay);
     containers.hud.visible = false;
 

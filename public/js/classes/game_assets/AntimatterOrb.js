@@ -1,12 +1,13 @@
 /*
- *The antimatter orb is a particle that depletes the player's energy by a certain amount when contacted.
+ * The antimatter orb is a particle that depletes the player's energy by a certain amount when contacted.
  */
 (function (spacebounce) {
 
-    function AntimatterOrb(parentContainer, physicsContext) {
-        this.initialize(parentContainer, physicsContext);
+    function AntimatterOrb(parentContainer, physicsContext, energyVal) {
+        this.initialize(parentContainer, physicsContext, energyVal);
     }
     var config = spacebounce.config;
+    const BOUNDS = config.stage.boundary;
     const STAGE_WIDTH = config.stage.width;
     const STAGE_HEIGHT = config.stage.height;
 
@@ -22,19 +23,20 @@
 
     p.Shape_initialize = p.initialize;
 
-    p.initialize = function(parentContainer, physicsContext) {
+    p.initialize = function(parentContainer, physicsContext, energyVal) {
 
         this.Shape_initialize();
         this.parentContainer = parentContainer;
+        this.energyVal = energyVal;
         this.radius = 5;
 
         //set a random direction for the orb to move
-        var angle = Math.random()*(2*Math.PI);
+        var angle = Math.random() * (2 * Math.PI);
         this.vx = Math.cos(angle);
         this.vy = Math.sin(angle);
 
         //set the initial position based on this velocity so the orb floats across the stage
-        if ((Math.random()*(STAGE_WIDTH+STAGE_HEIGHT))>STAGE_WIDTH) {
+        if ((Math.random()*(STAGE_WIDTH+STAGE_HEIGHT)) > STAGE_WIDTH) {
             //position on left or right
             if (this.vx > 0)
                 this.x = -this.radius;
@@ -62,7 +64,9 @@
 
         this.color = "red";
         this.alpha = 0.6;
-        this.graphics.beginFill(this.color).drawCircle(0, 0, this.radius).endFill();
+        this.graphics.beginFill(this.color).drawCircle(
+          0, 0, this.radius
+        ).endFill();
 
         this.parentContainer.addChild(this);
 
@@ -77,15 +81,27 @@
         physicsContext.createCircularPhysicsBody(this);
     }
 
-    // TODO: Looks like I forgot to check for out of bounds and then removal! this
-    // could be causing a big performance leak.
+    /*
+      if orb is outside stage (after already entering it), it is ready to be
+      removed. Ideally, it would be nice to use a box2d sensor rather than
+      manually check every step, but they don't work with kinematic bodies
+      such as this unfortunately.
+    */
     p.tick = function() {
+      if (this.x<-BOUNDS || this.x>STAGE_WIDTH+BOUNDS ||
+          this.y<-BOUNDS || this.y>STAGE_HEIGHT+BOUNDS) {
+         if (this.enteredStage) {
+           this.markedForRemoval = true;
+         }
+      }
+      else this.enteredStage = true;
     }
 
-
     p.terminate = function() {
-        createjs.Tween.get(this).to({scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn).call(function() {
-            this.parentContainer.removeChild(this); //this function runs on completion of the tween
+        createjs.Tween.get(this).to(
+          {scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn
+        ).call(function() {
+            this.parentContainer.removeChild(this);
         });
     }
 

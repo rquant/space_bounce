@@ -1,5 +1,6 @@
 /*
- *The star used in the background star field animation. Perceived distance is random.
+ *The star used in the background star field animation.
+ Perceived distance is random.
  */
 (function (spacebounce) {
 
@@ -11,7 +12,7 @@
 
     //public properties
     p.radius;
-    p.vY; //Velocity Y
+    p.vY; // vertical velocity
     p.color;
 
     //constructor
@@ -19,8 +20,6 @@
     var utils = spacebounce.utils;
 
     p.initialize = function() {
-
-        //call super
         this.Shape_initialize();
 
         this.color = "white";
@@ -31,8 +30,8 @@
         /*
           To acheive a sense of depth, stars will be generated with a random
           radius and a proportionate velocity will be calculated. So slower,
-          smaller stars will appear to be further away from the  user and vice
-          versa.
+          smaller circular objects will appear to be stars further away from
+          the user and vice versa.
         */
         const MIN_RADIUS = 0.3;
         const MAX_RADIUS = 0.7;
