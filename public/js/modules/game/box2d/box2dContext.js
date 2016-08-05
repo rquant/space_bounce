@@ -30,28 +30,23 @@ spacebounce.box2dContext = (function(box2dContext) {
     var bodiesToRemove = [];
 
     //Sets up the box2d world
-    function setup() {
-      var debugCanvas = $("#debugCanvas")[0];
+    function init(debugCanvas) {
       var debugContext = debugCanvas.getContext("2d");
       world = new b2World(new b2Vec2(GRAVITY_X, GRAVITY_Y), true);
       addDebug(debugContext);
       world.SetContactListener(contactListener);
 
-      //setup boundary sensors. Used to detect when objects have left the bounds of the stage
-      createSensor(0, STAGE_HEIGHT/2, 1 / SCALE, STAGE_HEIGHT * 30); //left sensor
-      createSensor(STAGE_WIDTH, STAGE_HEIGHT / 2, 1, STAGE_HEIGHT * 30); //right sensor
-      createSensor(STAGE_WIDTH/ 2, STAGE_HEIGHT, STAGE_WIDTH/ 2, 1); //bottom sensor
-    }
+      /*
+      setup boundary sensors. Used to detect when objects have left the bounds
+      of the stage
+      */
 
-    //setup a seperate box2d world for the bouncing player demo in the box2d demonstration page. Not used for the game.
-    function demoSetup() {
-        var debugCanvas = $("#debugCanvas")[0];
-        var debugContext = debugCanvas.getContext("2d");
-        world = new b2World(new b2Vec2(2, GRAVITY_Y), true);
-        addDebug(debugContext);
-        createStaticBoundary(BOX2D_DEMO_WIDTH/2, BOX2D_DEMO_HEIGHT, BOX2D_DEMO_WIDTH, BOX2D_DEMO_HEIGHT);
-        createStaticBoundary(BOX2D_DEMO_WIDTH, BOX2D_DEMO_HEIGHT/2, 1, BOX2D_DEMO_HEIGHT);
-
+      //left sensor
+      createSensor(0, STAGE_HEIGHT/2, 1 / SCALE, STAGE_HEIGHT * 30);
+      //right sensor
+      createSensor(STAGE_WIDTH, STAGE_HEIGHT / 2, 1, STAGE_HEIGHT * 30);
+      //bottom sensor
+      createSensor(STAGE_WIDTH/ 2, STAGE_HEIGHT, STAGE_WIDTH/ 2, 1);
     }
 
     // use seperate canvas for debugging
@@ -65,7 +60,7 @@ spacebounce.box2dContext = (function(box2dContext) {
         world.SetDebugDraw(debugDraw);
     }
 
-    //creates an invisible static boundary to keep our bodies in place (currently only used for demo-purposes)
+    // creates an invisible static boundary to keep our bodies in place
     function createStaticBoundary(x, y, width, height) {
         var fixture = new b2FixtureDef;
         fixture.density = 1;
@@ -154,7 +149,8 @@ spacebounce.box2dContext = (function(box2dContext) {
         this.object = object;
         this.type = object.type;
 
-        this.enteredStage = false; //determines if a kinematic body has entered the stage
+        // determines if a kinematic body has entered the stage
+        this.enteredStage = false;
 
         this.update = function() {
             this.object.rotation = this.body.GetAngle() * (180/Math.PI);
@@ -181,7 +177,7 @@ spacebounce.box2dContext = (function(box2dContext) {
         }
     }
 
-    // Creates
+    // Creates an actor for a body that is static in the game world
     function StaticActorObject(body, object) {
       this.body = body;
       this.object = object;
@@ -191,15 +187,9 @@ spacebounce.box2dContext = (function(box2dContext) {
       }
     }
 
-    //Listeners
-    //collision detection listener
     var contactListener = new b2ContactListener;
 
-    //triggered when collision begins
-    // TODO: Massive dependencies here. This might be a use case for pub/sub
-    // pattern. For example, the player would subsribe to service to determine
-    // if energy supply should be increased. EnergyOrb would publish this notice when contact
-    // event is fired.
+    // triggered when collision begins
     contactListener.BeginContact = function(contact) {
       var objectA = contact.GetFixtureA().GetBody().GetUserData().getObject();
       var objectB = contact.GetFixtureB().GetBody().GetUserData().getObject();
@@ -208,7 +198,7 @@ spacebounce.box2dContext = (function(box2dContext) {
 
     }
 
-    //triggered after collision ends
+    // triggered after collision ends
     contactListener.EndContact = function(contact) {
       var objectA = contact.GetFixtureA().GetBody().GetUserData().getObject();
       var objectB = contact.GetFixtureB().GetBody().GetUserData().getObject();
@@ -219,7 +209,7 @@ spacebounce.box2dContext = (function(box2dContext) {
      contactListener.PostSolve = function(contact, impulse) {
      }
 
-    //handle each step of the simulation
+    // handle each step of the simulation, driven by the Ticker
     function update() {
         world.Step(TIMESTEP, 12, 10);
         world.DrawDebugData();
@@ -227,7 +217,7 @@ spacebounce.box2dContext = (function(box2dContext) {
 
         removeBodiesMarkedForRemoval();
 
-        //update the actors
+        // update the actors
         for(var i=0;i<actors.length;i++){
           actors[i].update();
           if (actors[i].getObject().markedForRemoval)
@@ -235,12 +225,7 @@ spacebounce.box2dContext = (function(box2dContext) {
         }
     }
 
-    //return the box2d world
-    function getWorld() {
-        return world;
-    }
-
-    //eunque all box2d bodies for removal
+    // eunque all box2d bodies for removal
     function enqueAllBodiesForRemoval() {
         for(var i=0, j = actors.length; i<j; i++) {
           var actor = actors[i];
@@ -248,7 +233,8 @@ spacebounce.box2dContext = (function(box2dContext) {
         }
     }
 
-    //if a body is enqued for removal, it must be reoved from the box2d world as well as its actor object
+    // if a body is enqued for removal, it must be removed from the box2d world
+    // and its actor as well
     function removeBodiesMarkedForRemoval() {
         //remove any bodies marked for removal
         for(var i=0, l=bodiesToRemove.length; i<l;i++) {
@@ -261,35 +247,18 @@ spacebounce.box2dContext = (function(box2dContext) {
         bodiesToRemove = [];
     }
 
-    //terminates the object of the actor and removes the actor
+    // terminates the display object of the actor and removes the actor
     function removeActor(actor) {
-
         actor.object.terminate();
         actors.splice(actors.indexOf(actor),1);
     }
 
-
-    //remove any forcefields on the stage
-    function clearForceFields() {
-        for (var i=0;i<bodies.length;i++) {
-            if (bodies[i].GetUserData().getObject() instanceof ForceField) {
-                var body = bodies[i];
-                bodiesToRemove.push(body);
-            }
-        }
-    }
-
-
-
     return {
-        setup: setup,
-        demoSetup: demoSetup,
+        init: init,
         createPolygonalPhysicsBody: createPolygonalPhysicsBody,
         createCircularPhysicsBody: createCircularPhysicsBody,
         update: update,
-        enqueAllBodiesForRemoval: enqueAllBodiesForRemoval,
-        getWorld: getWorld,
+        enqueAllBodiesForRemoval: enqueAllBodiesForRemoval
     }
-
 
 })(spacebounce.box2dContext);

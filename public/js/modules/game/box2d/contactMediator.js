@@ -2,14 +2,13 @@
   spacebounce.box2dContext = spacebounce.box2dContext || {};
 
   /*
-    Determines the context of the collision of two objects. This context is defined by the type
-    of objects colliding, and is abstacted into a pub/sub topic that is
-    published to a subscriber in the game state controller.
+    Determines the context of the collision of two objects. This context is
+    defined by the type of objects colliding, and is abstacted into a pub/sub
+    topic that is published to a subscriber in the game state module.
 
-    Because this implementation is tightly coupled to class types
-    present in the game (I'm not currently aware of a better way around this),
-    it is placed into a submodule to keep the more
-    complex box2dContext parent module loosely coupled from other classes.
+    Because this implementation is tightly coupled to class definitions
+    used by the game, it is placed into a submodule to keep the more
+    complex box2dContext parent module more loosely coupled.
   */
   spacebounce.box2dContext.contactMediator = (function() {
 

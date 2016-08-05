@@ -45,12 +45,14 @@
             spacebounce.game.state.pauseGame();
         });
 
-        //ensures gameplay interactions (force field creation) is disabled when user clicks on pause button
+        // ensures gameplay interactions such as force field creation
+        // are disabled when user clicks on pause button
         p.addEventListener("mouseover", function (event) {
             event.target.stage.fireMouseEvent = false;
         });
 
-        //re-enables gameplay interactions when user is no longer hovering over pause button
+        // re-enables gameplay interactions when user is no longer hovering over
+        // pause button
          p.addEventListener("mouseout", function (event) {
             event.target.stage.fireMouseEvent = true;
         });

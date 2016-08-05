@@ -1,5 +1,8 @@
 (function(game) {
-
+  /*
+    the containers represent the stacked two dimensional layers composing the
+    game
+  */
   game.containers = {
     root: new createjs.Container(),
     background: new createjs.Container(),

@@ -20,7 +20,7 @@
           var textWrapper = new createjs.Text(text, "20px Avenir", "#FFFFFF");
           textWrapper.textAlign = "center";
           textWrapper.textBaseline = "middle";
-          //offset the textWrapper to be in the center of the button
+          // offset the textWrapper to be in the center of the button
           textWrapper.x = this.width/2;
           textWrapper.y = this.height/2;
 

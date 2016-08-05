@@ -44,7 +44,7 @@
 
     }
 
-    //update the guage to match the energy supply
+    // update the guage to match the energy supply of the player
     p.tick = function(energySupply) {
         energySupplyRatio = energySupply / config.gameplay.maxPlayerEnergy;
         this.energyGuageBar.scaleX = energySupplyRatio;

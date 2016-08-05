@@ -1,5 +1,6 @@
 /*
- *Active label to reflect the amount of time in seconds when until the player is rescued and thus wins the game
+ * Active label to reflect the amount of time in seconds when until the player
+   wins the game
  */
 (function (spacebounce) {
 
@@ -15,17 +16,12 @@
     p.color = "#FFF";
     p.secondsRemaining = config.gameplay.timeRemaining;
 
-    //constructor
     p.Container_initialize = p.initialize;
 
     p.initialize = function() {
-
-        //call super
         this.Container_initialize();
-        //set up loading screen
 
         var label = new createjs.Text("", "13px Futura", this.color);
-        // label.text = "TIME REMAINING: " + this.secondsRemaining;
         label.textAlign = "center";
 
         this.label = label;

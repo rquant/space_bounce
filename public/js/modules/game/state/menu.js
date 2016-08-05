@@ -1,6 +1,6 @@
 spacebounce.game.state = spacebounce.game.state || {};
 /*
-  The state of the current menu is tighly coupled with the current state of the
+  The state of the current menu is inherently driven by the current state of the
   game. Therefore the "controller" that handles the current menu view is a
   submodule of the game state
 */

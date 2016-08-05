@@ -1,9 +1,6 @@
 /*
-  instantiates the menus used in the main game, and controls the state of the
-  currently displayed menu. The publish/subscribe pattern is used to access this
-  module rather than allowing direct assess in order to decrease coupling.
+  The menu instances used in the game
 */
-
 spacebounce.game.menus = (function(game) {
   var config = spacebounce.config;
   const STAGE_WIDTH = config.stage.width;
@@ -22,24 +19,37 @@ spacebounce.game.menus = (function(game) {
 
     var name = 'welcome';
     var title = "Welcome to Space Bounce";
-    var menu = new spacebounce.Menu(name, title, [playButton, instructionsButton]);
+    var menu = new spacebounce.Menu(
+      name, title, [playButton, instructionsButton]
+    );
     return menu;
   }();
 
   var instructionsMenu = function() {
     var content = new createjs.Container();
     var description = new createjs.Text("", "18px Avenir", "#FFF");
-    description.text = "Your mission is to save the austronaut from crashing into " +
-    " the planet below. Drag your mouse on the stage to \ndraw force fields. " +
-    "These force fields will deflect the capsule against gravity. Once your " +
-    "energy supply depletes\nhowever, you will be unable to generate new " +
-    "force fields. You must collide the space capsule with the floating\n" +
-    "green energy orbs to replenish your energy. Avoid the red antimatter " +
-    "orbs as they will deplete it even further.\nKeep the astronaut alive " +
-    "long enough for the designated time and you will save her. Good luck.";
-    description.textAlign = "center";
-    description.x = STAGE_WIDTH/2;
+    description.text = "An astronaut in a spherical escape pod is crash " +
+    "landing to the planet below. You must keep the capsule afloat in " +
+    "space until the timer ends, when rescue will arive and the game will " +
+    "be complete.\n\n";
+    description.text += "Click down and drag your mouse across the game stage " +
+    "to create a force field in the path of the falling capsule. The capsule " +
+    "will bounce off the force field, and the force field will dissipate. " +
+    "Repeat this process to keep the capsule afloat until the timer " +
+    "expires.\n\n";
+    description.text += "This requires energy however, which steadily " +
+    "depletes and its level is shown in the green energy gauge (upper left " +
+    "corner of the stage). If the energy runs " +
+    "out you cannot generate more force fields and its game over.\n\n";
+    description.text += "Luckily green energy orbs are floating around in " +
+    "space which you can acquire. Deflect the capsule to make contact with " +
+    "these orbs and replenish your energy. Avoid the red antimatter orbs " +
+    "which will further deplete your energy instead.";
+
+    description.textAlign = "left";
+    description.x = STAGE_WIDTH/8;
     description.y = STAGE_HEIGHT/3;
+    description.lineWidth = STAGE_WIDTH * (3/4);
     content.addChild(description);
 
     var goBackButton = new spacebounce.MenuButton("Go Back");
@@ -71,6 +81,24 @@ spacebounce.game.menus = (function(game) {
 
     var name = 'gameover';
     var title = "Game Over";
+    var buttons = [restartButton, instructionsButton];
+    var menu = new spacebounce.Menu(name, title, buttons);
+    return menu;
+  }();
+
+  var gameCompletedMenu = function() {
+    var restartButton = new spacebounce.MenuButton("Restart");
+    restartButton.addEventListener("click", function(event) {
+       game.state.beginGame();
+    });
+
+    var instructionsButton = new spacebounce.MenuButton("Instructions");
+    instructionsButton.addEventListener("click", function(event) {
+      game.state.menu.launchSubMenu('instructions');
+    });
+
+    var name = 'gamcompleted';
+    var title = "Game Completed!";
     var buttons = [restartButton, instructionsButton];
     var menu = new spacebounce.Menu(name, title, buttons);
     return menu;
@@ -110,6 +138,9 @@ spacebounce.game.menus = (function(game) {
         case 'pause':
           menu = pauseMenu;
           break
+        case 'gamecompleted':
+          menu = gameCompletedMenu;
+          break;
         default:
           var errMsg = 'There is no menu matching the name "' + name + '"'
           throw new game.Exception(errMsg);
