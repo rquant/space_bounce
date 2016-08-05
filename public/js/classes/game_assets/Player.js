@@ -18,10 +18,6 @@
     p.capsule_radius;
     p.capsule_color;
 
-    //properties of port on the capsule
-    p.port_radius;
-    p.port_color;
-
     p.respawnOnTermination;
 
     p.Container_initialize = p.initialize;
@@ -36,25 +32,56 @@
       this.energySupply = this.maxEnergy = config.gameplay.maxPlayerEnergy;
 
       this.capsule_radius = config.gameplay.playerRadius;
-      this.capsule_color = "#E6E6E6";
+      this.capsule_color = "#b3b3b3";
       var capsule = new createjs.Shape();
       capsule.alpha = 1;
       capsule.graphics.beginFill(this.capsule_color).drawCircle(
         0, 0, this.capsule_radius
       ).endFill();
 
-      this.port_radius = this.capsule_radius / 3;
-      this.port_color = "#FF8533";
-      var port = new createjs.Shape();
-      port.alpha = 1;
-      capsule.graphics.beginFill(this.port_color).drawCircle(
-        0, 0, this.port_radius
-      ).endFill();
 
       this.x = config.stage.width / 2;
-      this.y = -3 * this.port_radius;
+      this.y = -this.capsule_radius;
 
-      this.addChild(capsule, port);
+      this.addChild(capsule);
+
+      var lines = 6;
+      for(i=0; i<lines; i++) {
+        var l1 = new createjs.Shape();
+        l1.graphics.setStrokeStyle(0.2);
+        l1.graphics.beginStroke('#404040');
+        l1.graphics.moveTo(0, 0);
+
+        var theta = (i/lines) * (2*Math.PI);
+        var endX = this.capsule_radius * Math.cos(theta);
+        var endY = this.capsule_radius * Math.sin(theta);
+        l1.graphics.lineTo(endX, endY);
+        l1.graphics.endStroke();
+
+        this.addChild(l1);
+      }
+
+
+      var blurFilter = new createjs.BlurFilter(2, 2, 2);
+
+      var color = 0xffffff;
+      var alpha = 1;
+      var blurX = 16;
+      var blurY = 16;
+      var strength = 1;
+      var quality = 4;
+      var inner = true;
+      var knockout = false;
+      var glowFilter = new createjs.GlowFilter(
+        color, alpha, blurX, blurY, strength, quality, inner, knockout
+      );
+
+
+      capsule.filters = [blurFilter, glowFilter];
+      capsule.cache(-this.capsule_radius, -this.capsule_radius, this.capsule_radius * 2, this.capsule_radius * 2);
+
+
+
       // TODO: ugly!! find a better way
       if(parentContainer) {
         parentContainer.addChild(this);
