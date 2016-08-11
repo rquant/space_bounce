@@ -93,7 +93,6 @@ $(document).ready(function() {
         {src: "js/classes/interface/PauseButton.js"},
         {src: "js/classes/interface/TimerDisplay.js"},
 
-        {src: "js/Exception.js"},
         {src: "js/modules/game/containers.js"},
         {src: "js/modules/game/hud.js"},
         {src: "js/modules/game/menus.js"},
