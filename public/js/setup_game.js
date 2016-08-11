@@ -40,9 +40,6 @@
   }
 
   function setupInteractiveLayers() {
-    // TODO: after thinking about, maybe it's best not to pass parent container as param
-    // to our objects. the createjs objects have an internal reference to parent already,
-    // and the display order of objects is determined by their initialization order (bad)
     containers.hud.addChild(hud.energyGuage, hud.pauseButton, hud.timerDisplay);
     containers.hud.visible = false;
 

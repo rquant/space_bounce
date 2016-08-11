@@ -3,14 +3,13 @@
  */
 (function (spacebounce) {
 
-    function Player(parentContainer, physicsContext) {
-        this.initialize(parentContainer, physicsContext);
+    function Player(physicsContext) {
+        this.initialize(physicsContext);
     }
     var config = spacebounce.config;
 
     var p = Player.prototype = new createjs.Container();
 
-    p.parentContainer;
     p.energySupply; //if this runs out the game will end
     p.maxEnergy;
     //properties of the capsule
@@ -21,10 +20,8 @@
 
     p.Container_initialize = p.initialize;
 
-    p.initialize = function(parentContainer, physicsContext) {
+    p.initialize = function(physicsContext) {
       this.Container_initialize();
-
-      this.parentContainer = parentContainer;
       this.energySupply = this.maxEnergy = config.gameplay.maxPlayerEnergy;
 
       this.radius = config.gameplay.playerRadius;
@@ -57,11 +54,6 @@
         l.graphics.endStroke();
 
         this.addChild(l);
-      }
-
-      // TODO: ugly!! find a better way
-      if(parentContainer) {
-        parentContainer.addChild(this);
       }
 
       this.respawnOnTermination = false;
@@ -97,7 +89,12 @@
     }
 
     p.terminate = function() {
-        this.parentContainer.removeChild(this);
+        try {
+          this.parent.removeChild(this);
+        }
+        catch(err) {
+          console.log(err);
+        }
     }
 
     p.getClassName = function() {
