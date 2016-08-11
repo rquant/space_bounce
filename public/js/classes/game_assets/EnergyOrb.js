@@ -73,7 +73,7 @@
           this.parentContainer.addChild(this);
         }
         catch(err) {
-          throw new spacebounce.mainGame.Exception(err);
+          console.log(err);
         }
 
 

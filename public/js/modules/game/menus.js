@@ -142,8 +142,7 @@ spacebounce.game.menus = (function(game) {
           menu = gameCompletedMenu;
           break;
         default:
-          var errMsg = 'There is no menu matching the name "' + name + '"'
-          throw new game.Exception(errMsg);
+          throw new Error('no menu matching the name ' + name);
       }
       return menu;
     }
