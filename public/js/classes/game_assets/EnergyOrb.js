@@ -4,8 +4,8 @@
  */
 (function (spacebounce) {
 
-    function EnergyOrb(parentContainer, physicsContext, energyVal) {
-        this.initialize(parentContainer, physicsContext, energyVal);
+    function EnergyOrb(physicsContext, energyVal) {
+        this.initialize(physicsContext, energyVal);
     }
     var config = spacebounce.config;
     const BOUNDS = config.stage.boundary;
@@ -13,7 +13,6 @@
     const STAGE_HEIGHT = config.stage.height;
 
     var p = EnergyOrb.prototype = new createjs.Shape();
-    p.parentContainer;
     p.radius;
     p.color;
 
@@ -24,10 +23,8 @@
 
     p.Shape_initialize = p.initialize;
 
-    p.initialize = function(parentContainer, physicsContext, energyVal) {
-
+    p.initialize = function(physicsContext, energyVal) {
         this.Shape_initialize();
-        this.parentContainer = parentContainer;
         this.energyVal = energyVal;
         this.radius = 8;
 
@@ -69,14 +66,6 @@
         this.alpha = 0.6;
         this.graphics.beginFill(this.color).drawCircle(0, 0, this.radius).endFill();
 
-        try {
-          this.parentContainer.addChild(this);
-        }
-        catch(err) {
-          console.log(err);
-        }
-
-
         //box2d properties
         this.density = 1;
         this.restitution = 0.8;
@@ -108,11 +97,16 @@
     }
 
     p.terminate = function() {
-      createjs.Tween.get(this).to(
-        {scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn
-      ).call(function() {
-        this.parentContainer.removeChild(this);
-      });
+      try {
+        createjs.Tween.get(this).to(
+          {scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn
+        ).call(function() {
+          this.parent.removeChild(this);
+        });
+      } catch(err) {
+        console.log(err);
+      }
+
     }
 
     p.getClassName = function() {

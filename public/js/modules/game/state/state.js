@@ -31,9 +31,8 @@ spacebounce.game.state = (function (game, state) {
       state.menu.clearMenu();
       containers.hud.visible = true;
       createjs.Ticker.removeEventListener('tick', backgroundTick);
-      player = new spacebounce.Player(
-        containers.player, b2Context
-      );
+      player = new spacebounce.Player(b2Context);
+      containers.player.addChild(player);
       ticksRemaining = FPS * config.gameplay.timeRemaining;
       orbDelayCounter = 0;
       createjs.Ticker.addEventListener('tick', gameRunningTick);
@@ -92,15 +91,17 @@ spacebounce.game.state = (function (game, state) {
         //generate energy orbs randomly
         orbDelayCounter++;
         if ((orbDelayCounter % 80) == 0) {
-           new spacebounce.EnergyOrb(
-             containers.orbs, b2Context, config.gameplay.energyOrbVal
+           var orb = new spacebounce.EnergyOrb(
+             b2Context, config.gameplay.energyOrbVal
             );
+           containers.orbs.addChild(orb);
         }
 
         if (Math.random()<0.002) {
-          new spacebounce.AntimatterOrb(
-            containers.orbs, b2Context, config.gameplay.antimatterOrbVal
+          var orb = new spacebounce.AntimatterOrb(
+            b2Context, config.gameplay.antimatterOrbVal
           );
+          containers.orbs.addChild(orb);
         }
 
         if (player) {

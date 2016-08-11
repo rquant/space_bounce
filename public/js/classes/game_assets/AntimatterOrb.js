@@ -3,8 +3,8 @@
  */
 (function (spacebounce) {
 
-    function AntimatterOrb(parentContainer, physicsContext, energyVal) {
-        this.initialize(parentContainer, physicsContext, energyVal);
+    function AntimatterOrb(physicsContext, energyVal) {
+        this.initialize(physicsContext, energyVal);
     }
     var config = spacebounce.config;
     const BOUNDS = config.stage.boundary;
@@ -12,7 +12,6 @@
     const STAGE_HEIGHT = config.stage.height;
 
     var p = AntimatterOrb.prototype = new createjs.Shape();
-    p.parentContainer;
     p.radius;
     p.color;
 
@@ -23,10 +22,9 @@
 
     p.Shape_initialize = p.initialize;
 
-    p.initialize = function(parentContainer, physicsContext, energyVal) {
+    p.initialize = function(physicsContext, energyVal) {
 
         this.Shape_initialize();
-        this.parentContainer = parentContainer;
         this.energyVal = energyVal;
         this.radius = 5;
 
@@ -68,8 +66,6 @@
           0, 0, this.radius
         ).endFill();
 
-        this.parentContainer.addChild(this);
-
         //box2d properties
         this.density = 1;
         //this.friction = 1;
@@ -98,11 +94,16 @@
     }
 
     p.terminate = function() {
+      try {
         createjs.Tween.get(this).to(
           {scaleX: 0, scaleY: 0}, 300, createjs.Ease.bounceIn
         ).call(function() {
-            this.parentContainer.removeChild(this);
+            this.parent.removeChild(this);
         });
+      } catch(err) {
+        console.log(err);
+      }
+
     }
 
     p.getClassName = function() {
