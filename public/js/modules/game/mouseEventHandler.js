@@ -24,8 +24,6 @@ spacebounce.game.mouseEventHandler = (function (game) {
     var a = new createjs.Point(0, 0); //the point of user's initial mouse down
     var b = new createjs.Point(0, 0); //the point of user's mouse release
 
-    var forceField;
-
     // get the point of the user's intitial click
     function handleStageMouseDown(event) {
       if (stage.fireMouseEvent) {
@@ -48,10 +46,10 @@ spacebounce.game.mouseEventHandler = (function (game) {
             b.y = event.stageY;
 
             var length = Math.sqrt(Math.pow((a.x-b.x),2)+Math.pow((a.y-b.y),2));
-            if (length>MAX_FORCE_FIELD_LENGTH) {
+            if(length <= 0) return;
+            if (length > MAX_FORCE_FIELD_LENGTH)
                 trimForceFieldLength();
-            }
-            forceField = createForceField(true);
+            createForceField(true);
         }
     }
 
@@ -61,9 +59,9 @@ spacebounce.game.mouseEventHandler = (function (game) {
             b.y = event.stageY;
 
             var length = Math.sqrt(Math.pow((a.x-b.x),2)+Math.pow((a.y-b.y),2));
-            if (length > MAX_FORCE_FIELD_LENGTH) {
+            if (length <= 0) return;
+            if (length > MAX_FORCE_FIELD_LENGTH)
                trimForceFieldLength();
-            }
             createForceField(false);
         }
     }
