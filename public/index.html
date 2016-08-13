@@ -31,7 +31,6 @@
 </body>
 
 <script>
-  // TODO: rack server should be updated to support better routing
   var loadPageFromUrl = function(url) {
     $('#page-content').load(url.replace('#','pages/') + '.html');
   };
@@ -41,14 +40,16 @@
   loadPageFromUrl(url);
 
   $('h1 a, nav ul li a').click(function() {
+    createjs.Ticker.removeAllEventListeners();
     var url = $(this).attr('href');
     if (url === '#game') {
-      // Ensures execution environment is reset so processes don't stack up
-      // upon revisiting game.
+      // Ensures runtime environment is reset to a clean slate when revisiting
+      // game page it can properly reinitialize.
       location.reload();
     }
     loadPageFromUrl(url);
   });
+
 
 </script>
 </html>
