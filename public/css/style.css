@@ -24,6 +24,7 @@ header nav ul li {
 }
 
 header nav ul li a {
+    float: left;
     font-size: 18px;
     font-family: Avenir;
     color: #A31919;
